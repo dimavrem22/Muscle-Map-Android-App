@@ -14,6 +14,7 @@ public class MainActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
+
         this.fragmentContainer = this.findViewById(R.id.fragment_container);
 
         this.getSupportFragmentManager().beginTransaction().add(R.id.fragment_container,
@@ -21,6 +22,7 @@ public class MainActivity extends AppCompatActivity {
 
 
 //
+
     }
 
 
