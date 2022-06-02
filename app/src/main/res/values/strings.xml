@@ -1,3 +1,12 @@
 <resources>
-    <string name="app_name">CS4520 Project</string>
+    <string name="app_name">Muscle Map</string>
+
+
+    <string name="login">Log In</string>
+    <string name="register">Register</string>
+    <string name="name_hint">Name</string>
+    <string name="pass_hint">Password</string>
+    <string name="pass2_hint">Retype Password</string>
+    <string name="email_hint">Email</string>
+
 </resources>
