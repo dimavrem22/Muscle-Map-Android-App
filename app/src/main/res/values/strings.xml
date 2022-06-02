@@ -20,4 +20,12 @@
     <string name="SelectWakeTime">Select Wake Time</string>
     <string name="SetTime">Set Time</string>
 
+    <!-- Sleep Main Fragment -->
+    <string name="HoursOfSleep">You have Slept For 9 Hours</string>
+    <string name="BedTime">Bed Time</string>
+    <string name="WakeTime">Wake Time</string>
+    <string name="BedTimeExample">10:30PM</string>
+    <string name="WakeTimeExample">7:30AM</string>
+    <string name="SetSleepTime">Set Sleep Time</string>
+
 </resources>
