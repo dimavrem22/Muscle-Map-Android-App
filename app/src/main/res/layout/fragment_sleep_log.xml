@@ -1,0 +1,76 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/constraintSleepLog"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context=".SleepLogFragment" >
+
+    <TextView
+        android:id="@+id/textViewGetToSleep"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="80dp"
+        android:text="@string/GetToSleep"
+        android:textColor="@color/black"
+        android:textSize="20sp"
+        android:textStyle="bold"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
+
+    <TextView
+        android:id="@+id/textViewWakeUp"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="100dp"
+        android:text="@string/WakeUp"
+        android:textColor="@color/black"
+        android:textSize="20sp"
+        android:textStyle="bold"
+        app:layout_constraintEnd_toEndOf="@+id/buttonSelectSleepTime"
+        app:layout_constraintStart_toStartOf="@+id/buttonSelectSleepTime"
+        app:layout_constraintTop_toBottomOf="@+id/buttonSelectSleepTime" />
+
+    <Button
+        android:id="@+id/buttonSelectSleepTime"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="24dp"
+        android:text="@string/SelectSleepTime"
+        app:layout_constraintEnd_toEndOf="@+id/textViewGetToSleep"
+        app:layout_constraintStart_toStartOf="@+id/textViewGetToSleep"
+        app:layout_constraintTop_toBottomOf="@+id/textViewGetToSleep" />
+
+    <Button
+        android:id="@+id/buttonSelectWakeTime"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="24dp"
+        android:text="@string/SelectWakeTime"
+        app:layout_constraintEnd_toEndOf="@+id/textViewWakeUp"
+        app:layout_constraintStart_toStartOf="@+id/textViewWakeUp"
+        app:layout_constraintTop_toBottomOf="@+id/textViewWakeUp" />
+
+    <TimePicker
+        android:id="@+id/timePickerSleep"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_above="@+id/buttonSelectSleepTime"
+        android:layout_centerHorizontal="true"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
+
+    <Button
+        android:id="@+id/buttonSetTime"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="24dp"
+        android:text="@string/SetTime"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/timePickerSleep" />
+</androidx.constraintlayout.widget.ConstraintLayout>

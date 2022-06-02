@@ -3,13 +3,9 @@
   <component name="DesignSurface">
     <option name="filePathToZoomLevelMap">
       <map>
-<<<<<<< HEAD
-        <entry key="app/src/main/res/layout/activity_main.xml" value="0.3182291666666667" />
-        <entry key="app/src/main/res/layout/fragment_log_in.xml" value="0.3182291666666667" />
-=======
         <entry key="..\:/Users/fpizz/OneDrive/Documents/Summer1 2022/Classes/App Dev/FinalProject/FinalProjectAndroidStudio/CS4520_Project/app/src/main/res/layout/activity_main.xml" value="0.22395833333333334" />
         <entry key="..\:/Users/fpizz/OneDrive/Documents/Summer1 2022/Classes/App Dev/FinalProject/FinalProjectAndroidStudio/CS4520_Project/app/src/main/res/layout/fragment_muscle_group_image.xml" value="0.3" />
->>>>>>> ef31ac732a1dbdc962042a1c9cb56f8315923a3c
+        <entry key="..\:/Users/fpizz/OneDrive/Documents/Summer1 2022/Classes/App Dev/FinalProject/FinalProjectAndroidStudio/CS4520_Project/app/src/main/res/layout/fragment_sleep_log.xml" value="0.3" />
       </map>
     </option>
   </component>

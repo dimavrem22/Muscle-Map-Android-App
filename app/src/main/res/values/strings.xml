@@ -1,7 +1,6 @@
 <resources>
 
 
-
     <string name="login">Log In</string>
     <string name="register">Register</string>
     <string name="name_hint">Name</string>
@@ -13,5 +12,12 @@
     <string name="app_name">CS4520 Project</string>
     <!-- TODO: Remove or change this placeholder text -->
     <string name="hello_blank_fragment">Hello blank fragment</string>
+
+    <!-- Sleep Log Fragment -->
+    <string name="GetToSleep">Get To Sleep By </string>
+    <string name="WakeUp">Wake Up By </string>
+    <string name="SelectSleepTime">Select Sleep Time</string>
+    <string name="SelectWakeTime">Select Wake Time</string>
+    <string name="SetTime">Set Time</string>
 
 </resources>
