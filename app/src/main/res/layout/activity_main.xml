@@ -3,8 +3,91 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
 
-    android:id="@+id/fragment_container"
+    android:id="@+id/main_layout"
 
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".MainActivity" />
+    tools:context=".MainActivity" >
+
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:id="@+id/fragment_layout"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_marginTop="80dp"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.0"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintVertical_bias="0.0">
+
+    </androidx.constraintlayout.widget.ConstraintLayout>
+
+    <ImageView
+        android:id="@+id/cal_button"
+        android:layout_width="123dp"
+        android:layout_height="74dp"
+        android:layout_marginTop="5dp"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:srcCompat="@drawable/cal2" />
+
+    <TextView
+        android:id="@+id/text_month"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="month"
+        android:textColor="@color/white"
+        android:textSize="20dp"
+        android:textStyle="bold"
+        app:layout_constraintEnd_toEndOf="@+id/cal_button"
+        app:layout_constraintStart_toStartOf="@+id/cal_button"
+        app:layout_constraintTop_toTopOf="@+id/cal_button" />
+
+    <TextView
+        android:id="@+id/text_date"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="DATE"
+        android:textColor="@color/black"
+        android:textSize="20dp"
+        android:textStyle="bold"
+        app:layout_constraintBottom_toTopOf="@+id/fragment_layout"
+        app:layout_constraintEnd_toEndOf="@+id/cal_button"
+        app:layout_constraintStart_toStartOf="@+id/cal_button"
+        app:layout_constraintTop_toBottomOf="@+id/text_month" />
+
+    <ImageView
+        android:id="@+id/next_button"
+        android:layout_width="41dp"
+        android:layout_height="44dp"
+        android:layout_marginStart="20dp"
+        app:layout_constraintBottom_toTopOf="@+id/fragment_layout"
+        app:layout_constraintStart_toEndOf="@+id/cal_button"
+        app:layout_constraintTop_toTopOf="@+id/cal_button"
+        app:srcCompat="@drawable/next" />
+
+    <ImageView
+        android:id="@+id/prev_button"
+        android:layout_width="41dp"
+        android:layout_height="44dp"
+        android:layout_marginEnd="20dp"
+        app:layout_constraintBottom_toTopOf="@+id/fragment_layout"
+        app:layout_constraintEnd_toStartOf="@+id/cal_button"
+        app:layout_constraintTop_toTopOf="@+id/cal_button"
+        app:layout_constraintVertical_bias="0.516"
+        app:srcCompat="@drawable/previous" />
+
+    <CalendarView
+        android:id="@+id/calendarView"
+        style="@android:style/Widget.DeviceDefault.CalendarView"
+        android:layout_width="0dp"
+        android:layout_height="330dp"
+        android:background="#DDD3B5"
+        android:dateTextAppearance="@style/TextAppearance.AppCompat.Medium"
+        android:translationZ="90dp"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        tools:ignore="MissingConstraints" />
+</androidx.constraintlayout.widget.ConstraintLayout>
