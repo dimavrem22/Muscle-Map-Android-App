@@ -1,7 +1,6 @@
 <resources>
     <string name="app_name">Muscle Map</string>
 
-
     <string name="login">Log In</string>
     <string name="register">Register</string>
     <string name="name_hint">Name</string>
@@ -12,5 +11,20 @@
 
     <!-- TODO: Remove or change this placeholder text -->
     <string name="hello_blank_fragment">Hello blank fragment</string>
+
+    <!-- Sleep Log Fragment -->
+    <string name="GetToSleep">Get To Sleep By </string>
+    <string name="WakeUp">Wake Up By </string>
+    <string name="SelectSleepTime">Select Sleep Time</string>
+    <string name="SelectWakeTime">Select Wake Time</string>
+    <string name="SetTime">Set Time</string>
+
+    <!-- Sleep Main Fragment -->
+    <string name="HoursOfSleep">You have Slept For 9 Hours</string>
+    <string name="BedTime">Bed Time</string>
+    <string name="WakeTime">Wake Time</string>
+    <string name="BedTimeExample">10:30PM</string>
+    <string name="WakeTimeExample">7:30AM</string>
+    <string name="SetSleepTime">Set Sleep Time</string>
 
 </resources>

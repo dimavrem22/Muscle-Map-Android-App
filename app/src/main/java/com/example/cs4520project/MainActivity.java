@@ -5,14 +5,16 @@ import androidx.appcompat.app.AppCompatActivity;
 import androidx.constraintlayout.widget.ConstraintLayout;
 
 import android.os.Bundle;
+
 import android.util.Log;
 import android.view.View;
 import android.widget.CalendarView;
 import android.widget.ImageView;
 import android.widget.TextView;
 
-import java.text.ParseException;
-import java.text.SimpleDateFormat;
+import android.widget.Button;
+
+
 import java.util.Calendar;
 import java.util.Date;
 
@@ -29,6 +31,8 @@ public class MainActivity extends AppCompatActivity implements CalendarView.OnDa
     private ImageView calendarButton, nextArrow, prevArrow;
     private CalendarView calender;
 
+    Button toSleepFragment;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -42,7 +46,7 @@ public class MainActivity extends AppCompatActivity implements CalendarView.OnDa
 
 
 
-        this.fragmentContainer = this.findViewById(R.id.fragment_layout);
+        this.fragmentContainer = this.findViewById(R.id.fragment_container);
 
         this.dateText = this.findViewById(R.id.text_date);
         this.monthText = this.findViewById(R.id.text_month);
@@ -68,6 +72,18 @@ public class MainActivity extends AppCompatActivity implements CalendarView.OnDa
         this.getSupportFragmentManager().beginTransaction().add(R.id.main_layout,
                 new LogInFragment(), "login fragment").addToBackStack(null).commit();
 
+        setTitle("CS4520 Project");
+
+        toSleepFragment = findViewById(R.id.buttonToSleepFragment);
+
+        toSleepFragment.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                toSleepFragment.setVisibility(View.INVISIBLE);
+                MainActivity.this.getSupportFragmentManager().beginTransaction().add(R.id.fragment_container,
+                        new SleepMainFragment(), "sleep main fragment").addToBackStack(null).commit();
+            }
+        });
 
 //
 
