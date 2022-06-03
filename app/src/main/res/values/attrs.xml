@@ -1,0 +1,5 @@
+<resources>
+    <declare-styleable name="MuscleGroupsFront">
+        <attr name="colorRightBicep" format="color"></attr>
+    </declare-styleable>
+</resources>
