@@ -81,7 +81,7 @@ public class MainActivity extends AppCompatActivity implements CalendarView.OnDa
             public void onClick(View v) {
                 toSleepFragment.setVisibility(View.INVISIBLE);
                 MainActivity.this.getSupportFragmentManager().beginTransaction().add(R.id.fragment_container,
-                        new SleepMainFragment(), "sleep main fragment").addToBackStack(null).commit();
+                        new SleepAnalysisFragment(), "sleep main fragment").addToBackStack(null).commit();
             }
         });
 
