@@ -3,10 +3,11 @@
   <component name="DesignSurface">
     <option name="filePathToZoomLevelMap">
       <map>
-        <entry key="..\:/Users/Ryan/StudioProjects/CS4520_Project/app/src/main/res/layout/fragment_diet_analysis.xml" value="0.16666666666666666" />
+        <entry key="..\:/Users/Ryan/StudioProjects/CS4520_Project/app/src/main/res/layout/fragment_diet_analysis.xml" value="0.22333333333333336" />
         <entry key="..\:/Users/Ryan/StudioProjects/CS4520_Project/app/src/main/res/layout/fragment_diet_enter_meal.xml" value="0.2640625" />
         <entry key="..\:/Users/Ryan/StudioProjects/CS4520_Project/app/src/main/res/layout/fragment_diet_log.xml" value="0.278125" />
         <entry key="..\:/Users/Ryan/StudioProjects/CS4520_Project/app/src/main/res/layout/fragment_exercise_analysis.xml" value="0.278125" />
+        <entry key="..\:/Users/Ryan/StudioProjects/CS4520_Project/app/src/main/res/layout/fragment_exercise_logging.xml" value="0.278125" />
         <entry key="..\:/Users/Ryan/StudioProjects/CS4520_Project/app/src/main/res/layout/fragment_log_in.xml" value="0.1962962962962963" />
         <entry key="..\:/Users/Ryan/StudioProjects/CS4520_Project/app/src/main/res/layout/fragment_sleep_analysis.xml" value="0.1" />
         <entry key="..\:/Users/Ryan/StudioProjects/CS4520_Project/app/src/main/res/layout/fragment_sleep_log.xml" value="0.278125" />

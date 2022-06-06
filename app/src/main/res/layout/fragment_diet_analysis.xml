@@ -7,43 +7,48 @@
     android:layout_height="match_parent"
     tools:context=".DietAnalysisFragment">
 
-    <androidx.recyclerview.widget.RecyclerView
-        android:id="@+id/recyclerView3"
-        android:layout_width="863dp"
-        android:layout_height="549dp"
-        android:layout_marginTop="32dp"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent" />
-
     <Spinner
-        android:id="@+id/spinner6"
+        android:id="@+id/spinnerSelectDietGraph"
         android:layout_width="331dp"
         android:layout_height="31dp"
-        android:layout_marginTop="24dp"
         android:layout_marginEnd="32dp"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/recyclerView3" />
+        app:layout_constraintBottom_toTopOf="@+id/imageViewDietGraph"
+        app:layout_constraintEnd_toEndOf="parent" />
 
     <ImageView
-        android:id="@+id/imageView8"
+        android:id="@+id/imageViewDietGraph"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginTop="84dp"
         android:src="@drawable/line_graph"
-        app:layout_constraintTop_toBottomOf="@+id/recyclerView3"
-        tools:layout_editor_absoluteX="56dp" />
+        tools:layout_editor_absoluteX="56dp"
+        tools:layout_editor_absoluteY="685dp" />
 
     <TextView
         android:id="@+id/textViewSelectDietChart"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginStart="32dp"
-        android:layout_marginTop="36dp"
         android:layout_marginEnd="508dp"
         android:text="Select chart:"
-        app:layout_constraintEnd_toStartOf="@+id/spinner6"
+        app:layout_constraintBottom_toTopOf="@+id/imageViewDietGraph"
+        app:layout_constraintEnd_toStartOf="@+id/spinnerSelectDietGraph"
         app:layout_constraintHorizontal_bias="0.0"
+        app:layout_constraintStart_toStartOf="parent" />
+
+    <CalendarView
+        android:id="@+id/calendarViewDietSelectDay"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginEnd="12dp"
+        app:layout_constraintBottom_toTopOf="@+id/spinnerSelectDietGraph"
+        app:layout_constraintEnd_toEndOf="parent" />
+
+    <androidx.recyclerview.widget.RecyclerView
+        android:id="@+id/recyclerViewMealsForDay"
+        android:layout_width="565dp"
+        android:layout_height="635dp"
+        app:layout_constraintBottom_toTopOf="@+id/textViewSelectDietChart"
+        app:layout_constraintEnd_toStartOf="@+id/calendarViewDietSelectDay"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/recyclerView3" />
+        app:layout_constraintTop_toTopOf="parent" />
 </androidx.constraintlayout.widget.ConstraintLayout>
