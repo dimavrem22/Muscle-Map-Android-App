@@ -29,6 +29,7 @@
         android:layout_width="123dp"
         android:layout_height="74dp"
         android:layout_marginTop="5dp"
+        android:layout_marginEnd="100dp"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
@@ -80,18 +81,6 @@
         app:layout_constraintVertical_bias="0.516"
         app:srcCompat="@drawable/previous" />
 
-    <CalendarView
-        android:id="@+id/calendarView"
-        style="@android:style/Widget.DeviceDefault.CalendarView"
-        android:layout_width="0dp"
-        android:layout_height="330dp"
-        android:background="#DDD3B5"
-        android:dateTextAppearance="@style/TextAppearance.AppCompat.Medium"
-        android:translationZ="90dp"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        tools:ignore="MissingConstraints" />
-
     <Button
         android:id="@+id/buttonToSleepFragment"
         android:layout_width="wrap_content"
@@ -101,5 +90,28 @@
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
+
+    <ImageView
+        android:id="@+id/imageView"
+        android:layout_width="63dp"
+        android:layout_height="63dp"
+        android:layout_marginStart="20dp"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toEndOf="@+id/next_button"
+        app:srcCompat="@drawable/user_icon"
+        tools:layout_editor_absoluteY="9dp" />
+
+    <CalendarView
+        android:id="@+id/calendarView"
+        style="@android:style/Widget.DeviceDefault.CalendarView"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:background="#DDD3B5"
+        android:dateTextAppearance="@style/TextAppearance.AppCompat.Medium"
+        android:translationZ="90dp"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        tools:ignore="MissingConstraints" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>

@@ -4,9 +4,11 @@
     <option name="filePathToZoomLevelMap">
       <map>
         <entry key="app/src/main/res/layout/activity_main.xml" value="0.3182291666666667" />
+        <entry key="app/src/main/res/layout/fragment_exercise_analysis.xml" value="0.29367523193359374" />
+        <entry key="app/src/main/res/layout/fragment_exercise_logging.xml" value="0.3026041666666667" />
         <entry key="app/src/main/res/layout/fragment_log_in.xml" value="0.3182291666666667" />
         <entry key="app/src/main/res/layout/fragment_sleep_log.xml" value="0.3125" />
-        <entry key="app/src/main/res/layout/fragment_sleep_main.xml" value="0.3125" />
+        <entry key="app/src/main/res/layout/fragment_sleep_main.xml" value="0.26629180908203126" />
       </map>
     </option>
   </component>
