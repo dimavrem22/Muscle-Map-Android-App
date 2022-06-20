@@ -1,0 +1,39 @@
+{
+  "project_info": {
+    "project_number": "222091912264",
+    "project_id": "musclemap-267d6",
+    "storage_bucket": "musclemap-267d6.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:222091912264:android:9618d312a27a5d8c56a47d",
+        "android_client_info": {
+          "package_name": "com.example.cs4520project"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "222091912264-4p7o7sg1g3b5ksgcikvjqf5f8510q3pu.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyD0LvzeCF4vDupIHhfVWHS6QA_DADORMx0"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "222091912264-4p7o7sg1g3b5ksgcikvjqf5f8510q3pu.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
