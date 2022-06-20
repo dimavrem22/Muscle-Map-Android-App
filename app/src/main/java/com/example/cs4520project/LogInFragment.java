@@ -4,52 +4,35 @@ import android.os.Bundle;
 
 import androidx.fragment.app.Fragment;
 
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageView;
+import android.widget.Toast;
 
-/**
- * A simple {@link Fragment} subclass.
- * Use the {@link LogInFragment#newInstance} factory method to
- * create an instance of this fragment.
- */
+import java.util.regex.Pattern;
+
+
 public class LogInFragment extends Fragment  implements View.OnClickListener {
+
+    public final static String  FRAGMENT_TAG = "LogInFragment";
 
     private EditText edit_pass, edit_name, edit_email, edit_pass2;
     private ImageView back_arrow;
     private Button button_login, button_register,  button_submit;
     private boolean registering;
 
-    // TODO: Rename parameter arguments, choose names that match
-    // the fragment initialization parameters, e.g. ARG_ITEM_NUMBER
-    private static final String ARG_PARAM1 = "param1";
-    private static final String ARG_PARAM2 = "param2";
-
-    // TODO: Rename and change types of parameters
-    private String mParam1;
-    private String mParam2;
-
     public LogInFragment() {
         // Required empty public constructor
     }
 
-    /**
-     * Use this factory method to create a new instance of
-     * this fragment using the provided parameters.
-     *
-     * @param param1 Parameter 1.
-     * @param param2 Parameter 2.
-     * @return A new instance of fragment LogInFragment.
-     */
-    // TODO: Rename and change types and number of parameters
-    public static LogInFragment newInstance(String param1, String param2) {
+
+    public static LogInFragment newInstance() {
         LogInFragment fragment = new LogInFragment();
         Bundle args = new Bundle();
-        args.putString(ARG_PARAM1, param1);
-        args.putString(ARG_PARAM2, param2);
         fragment.setArguments(args);
         return fragment;
     }
@@ -58,8 +41,6 @@ public class LogInFragment extends Fragment  implements View.OnClickListener {
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         if (getArguments() != null) {
-            mParam1 = getArguments().getString(ARG_PARAM1);
-            mParam2 = getArguments().getString(ARG_PARAM2);
         }
     }
 
@@ -100,6 +81,13 @@ public class LogInFragment extends Fragment  implements View.OnClickListener {
         }
         else if (v.getId() == this.back_arrow.getId()){
             this.getSelectionPage();
+        }
+        else if (v.getId() == this.button_submit.getId()){
+            if (this.registering){
+                this.sendRegistrationRequest();
+            } else {
+                this.sendLoginRequest();
+            }
         }
 
     }
@@ -161,6 +149,81 @@ public class LogInFragment extends Fragment  implements View.OnClickListener {
         this.button_login.setVisibility(View.INVISIBLE);
         this.button_register.setVisibility(View.INVISIBLE);
     }
+
+    private void sendLoginRequest(){
+        String email = String.valueOf(this.edit_email.getText());
+        String pass = String.valueOf(this.edit_pass.getText());
+
+        if (email.equals("")){
+            Toast.makeText(this.getContext(), R.string.no_email, Toast.LENGTH_SHORT).show();
+            return;
+        }
+        else if (pass.equals("")){
+            Toast.makeText(this.getContext(), R.string.no_pass, Toast.LENGTH_SHORT).show();
+            return;
+        }
+
+        LoginToMain context = (LoginToMain)this.getActivity();
+        context.loginRequest(email, pass);
+
+    }
+
+    private void sendRegistrationRequest(){
+
+        String name = String.valueOf(this.edit_name.getText());
+        String email = String.valueOf(this.edit_email.getText());
+        String pass = String.valueOf(this.edit_pass.getText());
+        String pass2 = String.valueOf(this.edit_pass2.getText());
+
+        if (name.equals("")){
+            Toast.makeText(this.getContext(), R.string.no_name, Toast.LENGTH_SHORT).show();
+            return;
+        }
+        else if(!String.valueOf(this.edit_name.getText()).matches(".*\\w.*")){
+            Toast.makeText(this.getContext(), R.string.name_ws, Toast.LENGTH_SHORT).show();
+            return;
+        }
+        else if (email.equals("")){
+            Toast.makeText(this.getContext(), R.string.no_email, Toast.LENGTH_SHORT).show();
+            return;
+        }
+        else if (!checkEmailFormat()){
+            Toast.makeText(this.getContext(), R.string.email_format, Toast.LENGTH_SHORT).show();
+            return;
+        }
+        else if (pass.equals("")){
+            Toast.makeText(this.getContext(), R.string.no_pass, Toast.LENGTH_SHORT).show();
+            return;
+        }
+        else if (pass.length() < 8){
+            Toast.makeText(this.getContext(), R.string.pass_length, Toast.LENGTH_SHORT).show();
+            return;
+        }
+        else if (!pass.equals(pass2)){
+            Toast.makeText(this.getContext(), R.string.no_match, Toast.LENGTH_SHORT).show();
+            return;
+        }
+
+        Log.d("final project", "log in");
+        // no errors detected yet
+        LoginToMain context = (LoginToMain)this.getActivity();
+        context.registerRequest(name, email, pass);
+    }
+
+    private boolean checkEmailFormat() {
+        String pattern = "^(?=.{1,64}@)[A-Za-z0-9_-]+(\\.[A-Za-z0-9_-]+)*@[^-][A-Za-z0-9-]+" +
+                "(\\.[A-Za-z0-9-]+)*(\\.[A-Za-z]{2,})$";
+        return Pattern.compile(pattern)
+                .matcher(String.valueOf(edit_email.getText())).matches();
+    }
+
+
+
+    public interface LoginToMain {
+        void loginRequest(String email, String pass);
+        void registerRequest(String name, String email, String pass);
+    }
+
 
 
 }

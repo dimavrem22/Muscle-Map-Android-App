@@ -11,15 +11,32 @@ import android.widget.CalendarView;
 import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Button;
+import android.widget.Toast;
+
 import java.util.Calendar;
 import java.util.Date;
+import java.util.HashMap;
+import java.util.Map;
+
+import com.google.android.gms.tasks.OnCompleteListener;
+import com.google.android.gms.tasks.Task;
+import com.google.firebase.auth.AuthResult;
+import com.google.firebase.firestore.CollectionReference;
+import com.google.firebase.firestore.FirebaseFirestore;
+
+import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.auth.FirebaseUser;
 
 public class MainActivity extends AppCompatActivity implements CalendarView.OnDateChangeListener,
-        View.OnClickListener {
+        View.OnClickListener, LogInFragment.LoginToMain {
+
+    private final FirebaseFirestore db = FirebaseFirestore.getInstance();
+    private final CollectionReference usersCollection = db.collection("users");
+
+    // authentication
+    private FirebaseAuth mAuth;
 
     private final long DAY_IN_MS = 1000 * 60 * 60 * 24;
-
-    int day, month, year;
 
     private TextView dateText, monthText;
 
@@ -33,6 +50,18 @@ public class MainActivity extends AppCompatActivity implements CalendarView.OnDa
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
+
+        // authentication
+        this.mAuth = FirebaseAuth.getInstance();
+
+        // Check if user is signed in (non-null) and update UI accordingly.
+        FirebaseUser currentUser = mAuth.getCurrentUser();
+        if (currentUser != null) {
+           // take to main app
+        } else {
+            // take to login or register
+            this.launchLoginFragment();
+        }
 
         this.calender = this.findViewById(R.id.calendarView);
         this.calender.setMaxDate(System.currentTimeMillis());
@@ -62,26 +91,6 @@ public class MainActivity extends AppCompatActivity implements CalendarView.OnDa
 
         this.calendarButton = this.findViewById(R.id.cal_button);
         this.calendarButton.setOnClickListener(this);
-
-
-
-        this.getSupportFragmentManager().beginTransaction().add(R.id.main_layout,
-                new LogInFragment(), "login fragment").addToBackStack(null).commit();
-
-        setTitle("CS4520 Project");
-
-        toSleepFragment = findViewById(R.id.buttonToSleepFragment);
-
-        toSleepFragment.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                toSleepFragment.setVisibility(View.INVISIBLE);
-                MainActivity.this.getSupportFragmentManager().beginTransaction().add(R.id.fragment_container,
-                        new SleepAnalysisFragment(), "sleep main fragment").addToBackStack(null).commit();
-            }
-        });
-
-//
 
     }
 
@@ -130,6 +139,90 @@ public class MainActivity extends AppCompatActivity implements CalendarView.OnDa
     private void DateSelected(int year, int month, int dayOfMonth){
         this.dateText.setText(dayOfMonth + "");
         this.monthText.setText(new Utils().monthString(month) + "");
-
     }
+
+
+
+    private void launchLoginFragment(){
+        this.getSupportFragmentManager().beginTransaction().replace(R.id.fragment_container,
+                LogInFragment.newInstance(), LogInFragment.FRAGMENT_TAG)
+                .commit();
+    }
+
+    @Override
+    public void loginRequest(String email, String pass) {
+        mAuth.signInWithEmailAndPassword(email, pass).addOnCompleteListener(this, task -> {
+            if (task.isSuccessful()) {
+                // TODO: 6/20/22 Take to main app!
+
+                this.removeLoginFragment();
+
+            } else {
+                // If sign in fails, display a message to the user.
+                Toast.makeText(this, R.string.invalid_credentials,
+                        Toast.LENGTH_SHORT).show();
+            }
+        });
+    }
+
+
+
+    @Override
+    public void registerRequest(String name, String email, String pass) {
+        Log.d("final project", "here");
+        this.checkDuplicateEmail(name, email, pass);
+    }
+
+
+    private void checkDuplicateEmail(String name, String email, String pass){
+        Log.d("final project", "duplicate");
+        usersCollection.whereEqualTo("email", email).get().addOnCompleteListener(task -> {
+            if (task.isSuccessful()){
+                if(task.getResult().getDocuments().size() > 0){
+                    Toast.makeText(this, R.string.duplicate_email,
+                            Toast.LENGTH_SHORT).show();
+                } else {
+                    registerNewUser(name, email, pass);
+                }
+            } else {
+                Toast.makeText(this, "Could not register! Try again.",
+                        Toast.LENGTH_SHORT).show();
+            }
+        });
+    }
+
+
+    private void registerNewUser(String name, String email, String pass){
+        Log.d("final project", "registering");
+        mAuth.createUserWithEmailAndPassword(email, pass)
+                .addOnCompleteListener(new OnCompleteListener<AuthResult>() {
+                    @Override
+                    public void onComplete(@NonNull Task<AuthResult> task) {
+                        addUserToDB(name, email);
+                    }
+                });
+    }
+
+
+    private void addUserToDB(String name, String email){
+
+        Map<String, Object> user = new HashMap<>();
+        user.put("name", name);
+        user.put("email", email);
+
+        usersCollection.add(user).addOnCompleteListener(task -> {
+            if (task.isSuccessful()){
+                this.removeLoginFragment();
+            }
+        });
+    }
+
+
+    private void removeLoginFragment(){
+        // removing login fragment
+        this.getSupportFragmentManager().beginTransaction()
+                .remove(this.getSupportFragmentManager()
+                        .findFragmentByTag(LogInFragment.FRAGMENT_TAG)).commit();
+    }
+
 }

@@ -1,16 +1,25 @@
 <resources>
     <string name="app_name">Muscle Map</string>
 
+    <!-- Login Fragment Values -->
     <string name="login">Log In</string>
     <string name="register">Register</string>
     <string name="name_hint">Name</string>
     <string name="pass_hint">Password</string>
     <string name="pass2_hint">Retype Password</string>
     <string name="email_hint">Email</string>
+    <string name="no_email">Please input your email.</string>
+    <string name="no_pass">Please input your password.</string>
+    <string name="no_name">Please input your name.</string>
+    <string name="no_match">Passwords do not match. </string>
+    <string name="email_format">Email should have the format: abc@def.xyz</string>
+    <string name="duplicate_email">Email in use. Select a different Email.</string>
+    <string name="name_ws">Name cannot be only whitespaces</string>
+    <string name="pass_length"> Password must be at least 8 characters in length.</string>
+    <string name="invalid_credentials">Incorrect email or password.</string>
 
 
-    <!-- TODO: Remove or change this placeholder text -->
-    <string name="hello_blank_fragment">Hello blank fragment</string>
+
 
     <!-- Sleep Log Fragment -->
     <string name="GetToSleep">Get To Sleep By </string>
