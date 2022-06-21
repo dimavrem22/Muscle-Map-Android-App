@@ -25,8 +25,6 @@
     <string name="invalid_credentials">Incorrect email or password.</string>
 
 
-
-
     <!-- Sleep Log Fragment -->
     <string name="GetToSleep">Get To Sleep By </string>
     <string name="WakeUp">Wake Up By </string>
@@ -41,5 +39,14 @@
     <string name="BedTimeExample">10:30PM</string>
     <string name="WakeTimeExample">7:30AM</string>
     <string name="SetSleepTime">Set Sleep Time</string>
+    <string name="hello_blank_fragment">Hello blank fragment</string>
+
+    <!-- Edit Workout Fragment -->
+    <string name="Workout">Workout</string>
+    <string name="Name">Name: </string>
+    <string name="StartTime">Start Time: </string>
+    <string name="EndTime">End Time: </string>
+    <string name="EditWorkoutCancel">Cancel</string>
+    <string name="EditWorkoutSave">Save</string>
 
 </resources>
