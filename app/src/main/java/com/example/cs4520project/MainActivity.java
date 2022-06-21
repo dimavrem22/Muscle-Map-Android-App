@@ -4,6 +4,7 @@ import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.constraintlayout.widget.ConstraintLayout;
 
+import android.annotation.SuppressLint;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
@@ -44,24 +45,15 @@ public class MainActivity extends AppCompatActivity implements CalendarView.OnDa
     private ImageView calendarButton, nextArrow, prevArrow;
     private CalendarView calender;
 
-    Button toSleepFragment;
+    Button exerciseButton, dietButton, sleepButton;
 
+    @SuppressLint("ResourceAsColor")
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
-        // authentication
-        this.mAuth = FirebaseAuth.getInstance();
-
-        // Check if user is signed in (non-null) and update UI accordingly.
-        FirebaseUser currentUser = mAuth.getCurrentUser();
-        if (currentUser != null) {
-           // take to main app
-        } else {
-            // take to login or register
-            this.launchLoginFragment();
-        }
+        this.setTitle("Welcome to Muscle Map");
 
         this.calender = this.findViewById(R.id.calendarView);
         this.calender.setMaxDate(System.currentTimeMillis());
@@ -83,6 +75,14 @@ public class MainActivity extends AppCompatActivity implements CalendarView.OnDa
         this.dateText.setText(cal.get(Calendar.DAY_OF_MONTH) + "");
         this.monthText.setText(new Utils().monthString(cal.get(Calendar.MONTH))+ "");
 
+        this.exerciseButton = this.findViewById(R.id.exercise_button);
+        this.exerciseButton.setOnClickListener(this);
+        this.dietButton = this.findViewById(R.id.diet_button);
+        this.dietButton.setOnClickListener(this);
+        this.sleepButton = this.findViewById(R.id.sleep_button);
+        this.sleepButton.setOnClickListener(this);
+
+        this.sleepButton.setBackgroundColor(R.color.pink);
 
         this.nextArrow = this.findViewById(R.id.next_button);
         this.nextArrow.setOnClickListener(this);
@@ -91,6 +91,21 @@ public class MainActivity extends AppCompatActivity implements CalendarView.OnDa
 
         this.calendarButton = this.findViewById(R.id.cal_button);
         this.calendarButton.setOnClickListener(this);
+
+        // authentication
+        this.mAuth = FirebaseAuth.getInstance();
+
+        // Check if user is signed in (non-null) and update UI accordingly.
+        FirebaseUser currentUser = mAuth.getCurrentUser();
+        if (currentUser != null) {
+            this.getSupportActionBar().hide();
+            // take to main app
+        } else {
+            // take to login or register
+            this.launchLoginFragment();
+        }
+
+
 
     }
 
@@ -144,6 +159,25 @@ public class MainActivity extends AppCompatActivity implements CalendarView.OnDa
 
 
     private void launchLoginFragment(){
+
+        this.getSupportActionBar().show();
+
+        // hiding calendar when the user is not logged in
+        this.sleepButton.setEnabled(false);
+        this.dietButton.setEnabled(false);
+        this.exerciseButton.setEnabled(false);
+        this.sleepButton.setVisibility(View.INVISIBLE);
+        this.dietButton.setVisibility(View.INVISIBLE);
+        this.exerciseButton.setVisibility(View.INVISIBLE);
+        this.calendarButton.setVisibility(View.INVISIBLE);
+        this.calendarButton.setEnabled(false);
+        this.nextArrow.setEnabled(false);
+        this.nextArrow.setVisibility(View.INVISIBLE);
+        this.prevArrow.setEnabled(false);
+        this.prevArrow.setVisibility(View.INVISIBLE);
+        this.dateText.setVisibility(View.INVISIBLE);
+        this.monthText.setVisibility(View.INVISIBLE);
+
         this.getSupportFragmentManager().beginTransaction().replace(R.id.fragment_container,
                 LogInFragment.newInstance(), LogInFragment.FRAGMENT_TAG)
                 .commit();
@@ -169,13 +203,11 @@ public class MainActivity extends AppCompatActivity implements CalendarView.OnDa
 
     @Override
     public void registerRequest(String name, String email, String pass) {
-        Log.d("final project", "here");
         this.checkDuplicateEmail(name, email, pass);
     }
 
 
     private void checkDuplicateEmail(String name, String email, String pass){
-        Log.d("final project", "duplicate");
         usersCollection.whereEqualTo("email", email).get().addOnCompleteListener(task -> {
             if (task.isSuccessful()){
                 if(task.getResult().getDocuments().size() > 0){
@@ -193,7 +225,6 @@ public class MainActivity extends AppCompatActivity implements CalendarView.OnDa
 
 
     private void registerNewUser(String name, String email, String pass){
-        Log.d("final project", "registering");
         mAuth.createUserWithEmailAndPassword(email, pass)
                 .addOnCompleteListener(new OnCompleteListener<AuthResult>() {
                     @Override
@@ -219,6 +250,26 @@ public class MainActivity extends AppCompatActivity implements CalendarView.OnDa
 
 
     private void removeLoginFragment(){
+
+        this.getSupportActionBar().hide();
+
+        this.sleepButton.setEnabled(true);
+        this.dietButton.setEnabled(true);
+        this.exerciseButton.setEnabled(true);
+        this.sleepButton.setVisibility(View.VISIBLE);
+        this.dietButton.setVisibility(View.VISIBLE);
+        this.exerciseButton.setVisibility(View.VISIBLE);
+
+        this.calendarButton.setVisibility(View.VISIBLE);
+        this.calendarButton.setEnabled(true);
+        this.nextArrow.setEnabled(true);
+        this.nextArrow.setVisibility(View.VISIBLE);
+        this.prevArrow.setEnabled(true);
+        this.prevArrow.setVisibility(View.VISIBLE);
+        this.dateText.setVisibility(View.VISIBLE);
+        this.monthText.setVisibility(View.VISIBLE);
+
+
         // removing login fragment
         this.getSupportFragmentManager().beginTransaction()
                 .remove(this.getSupportFragmentManager()

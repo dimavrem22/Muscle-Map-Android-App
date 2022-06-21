@@ -7,20 +7,21 @@
 
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".MainActivity" >
+    android:backgroundTint="#0D47A1"
+    android:backgroundTintMode="src_over"
+    tools:context=".MainActivity">
 
 
     <androidx.constraintlayout.widget.ConstraintLayout
         android:id="@+id/fragment_container"
-        android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:layout_marginTop="80dp"
+        android:layout_width="0dp"
+        android:layout_height="0dp"
+        android:layout_marginTop="5dp"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.0"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintVertical_bias="0.0">
+        app:layout_constraintTop_toBottomOf="@+id/diet_button">
 
     </androidx.constraintlayout.widget.ConstraintLayout>
 
@@ -28,7 +29,7 @@
         android:id="@+id/cal_button"
         android:layout_width="110dp"
         android:layout_height="60dp"
-        android:layout_marginTop="5dp"
+        android:layout_marginTop="15dp"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
@@ -52,6 +53,7 @@
         android:id="@+id/text_date"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
+        android:layout_marginTop="5dp"
         android:text="DATE"
         android:textColor="@color/black"
         android:textSize="20dp"
@@ -96,5 +98,46 @@
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
         tools:ignore="MissingConstraints" />
+
+    <Button
+        android:id="@+id/exercise_button"
+        android:layout_width="105dp"
+        android:layout_height="40dp"
+        android:layout_marginStart="20dp"
+        android:layout_marginTop="8dp"
+        android:outlineAmbientShadowColor="#E49B9B"
+        android:outlineSpotShadowColor="#DDB7B7"
+        android:shadowColor="#E8ABAB"
+        android:text="@string/exercise"
+        android:textAllCaps="false"
+        android:textSize="15dp"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/cal_button"
+        app:rippleColor="@color/teal_700"
+        app:strokeColor="#986060" />
+
+    <Button
+        android:id="@+id/diet_button"
+        android:layout_width="105dp"
+        android:layout_height="40dp"
+        android:text="Diet"
+        android:textAllCaps="false"
+        android:textSize="15dp"
+        app:layout_constraintBottom_toBottomOf="@+id/exercise_button"
+        app:layout_constraintEnd_toStartOf="@+id/sleep_button"
+        app:layout_constraintStart_toEndOf="@+id/exercise_button"
+        app:layout_constraintTop_toTopOf="@+id/exercise_button" />
+
+    <Button
+        android:id="@+id/sleep_button"
+        android:layout_width="105dp"
+        android:layout_height="40dp"
+        android:layout_marginEnd="20dp"
+        android:text="Sleep"
+        android:textAllCaps="false"
+        android:textSize="15dp"
+        app:layout_constraintBottom_toBottomOf="@+id/diet_button"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintTop_toTopOf="@+id/diet_button" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>

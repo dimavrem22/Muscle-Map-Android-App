@@ -1,6 +1,12 @@
 <resources>
     <string name="app_name">Muscle Map</string>
 
+    <string name="title">Welcome to Muscle Map</string>
+    <string name="sleep">Sleep</string>
+    <string name="exercise">Exercise</string>
+    <string name="diet">Diet</string>
+
+
     <!-- Login Fragment Values -->
     <string name="login">Log In</string>
     <string name="register">Register</string>
