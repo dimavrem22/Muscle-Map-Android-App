@@ -48,5 +48,7 @@
     <string name="EndTime">End Time: </string>
     <string name="EditWorkoutCancel">Cancel</string>
     <string name="EditWorkoutSave">Save</string>
+    <string name="SetWorkoutStartTime">Set Workout Start Time</string>
+    <string name="SetWorkoutEndTime">Set Workout End Time</string>
 
 </resources>

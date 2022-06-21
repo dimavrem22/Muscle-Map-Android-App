@@ -54,7 +54,7 @@
         app:layout_constraintTop_toBottomOf="@+id/textViewWakeUp" />
 
     <TimePicker
-        android:id="@+id/timePickerSleep"
+        android:id="@+id/timePickerWorkout"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_above="@+id/buttonSelectSleepTime"
@@ -72,5 +72,5 @@
         android:text="@string/SetTime"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/timePickerSleep" />
+        app:layout_constraintTop_toBottomOf="@+id/timePickerWorkout" />
 </androidx.constraintlayout.widget.ConstraintLayout>

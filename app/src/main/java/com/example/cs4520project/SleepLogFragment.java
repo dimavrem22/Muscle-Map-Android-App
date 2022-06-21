@@ -1,11 +1,9 @@
 package com.example.cs4520project;
 
-import android.app.TimePickerDialog;
 import android.os.Bundle;
 
 import androidx.fragment.app.Fragment;
 
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -81,7 +79,7 @@ public class SleepLogFragment extends Fragment {
         textViewGetToSleep = view.findViewById(R.id.textViewGetToSleep);
         textViewWakeUp = view.findViewById(R.id.textViewWakeUp);
 
-        timePicker = view.findViewById(R.id.timePickerSleep);
+        timePicker = view.findViewById(R.id.timePickerWorkout);
 
         buttonSetTime.setVisibility(View.INVISIBLE);
 

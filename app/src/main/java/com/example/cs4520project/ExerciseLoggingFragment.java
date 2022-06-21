@@ -61,6 +61,11 @@ public class ExerciseLoggingFragment extends Fragment implements View.OnClickLis
     public void onClick(View v) {
         if (v.getId() == this.newWorkoutButton.getId()){
             // code for making new fragment
+            getActivity().getSupportFragmentManager().beginTransaction()
+                    .add(R.id.main_layout, EditWorkoutFragment.newInstance(null, null),
+                            EditWorkoutFragment.FRAGMENT_KEY)
+                    .addToBackStack(null)
+                    .commit();
         }
     }
 }
