@@ -61,8 +61,6 @@ public class MainActivity extends AppCompatActivity implements CalendarView.OnDa
         this.calender.setVisibility(View.INVISIBLE);
         this.calender.setEnabled(false);
 
-
-
         this.fragmentContainer = this.findViewById(R.id.fragment_container);
 
         this.dateText = this.findViewById(R.id.text_date);
@@ -82,7 +80,6 @@ public class MainActivity extends AppCompatActivity implements CalendarView.OnDa
         this.sleepButton = this.findViewById(R.id.sleep_button);
         this.sleepButton.setOnClickListener(this);
 
-        this.sleepButton.setBackgroundColor(R.color.pink);
 
         this.nextArrow = this.findViewById(R.id.next_button);
         this.nextArrow.setOnClickListener(this);
@@ -99,13 +96,12 @@ public class MainActivity extends AppCompatActivity implements CalendarView.OnDa
         FirebaseUser currentUser = mAuth.getCurrentUser();
         if (currentUser != null) {
             this.getSupportActionBar().hide();
+            this.launchExerciseLogFragment();
             // take to main app
         } else {
             // take to login or register
             this.launchLoginFragment();
         }
-
-
 
     }
 
@@ -124,6 +120,7 @@ public class MainActivity extends AppCompatActivity implements CalendarView.OnDa
             this.DateSelected(year, month, dayOfMonth);
 
     }
+
 
     @Override
     public void onClick(View v) {
@@ -183,6 +180,7 @@ public class MainActivity extends AppCompatActivity implements CalendarView.OnDa
                 .commit();
     }
 
+
     @Override
     public void loginRequest(String email, String pass) {
         mAuth.signInWithEmailAndPassword(email, pass).addOnCompleteListener(this, task -> {
@@ -190,6 +188,7 @@ public class MainActivity extends AppCompatActivity implements CalendarView.OnDa
                 // TODO: 6/20/22 Take to main app!
 
                 this.removeLoginFragment();
+                this.launchExerciseLogFragment();
 
             } else {
                 // If sign in fails, display a message to the user.
@@ -198,7 +197,6 @@ public class MainActivity extends AppCompatActivity implements CalendarView.OnDa
             }
         });
     }
-
 
 
     @Override
@@ -243,7 +241,9 @@ public class MainActivity extends AppCompatActivity implements CalendarView.OnDa
 
         usersCollection.add(user).addOnCompleteListener(task -> {
             if (task.isSuccessful()){
+                this.getSupportActionBar().hide();
                 this.removeLoginFragment();
+                this.launchExerciseLogFragment();
             }
         });
     }
@@ -274,6 +274,12 @@ public class MainActivity extends AppCompatActivity implements CalendarView.OnDa
         this.getSupportFragmentManager().beginTransaction()
                 .remove(this.getSupportFragmentManager()
                         .findFragmentByTag(LogInFragment.FRAGMENT_TAG)).commit();
+    }
+
+    private void launchExerciseLogFragment(){
+        this.getSupportFragmentManager().beginTransaction().replace(R.id.fragment_container,
+                ExerciseLoggingFragment.newInstance(mAuth.getCurrentUser().getEmail()),
+                ExerciseLoggingFragment.FRAGMENT_KEY).commit();
     }
 
 }
