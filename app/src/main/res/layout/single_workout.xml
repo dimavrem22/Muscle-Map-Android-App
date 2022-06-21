@@ -28,11 +28,12 @@
             android:id="@+id/workoutTimeText"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
+            android:layout_marginTop="5dp"
             android:layout_marginEnd="15dp"
             android:text="time"
             android:textSize="16dp"
-            app:layout_constraintBottom_toBottomOf="@+id/workoutNameText"
-            app:layout_constraintEnd_toEndOf="parent" />
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/workoutEditButton" />
 
         <TextView
             android:id="@+id/textView16"
@@ -60,9 +61,19 @@
             android:id="@+id/workoutDurationtext"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginTop="15dp"
+            android:layout_marginTop="5dp"
             android:text="duration"
             app:layout_constraintEnd_toEndOf="@+id/workoutTimeText"
             app:layout_constraintTop_toBottomOf="@+id/workoutTimeText" />
+
+        <ImageView
+            android:id="@+id/workoutEditButton"
+            android:layout_width="54dp"
+            android:layout_height="48dp"
+            android:layout_marginEnd="5dp"
+            app:layout_constraintBottom_toBottomOf="@+id/workoutNameText"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintTop_toTopOf="@+id/workoutNameText"
+            app:srcCompat="@drawable/edit" />
     </androidx.constraintlayout.widget.ConstraintLayout>
 </androidx.cardview.widget.CardView>

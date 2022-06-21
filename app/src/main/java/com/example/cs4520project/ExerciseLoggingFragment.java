@@ -54,6 +54,7 @@ public class ExerciseLoggingFragment extends Fragment implements View.OnClickLis
 
         this.workoutRecycler = rootView.findViewById(R.id.workout_recycler);
 
+
         return rootView;
     }
 
@@ -67,5 +68,9 @@ public class ExerciseLoggingFragment extends Fragment implements View.OnClickLis
                     .addToBackStack(null)
                     .commit();
         }
+    }
+
+    public void clickedEditWorkout(int adapterPosition) {
+        // open edit workout fragment
     }
 }
