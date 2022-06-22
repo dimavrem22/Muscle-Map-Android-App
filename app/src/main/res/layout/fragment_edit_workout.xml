@@ -9,6 +9,18 @@
     android:elevation="5dp"
     tools:context=".EditWorkoutFragment">
 
+    <SearchView
+        android:id="@+id/searchViewExercise"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="20dp"
+        android:layout_marginTop="8dp"
+        android:layout_marginEnd="20dp"
+        android:queryHint="Type username"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/buttonEndTime" />
+
     <TextView
         android:id="@+id/textViewWorkout"
         android:layout_width="wrap_content"
@@ -58,36 +70,25 @@
         app:layout_constraintStart_toStartOf="@+id/textViewStartTime"
         app:layout_constraintTop_toBottomOf="@+id/textViewStartTime" />
 
-    <ListView
-        android:id="@+id/listViewExercises"
-        android:layout_width="wrap_content"
-        android:layout_height="300dp"
-        android:layout_marginStart="8dp"
-        android:layout_marginTop="16dp"
-        android:layout_marginEnd="8dp"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/buttonEndTime" />
-
     <Button
         android:id="@+id/buttonEditWorkoutCancel"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginStart="32dp"
-        android:layout_marginTop="32dp"
+        android:layout_marginBottom="16dp"
         android:text="@string/EditWorkoutCancel"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/listViewExercises" />
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintStart_toStartOf="parent" />
 
     <Button
         android:id="@+id/buttonEditWorkoutSave"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginTop="32dp"
         android:layout_marginEnd="32dp"
         android:text="@string/EditWorkoutSave"
+        app:layout_constraintBottom_toBottomOf="@+id/buttonEditWorkoutCancel"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/listViewExercises" />
+        app:layout_constraintTop_toTopOf="@+id/buttonEditWorkoutCancel" />
 
     <EditText
         android:id="@+id/editTextWorkoutName"
@@ -141,5 +142,18 @@
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/timePickerWorkout" />
+
+    <androidx.recyclerview.widget.RecyclerView
+        android:id="@+id/recyclerViewExercises"
+        android:layout_width="0dp"
+        android:layout_height="0dp"
+        android:layout_marginTop="20dp"
+        android:layout_marginEnd="20dp"
+        android:layout_marginBottom="10dp"
+        app:layout_constraintBottom_toTopOf="@+id/buttonEditWorkoutCancel"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.488"
+        app:layout_constraintStart_toStartOf="@+id/searchViewExercise"
+        app:layout_constraintTop_toBottomOf="@+id/searchViewExercise" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>

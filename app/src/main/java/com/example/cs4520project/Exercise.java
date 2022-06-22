@@ -34,6 +34,15 @@ public enum Exercise {
         return muscleGroup;
     }
 
+    public static Exercise getExercise(String name) {
+        for (Exercise e: Exercise.values()) {
+            if (e.getDisplayName() == name) {
+                return e;
+            }
+        }
+        return null;
+    }
+
     @Override
     public String toString() {
         return "Exercise: " + displayName + " \n"

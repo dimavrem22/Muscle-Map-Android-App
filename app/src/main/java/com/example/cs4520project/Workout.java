@@ -7,6 +7,19 @@ public class Workout {
     private int startHour, startMinute, endHour, endMinute;
     private List<Exercise> exercises;
 
+    public Workout(String name, int startHour, int startMinute, int endHour, int endMinute, List<Exercise> exercises) {
+        this.name = name;
+        this.startHour = startHour;
+        this.startMinute = startMinute;
+        this.endHour = endHour;
+        this.endMinute = endMinute;
+        this.exercises = exercises;
+    }
+
+    public Workout() {
+
+    }
+
     public String getName() {
         return name;
     }
@@ -53,5 +66,17 @@ public class Workout {
 
     public void setExercises(List<Exercise> exercises) {
         this.exercises = exercises;
+    }
+
+    @Override
+    public String toString() {
+        return "Workout{" +
+                "name='" + name + '\'' +
+                ", startHour=" + startHour +
+                ", startMinute=" + startMinute +
+                ", endHour=" + endHour +
+                ", endMinute=" + endMinute +
+                ", exercises=" + exercises +
+                '}';
     }
 }

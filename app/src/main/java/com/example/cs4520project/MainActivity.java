@@ -29,7 +29,7 @@ import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
 
 public class MainActivity extends AppCompatActivity implements CalendarView.OnDateChangeListener,
-        View.OnClickListener, LogInFragment.LoginToMain {
+        View.OnClickListener, LogInFragment.LoginToMain, EditWorkoutFragment.IEditWorkoutToMain {
 
     private final FirebaseFirestore db = FirebaseFirestore.getInstance();
     private final CollectionReference usersCollection = db.collection("users");
@@ -316,4 +316,25 @@ public class MainActivity extends AppCompatActivity implements CalendarView.OnDa
 
     }
 
+    @Override
+    public void addWorkoutToDB(Workout workout) {
+        Map<String, Object> addWorkout = new HashMap<>();
+        addWorkout.put("name", workout.getName());
+        addWorkout.put("day", dateText.getText().toString());
+        addWorkout.put("month", monthText.getText().toString());
+        addWorkout.put("startHour", workout.getStartHour());
+        addWorkout.put("endHour", workout.getEndHour());
+        addWorkout.put("startMinute", workout.getStartMinute());
+        addWorkout.put("endMinute", workout.getEndMinute());
+        addWorkout.put("exercises", workout.getExercises());
+        addWorkout.put("year", 2022);
+        usersCollection.whereEqualTo("email", mAuth.getCurrentUser().getEmail())
+                .get().addOnCompleteListener(task -> {
+                    if (task.isSuccessful()) {
+                        CollectionReference workoutCollection = task.getResult().getDocuments().get(0)
+                                .getReference().collection("workouts");
+                        workoutCollection.add(addWorkout);
+                    }
+                });
+    }
 }
