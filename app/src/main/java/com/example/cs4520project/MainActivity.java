@@ -318,16 +318,19 @@ public class MainActivity extends AppCompatActivity implements CalendarView.OnDa
 
     @Override
     public void addWorkoutToDB(Workout workout) {
+        Calendar cal = Calendar.getInstance();
+        cal.setTimeInMillis(this.calender.getDate());
+
         Map<String, Object> addWorkout = new HashMap<>();
         addWorkout.put("name", workout.getName());
-        addWorkout.put("day", dateText.getText().toString());
-        addWorkout.put("month", monthText.getText().toString());
+        addWorkout.put("day", cal.get(Calendar.DAY_OF_MONTH));
+        addWorkout.put("month", cal.get(Calendar.MONTH) + 1);
         addWorkout.put("startHour", workout.getStartHour());
         addWorkout.put("endHour", workout.getEndHour());
         addWorkout.put("startMinute", workout.getStartMinute());
         addWorkout.put("endMinute", workout.getEndMinute());
         addWorkout.put("exercises", workout.getExercises());
-        addWorkout.put("year", 2022);
+        addWorkout.put("year", cal.get(Calendar.YEAR));
         usersCollection.whereEqualTo("email", mAuth.getCurrentUser().getEmail())
                 .get().addOnCompleteListener(task -> {
                     if (task.isSuccessful()) {
@@ -337,4 +340,5 @@ public class MainActivity extends AppCompatActivity implements CalendarView.OnDa
                     }
                 });
     }
+
 }
