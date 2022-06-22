@@ -47,6 +47,8 @@ public class MainActivity extends AppCompatActivity implements CalendarView.OnDa
 
     Button exerciseButton, dietButton, sleepButton;
 
+    boolean exerciseFragment, sleepFragment, dietFragment;
+
     @SuppressLint("ResourceAsColor")
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -89,6 +91,10 @@ public class MainActivity extends AppCompatActivity implements CalendarView.OnDa
         this.calendarButton = this.findViewById(R.id.cal_button);
         this.calendarButton.setOnClickListener(this);
 
+        this.exerciseFragment = false;
+        this.sleepFragment = false;
+        this.dietFragment = false;
+
         // authentication
         this.mAuth = FirebaseAuth.getInstance();
 
@@ -119,6 +125,8 @@ public class MainActivity extends AppCompatActivity implements CalendarView.OnDa
 
         this.DateSelected(year, month, dayOfMonth);
 
+        this.sendChangedDateToFragment();
+
     }
 
 
@@ -135,7 +143,6 @@ public class MainActivity extends AppCompatActivity implements CalendarView.OnDa
             cal.setTimeInMillis(calender.getDate());
             this.dateText.setText(cal.get(Calendar.DAY_OF_MONTH) + "");
             this.monthText.setText(new Utils().monthString(cal.get(Calendar.MONTH))+ "");
-            Log.d("ass", calender.getDate()+"");
 
         }
         else if (v.getId() == this.nextArrow.getId()) {
@@ -144,8 +151,8 @@ public class MainActivity extends AppCompatActivity implements CalendarView.OnDa
             cal.setTimeInMillis(calender.getDate());
             this.dateText.setText(cal.get(Calendar.DAY_OF_MONTH) + "");
             this.monthText.setText(new Utils().monthString(cal.get(Calendar.MONTH))+ "");
-            Log.d("ass", calender.getDate()+"");
         }
+        this.sendChangedDateToFragment();
     }
 
     private void DateSelected(int year, int month, int dayOfMonth){
@@ -277,20 +284,43 @@ public class MainActivity extends AppCompatActivity implements CalendarView.OnDa
     }
 
     private void launchExerciseLogFragment(){
+        this.exerciseFragment = true;
+        this.dietFragment = false;
+        this.sleepFragment = false;
 
         Calendar cal = Calendar.getInstance();
         cal.setTimeInMillis(this.calender.getDate());
 
-
-//        this.getSupportFragmentManager().beginTransaction().replace(R.id.fragment_container,
-//                ExerciseLoggingFragment.newInstance(mAuth.getCurrentUser().getEmail(),
-//                        cal.DATE, cal.MONTH, cal.YEAR),
-//                ExerciseLoggingFragment.FRAGMENT_KEY).commit();
-
         this.getSupportFragmentManager().beginTransaction().replace(R.id.fragment_container,
                 ExerciseLoggingFragment.newInstance(mAuth.getCurrentUser().getEmail(),
-                21, 6, 2022),
+                        cal.get(Calendar.DAY_OF_MONTH), cal.get(Calendar.MONTH) + 1,
+                        cal.get(Calendar.YEAR)),
                 ExerciseLoggingFragment.FRAGMENT_KEY).commit();
+
+    }
+
+
+
+    private void sendChangedDateToFragment(){
+
+        Calendar cal = Calendar.getInstance();
+        cal.setTimeInMillis(this.calender.getDate());
+
+        int day =  cal.get(Calendar.DAY_OF_MONTH);
+        int month =  cal.get(Calendar.MONTH) + 1 ;
+        int year =  cal.get(Calendar.YEAR);
+
+        if (this.exerciseFragment){
+            ExerciseLoggingFragment f = (ExerciseLoggingFragment)
+            this.getSupportFragmentManager().findFragmentByTag(ExerciseLoggingFragment.FRAGMENT_KEY);
+            f.changeDate(day, month, year);
+        }
+        else if (this.sleepFragment){
+            // change sleep frag date
+        } else if (this.dietFragment){
+            // change diet frag date
+        }
+
     }
 
 }

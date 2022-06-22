@@ -153,6 +153,12 @@ public class ExerciseLoggingFragment extends Fragment implements View.OnClickLis
     }
 
 
+    public void changeDate(int day, int month, int year){
+        this.day = day;
+        this.month = month;
+        this.year = year;
+        this.populateWorkouts();
+    }
 
 
 }
