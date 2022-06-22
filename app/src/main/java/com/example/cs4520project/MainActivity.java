@@ -117,7 +117,7 @@ public class MainActivity extends AppCompatActivity implements CalendarView.OnDa
         cal.set(year, month, dayOfMonth);
         this.calender.setDate(cal.getTimeInMillis());
 
-            this.DateSelected(year, month, dayOfMonth);
+        this.DateSelected(year, month, dayOfMonth);
 
     }
 
@@ -277,8 +277,19 @@ public class MainActivity extends AppCompatActivity implements CalendarView.OnDa
     }
 
     private void launchExerciseLogFragment(){
+
+        Calendar cal = Calendar.getInstance();
+        cal.setTimeInMillis(this.calender.getDate());
+
+
+//        this.getSupportFragmentManager().beginTransaction().replace(R.id.fragment_container,
+//                ExerciseLoggingFragment.newInstance(mAuth.getCurrentUser().getEmail(),
+//                        cal.DATE, cal.MONTH, cal.YEAR),
+//                ExerciseLoggingFragment.FRAGMENT_KEY).commit();
+
         this.getSupportFragmentManager().beginTransaction().replace(R.id.fragment_container,
-                ExerciseLoggingFragment.newInstance(mAuth.getCurrentUser().getEmail()),
+                ExerciseLoggingFragment.newInstance(mAuth.getCurrentUser().getEmail(),
+                21, 6, 2022),
                 ExerciseLoggingFragment.FRAGMENT_KEY).commit();
     }
 
