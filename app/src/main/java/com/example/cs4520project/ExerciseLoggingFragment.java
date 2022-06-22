@@ -17,6 +17,7 @@ import com.google.firebase.firestore.FirebaseFirestore;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.stream.Collectors;
 
 public class ExerciseLoggingFragment extends Fragment implements View.OnClickListener {
     private final FirebaseFirestore db = FirebaseFirestore.getInstance();
@@ -125,7 +126,11 @@ public class ExerciseLoggingFragment extends Fragment implements View.OnClickLis
                     for (DocumentSnapshot d : task.getResult().getDocuments()) {
                         Workout wo = new Workout();
                         wo.setName(d.getString("name"));
-                        wo.setExercises((List<Exercise>) d.get("exercises"));
+                        List<String> exerciseNames = (List<String>) d.get("exercises");
+                        List<Exercise> exercises = exerciseNames
+                                .stream()
+                                .map(Exercise::valueOf).collect(Collectors.toList());
+                        wo.setExercises(exercises);
                         wo.setStartHour((int) Math.round(d.getDouble("startHour")));
                         wo.setStartMinute((int) Math.round(d.getDouble("startMinute")));
                         wo.setEndHour((int) Math.round(d.getDouble("endHour")));
