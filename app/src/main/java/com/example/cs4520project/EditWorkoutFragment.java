@@ -7,11 +7,14 @@ import androidx.fragment.app.Fragment;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.ListView;
 import android.widget.TextView;
 import android.widget.TimePicker;
 
+import java.util.ArrayList;
 import java.util.Locale;
 
 /**
@@ -22,6 +25,7 @@ import java.util.Locale;
 public class EditWorkoutFragment extends Fragment {
 
     public static final String FRAGMENT_KEY = "EditWorkoutFragment";
+    public static final ArrayList<Exercise> exercises = new ArrayList<Exercise>(Exercises.getExercises());
 
     // TODO: Rename parameter arguments, choose names that match
     // the fragment initialization parameters, e.g. ARG_ITEM_NUMBER
@@ -35,6 +39,9 @@ public class EditWorkoutFragment extends Fragment {
     private Button buttonStartTime, buttonEndTime, buttonEditWorkoutSave, buttonEditWorkoutCancel, buttonSetWorkoutTime;
     private TextView textViewWorkout, textViewName, textViewStartTime, textViewEndTime;
     private EditText editTextWorkoutName;
+    private ListView listViewExercises;
+
+    ArrayAdapter<Exercise> adapter;
 
     private TimePicker timePickerWorkout;
 
@@ -87,15 +94,21 @@ public class EditWorkoutFragment extends Fragment {
         editTextWorkoutName = view.findViewById(R.id.editTextWorkoutName);
         buttonEditWorkoutSave = view.findViewById(R.id.buttonEditWorkoutSave);
         buttonEditWorkoutCancel = view.findViewById(R.id.buttonEditWorkoutCancel);
-
+        listViewExercises = view.findViewById(R.id.listViewExercises);
         timePickerWorkout = view.findViewById(R.id.timePickerWorkout);
+        adapter = new ArrayAdapter<Exercise>(getContext(), android.R.layout.simple_list_item_1,
+                android.R.id.text1,exercises);
+
+        listViewExercises.setAdapter(adapter);
 
         buttonSetWorkoutTime.setVisibility(View.INVISIBLE);
-        buttonEditWorkoutSave.setVisibility(View.INVISIBLE);
-        buttonEditWorkoutCancel.setVisibility(View.INVISIBLE);
+        buttonEditWorkoutSave.setVisibility(View.VISIBLE);
+        buttonEditWorkoutCancel.setVisibility(View.VISIBLE);
 
         timePickerWorkout.setVisibility(View.INVISIBLE);
         timePickerWorkout.setEnabled(true);
+
+
 
         buttonStartTime.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -107,13 +120,16 @@ public class EditWorkoutFragment extends Fragment {
                 textViewStartTime.setVisibility(View.INVISIBLE);
                 textViewEndTime.setVisibility(View.INVISIBLE);
                 editTextWorkoutName.setVisibility(View.INVISIBLE);
+                listViewExercises.setVisibility(View.INVISIBLE);
+                buttonEditWorkoutSave.setVisibility(View.INVISIBLE);
+                buttonEditWorkoutCancel.setVisibility(View.INVISIBLE);
 
                 buttonSetWorkoutTime.setVisibility(View.VISIBLE);
 
                 timePickerWorkout.setVisibility(View.VISIBLE);
                 timePickerWorkout.setEnabled(true);
 
-                timePickerWorkout.setOnTimeChangedListener(timeChangedListenerSleep);
+                timePickerWorkout.setOnTimeChangedListener(timeChangedListenerStartTime);
             }
         });
 
@@ -127,13 +143,16 @@ public class EditWorkoutFragment extends Fragment {
                 textViewStartTime.setVisibility(View.INVISIBLE);
                 textViewEndTime.setVisibility(View.INVISIBLE);
                 editTextWorkoutName.setVisibility(View.INVISIBLE);
+                listViewExercises.setVisibility(View.INVISIBLE);
+                buttonEditWorkoutSave.setVisibility(View.INVISIBLE);
+                buttonEditWorkoutCancel.setVisibility(View.INVISIBLE);
 
                 buttonSetWorkoutTime.setVisibility(View.VISIBLE);
 
                 timePickerWorkout.setVisibility(View.VISIBLE);
                 timePickerWorkout.setEnabled(true);
 
-                timePickerWorkout.setOnTimeChangedListener(timeChangedListenerWake);
+                timePickerWorkout.setOnTimeChangedListener(timeChangedListenerEndTime);
             }
         });
 
@@ -147,6 +166,7 @@ public class EditWorkoutFragment extends Fragment {
                 textViewStartTime.setVisibility(View.VISIBLE);
                 textViewEndTime.setVisibility(View.VISIBLE);
                 editTextWorkoutName.setVisibility(View.VISIBLE);
+                listViewExercises.setVisibility(View.VISIBLE);
 
                 timePickerWorkout.setVisibility(View.INVISIBLE);
                 timePickerWorkout.setEnabled(false);
@@ -160,7 +180,7 @@ public class EditWorkoutFragment extends Fragment {
         return view;
     }
 
-    private TimePicker.OnTimeChangedListener timeChangedListenerSleep = new TimePicker.OnTimeChangedListener() {
+    private TimePicker.OnTimeChangedListener timeChangedListenerStartTime = new TimePicker.OnTimeChangedListener() {
 
         @Override
         public void onTimeChanged(TimePicker tp, int hour, int min) {
@@ -171,7 +191,7 @@ public class EditWorkoutFragment extends Fragment {
         }
     };
 
-    private TimePicker.OnTimeChangedListener timeChangedListenerWake = new TimePicker.OnTimeChangedListener() {
+    private TimePicker.OnTimeChangedListener timeChangedListenerEndTime = new TimePicker.OnTimeChangedListener() {
 
         @Override
         public void onTimeChanged(TimePicker tp, int hour, int min) {
