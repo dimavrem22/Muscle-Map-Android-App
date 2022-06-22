@@ -7,16 +7,6 @@
     android:layout_height="match_parent"
     tools:context=".ExerciseAnalysisFragment">
 
-    <ImageView
-        android:id="@+id/imageView2"
-        android:layout_width="390dp"
-        android:layout_height="333dp"
-        android:layout_marginTop="40dp"
-        android:src="@drawable/musclemap"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/spinner" />
-
     <TextView
         android:id="@+id/textView4"
         android:layout_width="112dp"
@@ -32,10 +22,9 @@
         android:layout_width="142dp"
         android:layout_height="19dp"
         android:layout_marginStart="32dp"
-        android:layout_marginTop="30dp"
         android:text="Muscle Engagement"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/imageView2" />
+        tools:layout_editor_absoluteY="445dp" />
 
     <Spinner
         android:id="@+id/spinner"
