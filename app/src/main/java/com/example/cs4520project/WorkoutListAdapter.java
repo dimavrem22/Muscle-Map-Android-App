@@ -41,7 +41,7 @@ public class WorkoutListAdapter extends RecyclerView.Adapter<WorkoutListAdapter.
 
         StringBuilder exercises = new StringBuilder();
         for (Exercise e : workouts.get(position).getExercises()) {
-            exercises.append(e.name()).append("\n");
+            exercises.append(e.getDisplayName()).append("\n");
         }
 
         holder.getExercisesText().setText(exercises.substring(0, exercises.length() - 1));
