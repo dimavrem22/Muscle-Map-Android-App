@@ -11,11 +11,12 @@
         android:id="@+id/imageView2"
         android:layout_width="390dp"
         android:layout_height="333dp"
-        android:layout_marginTop="40dp"
-        android:src="@drawable/musclemap"
+        android:layout_marginTop="48dp"
         app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.476"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/spinner" />
+        app:layout_constraintTop_toBottomOf="@+id/spinner"
+        app:srcCompat="@drawable/abs_front" />
 
     <TextView
         android:id="@+id/textView4"

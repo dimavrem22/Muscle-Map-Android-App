@@ -45,7 +45,7 @@ public class MainActivity extends AppCompatActivity implements CalendarView.OnDa
     private ImageView calendarButton, nextArrow, prevArrow;
     private CalendarView calender;
 
-    Button exerciseButton, dietButton, sleepButton;
+    private Button exerciseButton, dietButton, sleepButton;
 
     boolean exerciseFragment, sleepFragment, dietFragment;
 
@@ -54,26 +54,25 @@ public class MainActivity extends AppCompatActivity implements CalendarView.OnDa
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
+        setTitle("Welcome to Muscle Map");
 
-        this.setTitle("Welcome to Muscle Map");
+        calender = findViewById(R.id.calendarView);
+        calender.setMaxDate(System.currentTimeMillis());
+        calender.setOnDateChangeListener(this);
+        calender.setVisibility(View.INVISIBLE);
+        calender.setEnabled(false);
 
-        this.calender = this.findViewById(R.id.calendarView);
-        this.calender.setMaxDate(System.currentTimeMillis());
-        this.calender.setOnDateChangeListener(this);
-        this.calender.setVisibility(View.INVISIBLE);
-        this.calender.setEnabled(false);
+        fragmentContainer = findViewById(R.id.fragment_container);
 
-        this.fragmentContainer = this.findViewById(R.id.fragment_container);
-
-        this.dateText = this.findViewById(R.id.text_date);
+        dateText = findViewById(R.id.text_date);
         this.monthText = this.findViewById(R.id.text_month);
 
-        java.util.Date date= new Date();
+        java.util.Date date = new Date();
         Calendar cal = Calendar.getInstance();
         cal.setTime(date);
 
         this.dateText.setText(cal.get(Calendar.DAY_OF_MONTH) + "");
-        this.monthText.setText(new Utils().monthString(cal.get(Calendar.MONTH))+ "");
+        this.monthText.setText(new Utils().monthString(cal.get(Calendar.MONTH)) + "");
 
         this.exerciseButton = this.findViewById(R.id.exercise_button);
         this.exerciseButton.setOnClickListener(this);
@@ -126,43 +125,39 @@ public class MainActivity extends AppCompatActivity implements CalendarView.OnDa
         this.DateSelected(year, month, dayOfMonth);
 
         this.sendChangedDateToFragment();
-
     }
 
 
     @Override
     public void onClick(View v) {
-        Log.d("ass", calender.getDate()+"");
-        if(v.getId() == this.calendarButton.getId()){
+        Log.d("ass", calender.getDate() + "");
+        if (v.getId() == this.calendarButton.getId()) {
             this.calender.setVisibility(View.VISIBLE);
             this.calender.setEnabled(true);
-        }
-        else if (v.getId() == this.prevArrow.getId()){
+        } else if (v.getId() == this.prevArrow.getId()) {
             this.calender.setDate(calender.getDate() - DAY_IN_MS);
             Calendar cal = Calendar.getInstance();
             cal.setTimeInMillis(calender.getDate());
             this.dateText.setText(cal.get(Calendar.DAY_OF_MONTH) + "");
-            this.monthText.setText(new Utils().monthString(cal.get(Calendar.MONTH))+ "");
+            this.monthText.setText(new Utils().monthString(cal.get(Calendar.MONTH)) + "");
 
-        }
-        else if (v.getId() == this.nextArrow.getId()) {
+        } else if (v.getId() == this.nextArrow.getId()) {
             this.calender.setDate(calender.getDate() + DAY_IN_MS);
             Calendar cal = Calendar.getInstance();
             cal.setTimeInMillis(calender.getDate());
             this.dateText.setText(cal.get(Calendar.DAY_OF_MONTH) + "");
-            this.monthText.setText(new Utils().monthString(cal.get(Calendar.MONTH))+ "");
+            this.monthText.setText(new Utils().monthString(cal.get(Calendar.MONTH)) + "");
         }
         this.sendChangedDateToFragment();
     }
 
-    private void DateSelected(int year, int month, int dayOfMonth){
+    private void DateSelected(int year, int month, int dayOfMonth) {
         this.dateText.setText(dayOfMonth + "");
         this.monthText.setText(new Utils().monthString(month) + "");
     }
 
 
-
-    private void launchLoginFragment(){
+    private void launchLoginFragment() {
 
         this.getSupportActionBar().show();
 
@@ -183,7 +178,7 @@ public class MainActivity extends AppCompatActivity implements CalendarView.OnDa
         this.monthText.setVisibility(View.INVISIBLE);
 
         this.getSupportFragmentManager().beginTransaction().replace(R.id.fragment_container,
-                LogInFragment.newInstance(), LogInFragment.FRAGMENT_TAG)
+                        LogInFragment.newInstance(), LogInFragment.FRAGMENT_TAG)
                 .commit();
     }
 
@@ -212,10 +207,10 @@ public class MainActivity extends AppCompatActivity implements CalendarView.OnDa
     }
 
 
-    private void checkDuplicateEmail(String name, String email, String pass){
+    private void checkDuplicateEmail(String name, String email, String pass) {
         usersCollection.whereEqualTo("email", email).get().addOnCompleteListener(task -> {
-            if (task.isSuccessful()){
-                if(task.getResult().getDocuments().size() > 0){
+            if (task.isSuccessful()) {
+                if (task.getResult().getDocuments().size() > 0) {
                     Toast.makeText(this, R.string.duplicate_email,
                             Toast.LENGTH_SHORT).show();
                 } else {
@@ -229,7 +224,7 @@ public class MainActivity extends AppCompatActivity implements CalendarView.OnDa
     }
 
 
-    private void registerNewUser(String name, String email, String pass){
+    private void registerNewUser(String name, String email, String pass) {
         mAuth.createUserWithEmailAndPassword(email, pass)
                 .addOnCompleteListener(new OnCompleteListener<AuthResult>() {
                     @Override
@@ -240,14 +235,14 @@ public class MainActivity extends AppCompatActivity implements CalendarView.OnDa
     }
 
 
-    private void addUserToDB(String name, String email){
+    private void addUserToDB(String name, String email) {
 
         Map<String, Object> user = new HashMap<>();
         user.put("name", name);
         user.put("email", email);
 
         usersCollection.add(user).addOnCompleteListener(task -> {
-            if (task.isSuccessful()){
+            if (task.isSuccessful()) {
                 this.getSupportActionBar().hide();
                 this.removeLoginFragment();
                 this.launchExerciseLogFragment();
@@ -256,7 +251,7 @@ public class MainActivity extends AppCompatActivity implements CalendarView.OnDa
     }
 
 
-    private void removeLoginFragment(){
+    private void removeLoginFragment() {
 
         this.getSupportActionBar().hide();
 
@@ -283,7 +278,7 @@ public class MainActivity extends AppCompatActivity implements CalendarView.OnDa
                         .findFragmentByTag(LogInFragment.FRAGMENT_TAG)).commit();
     }
 
-    private void launchExerciseLogFragment(){
+    private void launchExerciseLogFragment() {
         this.exerciseFragment = true;
         this.dietFragment = false;
         this.sleepFragment = false;
@@ -300,24 +295,22 @@ public class MainActivity extends AppCompatActivity implements CalendarView.OnDa
     }
 
 
-
-    private void sendChangedDateToFragment(){
+    private void sendChangedDateToFragment() {
 
         Calendar cal = Calendar.getInstance();
         cal.setTimeInMillis(this.calender.getDate());
 
-        int day =  cal.get(Calendar.DAY_OF_MONTH);
-        int month =  cal.get(Calendar.MONTH) + 1 ;
-        int year =  cal.get(Calendar.YEAR);
+        int day = cal.get(Calendar.DAY_OF_MONTH);
+        int month = cal.get(Calendar.MONTH) + 1;
+        int year = cal.get(Calendar.YEAR);
 
-        if (this.exerciseFragment){
+        if (this.exerciseFragment) {
             ExerciseLoggingFragment f = (ExerciseLoggingFragment)
-            this.getSupportFragmentManager().findFragmentByTag(ExerciseLoggingFragment.FRAGMENT_KEY);
+                    this.getSupportFragmentManager().findFragmentByTag(ExerciseLoggingFragment.FRAGMENT_KEY);
             f.changeDate(day, month, year);
-        }
-        else if (this.sleepFragment){
+        } else if (this.sleepFragment) {
             // change sleep frag date
-        } else if (this.dietFragment){
+        } else if (this.dietFragment) {
             // change diet frag date
         }
 

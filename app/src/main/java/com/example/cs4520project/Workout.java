@@ -1,12 +1,11 @@
 package com.example.cs4520project;
 
-import java.util.ArrayList;
+import java.util.List;
 
 public class Workout {
-
     private String name;
-    private int  startHour, startMinute, endHour, endMinute;
-    private ArrayList<String> exerciseList;
+    private int startHour, startMinute, endHour, endMinute;
+    private List<Exercise> exercises;
 
     public String getName() {
         return name;
@@ -15,7 +14,6 @@ public class Workout {
     public void setName(String name) {
         this.name = name;
     }
-
 
     public int getStartHour() {
         return startHour;
@@ -49,11 +47,11 @@ public class Workout {
         this.endMinute = endMinute;
     }
 
-    public ArrayList<String> getExerciseList() {
-        return exerciseList;
+    public List<Exercise> getExercises() {
+        return exercises;
     }
 
-    public void setExerciseList(ArrayList<String> exerciseList) {
-        this.exerciseList = exerciseList;
+    public void setExercises(List<Exercise> exercises) {
+        this.exercises = exercises;
     }
 }

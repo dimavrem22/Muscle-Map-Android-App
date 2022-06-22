@@ -1,6 +1,5 @@
 package com.example.cs4520project;
 
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -10,25 +9,22 @@ import android.widget.TextView;
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
-import java.util.ArrayList;
+import java.util.List;
 
 public class WorkoutListAdapter extends RecyclerView.Adapter<WorkoutListAdapter.ViewHolder> {
-
-    private final ArrayList<Workout> workouts;
+    private final List<Workout> workouts;
     private final ExerciseLoggingFragment fragment;
 
-    public WorkoutListAdapter(ArrayList<Workout> workouts, ExerciseLoggingFragment fragment) {
+    public WorkoutListAdapter(List<Workout> workouts, ExerciseLoggingFragment fragment) {
         this.workouts = workouts;
         this.fragment = fragment;
     }
-
 
     @NonNull
     @Override
     public ViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
         View view = LayoutInflater.from(parent.getContext())
                 .inflate(R.layout.single_workout, parent, false);
-
         return new ViewHolder(view, fragment);
     }
 
@@ -43,32 +39,31 @@ public class WorkoutListAdapter extends RecyclerView.Adapter<WorkoutListAdapter.
 
         holder.getTimeText().setText(time);
 
-        String exercises = "";
-        for (String e: this.workouts.get(position).getExerciseList()){
-            exercises += e + "\n";
+        StringBuilder exercises = new StringBuilder();
+        for (Exercise e : workouts.get(position).getExercises()) {
+            exercises.append(e.name()).append("\n");
         }
 
         holder.getExercisesText().setText(exercises.substring(0, exercises.length() - 1));
 
-       int duration =  (workouts.get(position).getEndHour() -
-               workouts.get(position).getStartHour()) * 60 + workouts.get(position).getEndMinute() -
-               workouts.get(position).getStartMinute();
-
-
-       holder.getDurationText().setText(duration + " minutes");
-
+        int duration = (workouts.get(position).getEndHour() -
+                workouts.get(position).getStartHour()) * 60 + workouts.get(position).getEndMinute() -
+                workouts.get(position).getStartMinute();
+        holder.getDurationText().setText(duration + " minutes");
     }
 
     @Override
     public int getItemCount() {
-        return this.workouts.size();
+        return workouts.size();
     }
 
-    public class ViewHolder extends RecyclerView.ViewHolder implements View.OnClickListener {
-
-        private ExerciseLoggingFragment fragment;
-        private TextView nameText, exercisesText, timeText, durationText;
-        private ImageView editImage;
+    public static class ViewHolder extends RecyclerView.ViewHolder implements View.OnClickListener {
+        private final ExerciseLoggingFragment fragment;
+        private final TextView nameText;
+        private final TextView exercisesText;
+        private final TextView timeText;
+        private final TextView durationText;
+        private final ImageView editImage;
 
         public ViewHolder(@NonNull View itemView, ExerciseLoggingFragment fragment) {
             super(itemView);
@@ -99,8 +94,8 @@ public class WorkoutListAdapter extends RecyclerView.Adapter<WorkoutListAdapter.
 
         @Override
         public void onClick(View v) {
-            if (this.editImage.getId() == v.getId()){
-                fragment.clickedEditWorkout(this.getAdapterPosition());
+            if (editImage.getId() == v.getId()) {
+                fragment.clickedEditWorkout(getAdapterPosition());
             }
         }
     }

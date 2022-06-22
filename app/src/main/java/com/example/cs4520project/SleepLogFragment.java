@@ -13,22 +13,7 @@ import android.widget.TimePicker;
 
 import java.util.Locale;
 
-/**
- * A simple {@link Fragment} subclass.
- * Use the {@link SleepLogFragment#newInstance} factory method to
- * create an instance of this fragment.
- */
 public class SleepLogFragment extends Fragment {
-
-    // TODO: Rename parameter arguments, choose names that match
-    // the fragment initialization parameters, e.g. ARG_ITEM_NUMBER
-    private static final String ARG_PARAM1 = "param1";
-    private static final String ARG_PARAM2 = "param2";
-
-    // TODO: Rename and change types of parameters
-    private String mParam1;
-    private String mParam2;
-
     private Button buttonSelectSleepTime, buttonSelectWakeTime, buttonSetTime;
     private TextView textViewGetToSleep, textViewWakeUp;
 
@@ -44,16 +29,12 @@ public class SleepLogFragment extends Fragment {
      * Use this factory method to create a new instance of
      * this fragment using the provided parameters.
      *
-     * @param param1 Parameter 1.
-     * @param param2 Parameter 2.
      * @return A new instance of fragment SleepLogFragment.
      */
     // TODO: Rename and change types and number of parameters
-    public static SleepLogFragment newInstance(String param1, String param2) {
+    public static SleepLogFragment newInstance() {
         SleepLogFragment fragment = new SleepLogFragment();
         Bundle args = new Bundle();
-        args.putString(ARG_PARAM1, param1);
-        args.putString(ARG_PARAM2, param2);
         fragment.setArguments(args);
         return fragment;
     }
@@ -62,8 +43,6 @@ public class SleepLogFragment extends Fragment {
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         if (getArguments() != null) {
-            mParam1 = getArguments().getString(ARG_PARAM1);
-            mParam2 = getArguments().getString(ARG_PARAM2);
         }
     }
 
@@ -71,93 +50,79 @@ public class SleepLogFragment extends Fragment {
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         // Inflate the layout for this fragment
-        View view = inflater.inflate(R.layout.fragment_sleep_log, container, false);
+        View rootView = inflater.inflate(R.layout.fragment_sleep_log, container, false);
 
-        buttonSelectSleepTime = view.findViewById(R.id.buttonSelectSleepTime);
-        buttonSelectWakeTime = view.findViewById(R.id.buttonSelectWakeTime);
-        buttonSetTime = view.findViewById(R.id.buttonSetTime);
-        textViewGetToSleep = view.findViewById(R.id.textViewGetToSleep);
-        textViewWakeUp = view.findViewById(R.id.textViewWakeUp);
+        buttonSelectSleepTime = rootView.findViewById(R.id.buttonSelectSleepTime);
+        buttonSelectWakeTime = rootView.findViewById(R.id.buttonSelectWakeTime);
+        buttonSetTime = rootView.findViewById(R.id.buttonSetTime);
+        textViewGetToSleep = rootView.findViewById(R.id.textViewGetToSleep);
+        textViewWakeUp = rootView.findViewById(R.id.textViewWakeUp);
 
-        timePicker = view.findViewById(R.id.timePickerWorkout);
+        timePicker = rootView.findViewById(R.id.timePickerWorkout);
 
         buttonSetTime.setVisibility(View.INVISIBLE);
 
         timePicker.setVisibility(View.INVISIBLE);
         timePicker.setEnabled(true);
 
-        buttonSelectSleepTime.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                buttonSelectSleepTime.setVisibility(View.INVISIBLE);
-                buttonSelectWakeTime.setVisibility(View.INVISIBLE);
-                textViewGetToSleep.setVisibility(View.INVISIBLE);
-                textViewWakeUp.setVisibility(View.INVISIBLE);
+        buttonSelectSleepTime.setOnClickListener(v -> {
+            buttonSelectSleepTime.setVisibility(View.INVISIBLE);
+            buttonSelectWakeTime.setVisibility(View.INVISIBLE);
+            textViewGetToSleep.setVisibility(View.INVISIBLE);
+            textViewWakeUp.setVisibility(View.INVISIBLE);
 
-                buttonSetTime.setVisibility(View.VISIBLE);
+            buttonSetTime.setVisibility(View.VISIBLE);
 
-                timePicker.setVisibility(View.VISIBLE);
-                timePicker.setEnabled(true);
+            timePicker.setVisibility(View.VISIBLE);
+            timePicker.setEnabled(true);
 
-                timePicker.setOnTimeChangedListener(timeChangedListenerSleep);
-            }
+            timePicker.setOnTimeChangedListener(timeChangedListenerSleep);
         });
 
-        buttonSelectWakeTime.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                buttonSelectSleepTime.setVisibility(View.INVISIBLE);
-                buttonSelectWakeTime.setVisibility(View.INVISIBLE);
-                textViewGetToSleep.setVisibility(View.INVISIBLE);
-                textViewWakeUp.setVisibility(View.INVISIBLE);
+        buttonSelectWakeTime.setOnClickListener(v -> {
+            buttonSelectSleepTime.setVisibility(View.INVISIBLE);
+            buttonSelectWakeTime.setVisibility(View.INVISIBLE);
+            textViewGetToSleep.setVisibility(View.INVISIBLE);
+            textViewWakeUp.setVisibility(View.INVISIBLE);
 
-                buttonSetTime.setVisibility(View.VISIBLE);
+            buttonSetTime.setVisibility(View.VISIBLE);
 
-                timePicker.setVisibility(View.VISIBLE);
-                timePicker.setEnabled(true);
+            timePicker.setVisibility(View.VISIBLE);
+            timePicker.setEnabled(true);
 
-                timePicker.setOnTimeChangedListener(timeChangedListenerWake);
-            }
+            timePicker.setOnTimeChangedListener(timeChangedListenerWake);
         });
 
-        buttonSetTime.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                buttonSelectSleepTime.setVisibility(View.VISIBLE);
-                buttonSelectWakeTime.setVisibility(View.VISIBLE);
-                textViewGetToSleep.setVisibility(View.VISIBLE);
-                textViewWakeUp.setVisibility(View.VISIBLE);
+        buttonSetTime.setOnClickListener(v -> {
+            buttonSelectSleepTime.setVisibility(View.VISIBLE);
+            buttonSelectWakeTime.setVisibility(View.VISIBLE);
+            textViewGetToSleep.setVisibility(View.VISIBLE);
+            textViewWakeUp.setVisibility(View.VISIBLE);
 
-                timePicker.setVisibility(View.INVISIBLE);
-                timePicker.setEnabled(false);
+            timePicker.setVisibility(View.INVISIBLE);
+            timePicker.setEnabled(false);
 
-                buttonSetTime.setVisibility(View.INVISIBLE);
-            }
+            buttonSetTime.setVisibility(View.INVISIBLE);
         });
 
-        return view;
+        return rootView;
     }
 
-    private TimePicker.OnTimeChangedListener timeChangedListenerSleep = new TimePicker.OnTimeChangedListener() {
-
+    private final TimePicker.OnTimeChangedListener timeChangedListenerSleep = new TimePicker.OnTimeChangedListener() {
         @Override
         public void onTimeChanged(TimePicker tp, int hour, int min) {
             sleepHr = hour;
             sleepMin = min;
-
             buttonSelectSleepTime.setText(String.format(Locale.getDefault(), "%02d:%02d", hour, min));
         }
     };
 
-    private TimePicker.OnTimeChangedListener timeChangedListenerWake = new TimePicker.OnTimeChangedListener() {
-
+    private final TimePicker.OnTimeChangedListener timeChangedListenerWake = new TimePicker.OnTimeChangedListener() {
         @Override
         public void onTimeChanged(TimePicker tp, int hour, int min) {
             wakeHr = hour;
             wakeMin = min;
-
             buttonSelectWakeTime.setText(String.format(Locale.getDefault(), "%02d:%02d", hour, min));
         }
     };
-
 }

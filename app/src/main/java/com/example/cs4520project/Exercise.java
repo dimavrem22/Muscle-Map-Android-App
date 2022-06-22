@@ -1,43 +1,42 @@
 package com.example.cs4520project;
 
-public class Exercise {
-    private String name;
-    private String difficulty;
-    private String muscleGroup;
+public enum Exercise {
+    BICEP_CURLS("Bicep Curls", ExerciseDifficulty.EASY, MuscleGroup.BICEPS),
+    BENCH_PRESS("Bench Press", ExerciseDifficulty.MEDIUM, MuscleGroup.PECS),
+    SQUATS("Squats", ExerciseDifficulty.EASY, MuscleGroup.HAMSTRINGS),
+    DEADLIFTS("DeadLifts", ExerciseDifficulty.HARD, MuscleGroup.HAMSTRINGS),
+    DIPS("Dips", ExerciseDifficulty.MEDIUM, MuscleGroup.PECS),
+    JUMP_ROPE("Jump Rope", ExerciseDifficulty.EASY, MuscleGroup.CALVES),
+    PULL_UPS("Pull-ups", ExerciseDifficulty.EASY, MuscleGroup.BACK),
+    OVERHEAD_PRESS("Overhead Press", ExerciseDifficulty.MEDIUM, MuscleGroup.SHOULDERS),
+    CLOSE_GRIP_BENCH_PRESS("Close Grip Bench Press", ExerciseDifficulty.HARD, MuscleGroup.TRICEPS),
+    SIT_UPS("Sit-ups", ExerciseDifficulty.EASY, MuscleGroup.ABS);
 
-    public Exercise(String name, String difficulty, String muscleGroup) {
-        this.name = name;
+    private final String displayName;
+    private final ExerciseDifficulty difficulty;
+    private final MuscleGroup muscleGroup;
+
+    Exercise(String name, ExerciseDifficulty difficulty, MuscleGroup muscleGroup) {
+        this.displayName = name;
         this.difficulty = difficulty;
         this.muscleGroup = muscleGroup;
     }
 
-    public String getName() {
-        return name;
+    public String getDisplayName() {
+        return displayName;
     }
 
-    public void setName(String name) {
-        this.name = name;
-    }
-
-    public String getDifficulty() {
+    public ExerciseDifficulty getDifficulty() {
         return difficulty;
     }
 
-    public void setDifficulty(String difficulty) {
-        this.difficulty = difficulty;
-    }
-
-    public String getMuscleGroup() {
+    public MuscleGroup getMuscleGroup() {
         return muscleGroup;
-    }
-
-    public void setMuscleGroup(String muscleGroup) {
-        this.muscleGroup = muscleGroup;
     }
 
     @Override
     public String toString() {
-        return "Exercise: " + name + " \n"
+        return "Exercise: " + displayName + " \n"
                 + "Difficulty: " + difficulty + " \n"
                 + "Muscle Group: " + muscleGroup;
     }
