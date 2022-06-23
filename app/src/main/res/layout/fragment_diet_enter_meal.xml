@@ -5,6 +5,7 @@
     android:id="@+id/dietEnterMealLayout"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    android:background="#FFFFFF"
     tools:context=".DietEnterMealFragment">
 
     <EditText
@@ -32,21 +33,21 @@
         app:layout_constraintTop_toBottomOf="@+id/editTextMealSodium" />
 
     <Button
-        android:id="@+id/button2"
+        android:id="@+id/buttonFinishEnterMeal"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginBottom="32dp"
+        android:layout_marginBottom="8dp"
         android:text="Finish"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/editTextAdditionalNotes" />
+        app:layout_constraintTop_toBottomOf="@+id/timePickerMeal" />
 
     <EditText
-        android:id="@+id/editTextTextPersonName"
+        android:id="@+id/editTextMealName"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginTop="100dp"
+        android:layout_marginTop="16dp"
         android:ems="10"
         android:hint="Enter meal name..."
         android:inputType="textPersonName"
@@ -63,7 +64,7 @@
         android:inputType="number"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/editTextTextPersonName" />
+        app:layout_constraintTop_toBottomOf="@+id/editTextMealName" />
 
     <EditText
         android:id="@+id/editTextMealProtein"
@@ -89,7 +90,7 @@
         app:layout_constraintTop_toBottomOf="@+id/editTextMealProtein" />
 
     <EditText
-        android:id="@+id/editTextAdditionalNotes"
+        android:id="@+id/editTextMealAdditionalNotes"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:ems="10"
@@ -98,5 +99,18 @@
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/editTextMealTotalFat" />
+
+    <TimePicker
+        android:id="@+id/timePickerMeal"
+        style="@android:style/Widget.Material.Light.TimePicker"
+        android:layout_width="248dp"
+        android:layout_height="295dp"
+        android:layout_centerHorizontal="true"
+        android:layout_marginTop="12dp"
+        android:scrollbarStyle="insideInset"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.429"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/editTextMealAdditionalNotes" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>

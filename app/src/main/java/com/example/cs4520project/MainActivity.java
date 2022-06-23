@@ -30,7 +30,8 @@ import com.google.firebase.auth.FirebaseUser;
 
 public class MainActivity extends AppCompatActivity implements CalendarView.OnDateChangeListener,
         View.OnClickListener, LogInFragment.LoginToMain, EditWorkoutFragment.IEditWorkoutToMain,
-        ExerciseLoggingFragment.ExerciseLogToMain{
+        ExerciseLoggingFragment.ExerciseLogToMain,
+        DietEnterMealFragment.ISaveMeal {
 
     private final FirebaseFirestore db = FirebaseFirestore.getInstance();
     private final CollectionReference usersCollection = db.collection("users");
@@ -73,15 +74,20 @@ public class MainActivity extends AppCompatActivity implements CalendarView.OnDa
         cal.setTime(date);
 
         this.dateText.setText(cal.get(Calendar.DAY_OF_MONTH) + "");
-        this.monthText.setText(new Utils().monthString(cal.get(Calendar.MONTH)) + "");
+        this.monthText.setText(Utils.monthString(cal.get(Calendar.MONTH)));
 
         this.exerciseButton = this.findViewById(R.id.exercise_button);
-        this.exerciseButton.setOnClickListener(this);
+        this.exerciseButton.setOnClickListener(v -> {
+            getSupportFragmentManager().beginTransaction()
+                    .add(R.id.fragment_container, DietLogFragment.newInstance(),
+                            DietLogFragment.FRAGMENT_TAG)
+                    .addToBackStack(null)
+                    .commit();
+        });
         this.dietButton = this.findViewById(R.id.diet_button);
         this.dietButton.setOnClickListener(this);
         this.sleepButton = this.findViewById(R.id.sleep_button);
         this.sleepButton.setOnClickListener(this);
-
 
         this.nextArrow = this.findViewById(R.id.next_button);
         this.nextArrow.setOnClickListener(this);
@@ -108,9 +114,7 @@ public class MainActivity extends AppCompatActivity implements CalendarView.OnDa
             // take to login or register
             this.launchLoginFragment();
         }
-
     }
-
 
     @Override
     public void onSelectedDayChange(@NonNull CalendarView view,
@@ -127,7 +131,6 @@ public class MainActivity extends AppCompatActivity implements CalendarView.OnDa
 
         this.sendChangedDateToFragment();
     }
-
 
     @Override
     public void onClick(View v) {
@@ -157,9 +160,7 @@ public class MainActivity extends AppCompatActivity implements CalendarView.OnDa
         this.monthText.setText(new Utils().monthString(month) + "");
     }
 
-
     private void launchLoginFragment() {
-
         this.getSupportActionBar().show();
 
         // hiding calendar when the user is not logged in
@@ -182,7 +183,6 @@ public class MainActivity extends AppCompatActivity implements CalendarView.OnDa
                         LogInFragment.newInstance(), LogInFragment.FRAGMENT_TAG)
                 .commit();
     }
-
 
     @Override
     public void loginRequest(String email, String pass) {
@@ -253,51 +253,47 @@ public class MainActivity extends AppCompatActivity implements CalendarView.OnDa
 
 
     private void removeLoginFragment() {
+        getSupportActionBar().hide();
 
-        this.getSupportActionBar().hide();
+        sleepButton.setEnabled(true);
+        dietButton.setEnabled(true);
+        exerciseButton.setEnabled(true);
+        sleepButton.setVisibility(View.VISIBLE);
+        dietButton.setVisibility(View.VISIBLE);
+        exerciseButton.setVisibility(View.VISIBLE);
 
-        this.sleepButton.setEnabled(true);
-        this.dietButton.setEnabled(true);
-        this.exerciseButton.setEnabled(true);
-        this.sleepButton.setVisibility(View.VISIBLE);
-        this.dietButton.setVisibility(View.VISIBLE);
-        this.exerciseButton.setVisibility(View.VISIBLE);
-
-        this.calendarButton.setVisibility(View.VISIBLE);
-        this.calendarButton.setEnabled(true);
-        this.nextArrow.setEnabled(true);
-        this.nextArrow.setVisibility(View.VISIBLE);
-        this.prevArrow.setEnabled(true);
-        this.prevArrow.setVisibility(View.VISIBLE);
-        this.dateText.setVisibility(View.VISIBLE);
-        this.monthText.setVisibility(View.VISIBLE);
-
+        calendarButton.setVisibility(View.VISIBLE);
+        calendarButton.setEnabled(true);
+        nextArrow.setEnabled(true);
+        nextArrow.setVisibility(View.VISIBLE);
+        prevArrow.setEnabled(true);
+        prevArrow.setVisibility(View.VISIBLE);
+        dateText.setVisibility(View.VISIBLE);
+        monthText.setVisibility(View.VISIBLE);
 
         // removing login fragment
-        this.getSupportFragmentManager().beginTransaction()
-                .remove(this.getSupportFragmentManager()
-                        .findFragmentByTag(LogInFragment.FRAGMENT_TAG)).commit();
+        getSupportFragmentManager().beginTransaction()
+                .remove(getSupportFragmentManager()
+                        .findFragmentByTag(LogInFragment.FRAGMENT_TAG))
+                .commit();
     }
 
     private void launchExerciseLogFragment() {
-        this.exerciseFragment = true;
-        this.dietFragment = false;
-        this.sleepFragment = false;
+        exerciseFragment = true;
+        dietFragment = false;
+        sleepFragment = false;
 
         Calendar cal = Calendar.getInstance();
-        cal.setTimeInMillis(this.calender.getDate());
+        cal.setTimeInMillis(calender.getDate());
 
-        this.getSupportFragmentManager().beginTransaction().replace(R.id.fragment_container,
+        getSupportFragmentManager().beginTransaction().replace(R.id.fragment_container,
                 ExerciseLoggingFragment.newInstance(mAuth.getCurrentUser().getEmail(),
                         cal.get(Calendar.DAY_OF_MONTH), cal.get(Calendar.MONTH) + 1,
                         cal.get(Calendar.YEAR)),
                 ExerciseLoggingFragment.FRAGMENT_KEY).commit();
-
     }
 
-
     private void sendChangedDateToFragment() {
-
         Calendar cal = Calendar.getInstance();
         cal.setTimeInMillis(this.calender.getDate());
 
@@ -314,13 +310,12 @@ public class MainActivity extends AppCompatActivity implements CalendarView.OnDa
         } else if (this.dietFragment) {
             // change diet frag date
         }
-
     }
 
     @Override
     public void addWorkoutToDB(Workout workout) {
         Calendar cal = Calendar.getInstance();
-        cal.setTimeInMillis(this.calender.getDate());
+        cal.setTimeInMillis(calender.getDate());
 
         Map<String, Object> addWorkout = new HashMap<>();
         addWorkout.put("name", workout.getName());
@@ -344,8 +339,43 @@ public class MainActivity extends AppCompatActivity implements CalendarView.OnDa
 
     @Override
     public void openMuscleMap() {
-        this.getSupportFragmentManager().beginTransaction().add(R.id.outerFragmentContainer,
-                ExerciseAnalysisFragment.newInstance(this.mAuth.getCurrentUser()
-                        .getEmail())).addToBackStack(null).commit();
+        getSupportFragmentManager()
+                .beginTransaction()
+                .add(R.id.outerFragmentContainer,
+                        ExerciseAnalysisFragment.newInstance(mAuth.getCurrentUser().getEmail()))
+                .addToBackStack(null)
+                .commit();
+    }
+
+    @Override
+    public void addMealToDB(Meal meal) {
+        Calendar calendar = Calendar.getInstance();
+        calendar.setTimeInMillis(calender.getDate());
+
+        Map<String, Object> dbMeal = new HashMap<>();
+        dbMeal.put("day", calendar.get(Calendar.DAY_OF_MONTH));
+        dbMeal.put("month", calendar.get(Calendar.MONTH) + 1);
+        dbMeal.put("hour", meal.getHour());
+        dbMeal.put("minute", meal.getMinute());
+        dbMeal.put("name", meal.getName());
+        dbMeal.put("calories", meal.getCalories());
+        dbMeal.put("protein", meal.getProtein());
+        dbMeal.put("carbs", meal.getCarbs());
+        dbMeal.put("sodium", meal.getSodium());
+        dbMeal.put("totalFat", meal.getTotalFat());
+        dbMeal.put("additionalNotes", meal.getAdditionalNotes());
+
+        usersCollection.whereEqualTo("email", mAuth.getCurrentUser().getEmail())
+                .get()
+                .addOnCompleteListener(task -> {
+                    if (task.isSuccessful()) {
+                        CollectionReference mealCollection = task.getResult()
+                                .getDocuments()
+                                .get(0)
+                                .getReference()
+                                .collection("meals");
+                        mealCollection.add(dbMeal);
+                    }
+                });
     }
 }

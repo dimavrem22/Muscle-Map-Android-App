@@ -17,8 +17,6 @@ import java.util.ArrayList;
  * create an instance of this fragment.
  */
 public class ExerciseAnalysisFragment extends Fragment implements View.OnClickListener {
-
-
     private static final String ARG_EMAIL = "email";
     private String email;
 
@@ -27,9 +25,8 @@ public class ExerciseAnalysisFragment extends Fragment implements View.OnClickLi
     private int counter = 0;
 
     private int upperTrapStrain, shoulderStrain, pecStrain, bicepsStrain, forearmStrain,
-                quadStrain, calveStrain, trapStrain, triStrain, lowerBackStrain, glutStrain,
-                hamsStrain, latsStrain, absStrain;
-
+            quadStrain, calveStrain, trapStrain, triStrain, lowerBackStrain, glutStrain,
+            hamsStrain, latsStrain, absStrain;
 
     private ImageView flipImage;
 
@@ -42,7 +39,6 @@ public class ExerciseAnalysisFragment extends Fragment implements View.OnClickLi
             latsBack, lowerBackBack, glutsBack, hamsBack, calvesBack;
 
     private ArrayList<ImageView> backMuscleImages;
-
 
     public ExerciseAnalysisFragment() {
         // Required empty public constructor
@@ -104,7 +100,7 @@ public class ExerciseAnalysisFragment extends Fragment implements View.OnClickLi
         this.trapsFront = rootView.findViewById(R.id.trapsFrontImage);
         this.frontMuscleImages.add(trapsFront);
 
-        for (ImageView i : this.frontMuscleImages){
+        for (ImageView i : this.frontMuscleImages) {
             i.setVisibility(View.INVISIBLE);
         }
 
@@ -132,7 +128,7 @@ public class ExerciseAnalysisFragment extends Fragment implements View.OnClickLi
         this.shouldersBack = rootView.findViewById(R.id.shouldersBackImage);
         this.backMuscleImages.add(this.shouldersBack);
 
-        for (ImageView i : this.backMuscleImages){
+        for (ImageView i : this.backMuscleImages) {
             i.setVisibility(View.INVISIBLE);
         }
         this.backView.setVisibility(View.INVISIBLE);
@@ -145,22 +141,21 @@ public class ExerciseAnalysisFragment extends Fragment implements View.OnClickLi
 
     @Override
     public void onClick(View v) {
-        if (v.getId() == this.flipImage.getId()){
-            if (this.lookingFront){
-                for (ImageView i : this.backMuscleImages){
+        if (v.getId() == this.flipImage.getId()) {
+            if (this.lookingFront) {
+                for (ImageView i : this.backMuscleImages) {
                     i.setVisibility(View.VISIBLE);
                 }
-                for (ImageView i : this.frontMuscleImages){
+                for (ImageView i : this.frontMuscleImages) {
                     i.setVisibility(View.INVISIBLE);
                 }
                 this.frontView.setVisibility(View.INVISIBLE);
                 this.backView.setVisibility(View.VISIBLE);
-            }
-            else {
-                for (ImageView i : this.backMuscleImages){
+            } else {
+                for (ImageView i : this.backMuscleImages) {
                     i.setVisibility(View.INVISIBLE);
                 }
-                for (ImageView i : this.frontMuscleImages){
+                for (ImageView i : this.frontMuscleImages) {
                     i.setVisibility(View.VISIBLE);
                 }
                 this.frontView.setVisibility(View.VISIBLE);
@@ -171,12 +166,12 @@ public class ExerciseAnalysisFragment extends Fragment implements View.OnClickLi
     }
 
 
-    private void getWorkoutList(){
+    private void getWorkoutList() {
 
     }
 
 
-    private void initializeStrain(){
+    private void initializeStrain() {
         this.upperTrapStrain = 0;
         this.shoulderStrain = 0;
         this.pecStrain = 0;
@@ -193,49 +188,47 @@ public class ExerciseAnalysisFragment extends Fragment implements View.OnClickLi
         this.absStrain = 0;
     }
 
-    private void colorMusclesByStrain (){
+    private void colorMusclesByStrain() {
         this.trapsFront.getDrawable().setAlpha(Math.min(127,
-                (int)Math.round(((double) this.upperTrapStrain) / 70.0 * 127)));
+                (int) Math.round(((double) this.upperTrapStrain) / 70.0 * 127)));
         this.upperTrapsBack.getDrawable().setAlpha(Math.min(127,
-                (int)Math.round(((double) this.upperTrapStrain) / 70.0 * 127)));
+                (int) Math.round(((double) this.upperTrapStrain) / 70.0 * 127)));
         this.pecsFront.getDrawable().setAlpha(Math.min(127,
-                (int)Math.round(((double) this.pecStrain) / 70.0 * 127)));
+                (int) Math.round(((double) this.pecStrain) / 70.0 * 127)));
         this.shouldersFront.getDrawable().setAlpha(Math.min(127,
-                (int)Math.round(((double) this.shoulderStrain) / 70.0 * 127)));
+                (int) Math.round(((double) this.shoulderStrain) / 70.0 * 127)));
         this.shouldersBack.getDrawable().setAlpha(Math.min(127,
-                (int)Math.round(((double) this.shoulderStrain) / 70.0 * 127)));
+                (int) Math.round(((double) this.shoulderStrain) / 70.0 * 127)));
         this.absFront.getDrawable().setAlpha(Math.min(127,
-                (int)Math.round(((double) this.absStrain) / 70.0 * 127)));
+                (int) Math.round(((double) this.absStrain) / 70.0 * 127)));
         this.bicepsFront.getDrawable().setAlpha(Math.min(127,
-                (int)Math.round(((double) this.bicepsStrain) / 70.0 * 127)));
+                (int) Math.round(((double) this.bicepsStrain) / 70.0 * 127)));
         this.quadsFront.getDrawable().setAlpha(Math.min(127,
-                (int)Math.round(((double) this.quadStrain) / 70.0 * 127)));
+                (int) Math.round(((double) this.quadStrain) / 70.0 * 127)));
         this.calvesFront.getDrawable().setAlpha(Math.min(127,
-                (int)Math.round(((double) this.calveStrain) / 70.0 * 127)));
+                (int) Math.round(((double) this.calveStrain) / 70.0 * 127)));
         this.calvesBack.getDrawable().setAlpha(Math.min(127,
-                (int)Math.round(((double) this.calveStrain) / 70.0 * 127)));
+                (int) Math.round(((double) this.calveStrain) / 70.0 * 127)));
         this.forearmsFront.getDrawable().setAlpha(Math.min(127,
-                (int)Math.round(((double) this.forearmStrain) / 70.0 * 127)));
+                (int) Math.round(((double) this.forearmStrain) / 70.0 * 127)));
         this.forearmsBack.getDrawable().setAlpha(Math.min(127,
-                (int)Math.round(((double) this.forearmStrain) / 70.0 * 127)));
+                (int) Math.round(((double) this.forearmStrain) / 70.0 * 127)));
         this.calvesFront.getDrawable().setAlpha(Math.min(127,
-                (int)Math.round(((double) this.calveStrain) / 70.0 * 127)));
+                (int) Math.round(((double) this.calveStrain) / 70.0 * 127)));
         this.trapsBack.getDrawable().setAlpha(Math.min(127,
-                (int)Math.round(((double) this.trapStrain) / 70.0 * 127)));
+                (int) Math.round(((double) this.trapStrain) / 70.0 * 127)));
         this.latsBack.getDrawable().setAlpha(Math.min(127,
-                (int)Math.round(((double) this.latsStrain) / 70.0 * 127)));
+                (int) Math.round(((double) this.latsStrain) / 70.0 * 127)));
         this.trisBack.getDrawable().setAlpha(Math.min(127,
-                (int)Math.round(((double) this.triStrain) / 70.0 * 127)));
+                (int) Math.round(((double) this.triStrain) / 70.0 * 127)));
         this.lowerBackBack.getDrawable().setAlpha(Math.min(127,
-                (int)Math.round(((double) this.lowerBackStrain) / 70.0 * 127)));
+                (int) Math.round(((double) this.lowerBackStrain) / 70.0 * 127)));
         this.glutsBack.getDrawable().setAlpha(Math.min(127,
-                (int)Math.round(((double) this.glutStrain) / 70.0 * 127)));
+                (int) Math.round(((double) this.glutStrain) / 70.0 * 127)));
         this.hamsBack.getDrawable().setAlpha(Math.min(127,
-                (int)Math.round(((double) this.hamsStrain) / 70.0 * 127)));
+                (int) Math.round(((double) this.hamsStrain) / 70.0 * 127)));
 
     }
-
-
 
 
 }

@@ -47,7 +47,7 @@ public class EditWorkoutFragment extends Fragment implements ExerciseListAdapter
     }
 
     public interface IEditWorkoutToMain {
-        public void addWorkoutToDB(Workout workout);
+        void addWorkoutToDB(Workout workout);
     }
 
     /**
@@ -181,25 +181,22 @@ public class EditWorkoutFragment extends Fragment implements ExerciseListAdapter
             buttonEditWorkoutCancel.setVisibility(View.VISIBLE);
         });
 
-        buttonEditWorkoutSave.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                if (clickedExercises.size() > 0 && editTextWorkoutName.getText().toString().length() > 0
-                && startHr != 0 && startMin != 0 && endHr != 0 && endMin != 0) {
-                    if (checkValidTime()) {
-                        Workout workout = new Workout(editTextWorkoutName.getText().toString(),
-                                startHr, startMin, endHr, endMin, clickedExercises);
-                        Log.d("FP", workout.toString());
-                        editWorkoutToMain.addWorkoutToDB(workout);
-                        getActivity().getSupportFragmentManager().popBackStack();
-                    }
-                    else {
-                        Toast.makeText(getContext(), "Enter A Valid Time!", Toast.LENGTH_SHORT).show();
-                    }
+        buttonEditWorkoutSave.setOnClickListener(v -> {
+            if (clickedExercises.size() > 0 && editTextWorkoutName.getText().toString().length() > 0
+            && startHr != 0 && startMin != 0 && endHr != 0 && endMin != 0) {
+                if (checkValidTime()) {
+                    Workout workout = new Workout(editTextWorkoutName.getText().toString(),
+                            startHr, startMin, endHr, endMin, clickedExercises);
+                    Log.d("FP", workout.toString());
+                    editWorkoutToMain.addWorkoutToDB(workout);
+                    getActivity().getSupportFragmentManager().popBackStack();
                 }
                 else {
-                    Toast.makeText(getContext(), "Empty Fields!", Toast.LENGTH_SHORT).show();
+                    Toast.makeText(getContext(), "Enter A Valid Time!", Toast.LENGTH_SHORT).show();
                 }
+            }
+            else {
+                Toast.makeText(getContext(), "Empty Fields!", Toast.LENGTH_SHORT).show();
             }
         });
 
