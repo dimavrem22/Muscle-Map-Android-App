@@ -7,8 +7,11 @@ import androidx.fragment.app.Fragment;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Button;
 
 public class DietLogFragment extends Fragment {
+    public static final String FRAGMENT_TAG = "DIET_FRAGMENT";
+
     public DietLogFragment() {
         // Required empty public constructor
     }
@@ -37,6 +40,18 @@ public class DietLogFragment extends Fragment {
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         // Inflate the layout for this fragment
-        return inflater.inflate(R.layout.fragment_diet_log, container, false);
+        View rootView = inflater.inflate(R.layout.fragment_diet_log, container, false);
+
+        Button enterMeal = rootView.findViewById(R.id.buttonEnterMeal);
+
+        enterMeal.setOnClickListener(v -> {
+            getActivity().getSupportFragmentManager().beginTransaction()
+                    .add(R.id.fragment_container, DietEnterMealFragment.newInstance(),
+                            DietEnterMealFragment.FRAGMENT_TAG)
+                    .addToBackStack(null)
+                    .commit();
+        });
+
+        return rootView;
     }
 }

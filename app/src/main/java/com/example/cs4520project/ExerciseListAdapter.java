@@ -22,6 +22,7 @@ public class ExerciseListAdapter extends RecyclerView.Adapter<ExerciseListAdapte
     private ICheckExercises checkExercises;
     private List<Exercise> checkedExercises;
 
+
     public ExerciseListAdapter(List<Exercise> exercises, ICheckExercises checkExercises, List<Exercise> checkedExercises) {
         this.exercises = exercises;
         this.filteredExercises = exercises;
@@ -89,10 +90,10 @@ public class ExerciseListAdapter extends RecyclerView.Adapter<ExerciseListAdapte
     }
 
     public static class ViewHolder extends RecyclerView.ViewHolder implements View.OnClickListener {
-        private TextView exerciseName;
+        private final TextView exerciseName;
         private final ImageView checkImage;
         private boolean checked;
-        private ICheckExercises checkExercises;
+        private final ICheckExercises checkExercises;
 
         public ViewHolder(@NonNull View itemView, ICheckExercises checkExercises) {
             super(itemView);

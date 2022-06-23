@@ -112,9 +112,8 @@ public class ExerciseLoggingFragment extends Fragment implements View.OnClickLis
                             NewWorkoutFragment.FRAGMENT_KEY)
                     .addToBackStack(null)
                     .commit();
-        }
-        else if (v.getId() == this.muscleMapButton.getId()){
-            ExerciseLogToMain context = (ExerciseLogToMain)this.getContext();
+        } else if (v.getId() == this.muscleMapButton.getId()) {
+            ExerciseLogToMain context = (ExerciseLogToMain) this.getContext();
             context.openMuscleMap();
         }
     }

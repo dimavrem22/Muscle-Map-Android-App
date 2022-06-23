@@ -53,7 +53,9 @@ public class EditWorkoutFragment extends Fragment implements ExerciseListAdapter
     }
 
     public interface IEditWorkoutToMain {
+
         public void updateWorkoutInDB(Workout newWorkout);
+
     }
 
     /**
@@ -220,8 +222,11 @@ public class EditWorkoutFragment extends Fragment implements ExerciseListAdapter
                     }
                 }
                 else {
-                    Toast.makeText(getContext(), "Empty Fields!", Toast.LENGTH_SHORT).show();
+                    Toast.makeText(getContext(), "Enter A Valid Time!", Toast.LENGTH_SHORT).show();
                 }
+            }
+            else {
+                Toast.makeText(getContext(), "Empty Fields!", Toast.LENGTH_SHORT).show();
             }
         });
 
