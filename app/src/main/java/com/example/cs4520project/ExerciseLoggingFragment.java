@@ -1,17 +1,21 @@
 package com.example.cs4520project;
 
+import android.content.Context;
 import android.os.Bundle;
 
+import androidx.annotation.NonNull;
 import androidx.fragment.app.Fragment;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
 
 import com.google.firebase.firestore.CollectionReference;
+import com.google.firebase.firestore.DocumentReference;
 import com.google.firebase.firestore.DocumentSnapshot;
 import com.google.firebase.firestore.FirebaseFirestore;
 
@@ -40,6 +44,12 @@ public class ExerciseLoggingFragment extends Fragment implements View.OnClickLis
     private Button newWorkoutButton;
     private Button muscleMapButton;
     private WorkoutListAdapter workoutListAdapter;
+
+    private ISendDocFromExerciseLogToMain sendDocFromExerciseLogToMain;
+
+    public interface ISendDocFromExerciseLogToMain {
+        void sendDocFromExerciseLogToMain(DocumentReference doc);
+    }
 
     public ExerciseLoggingFragment() {
         // Required empty public constructor
@@ -98,8 +108,8 @@ public class ExerciseLoggingFragment extends Fragment implements View.OnClickLis
         if (v.getId() == newWorkoutButton.getId()) {
             // code for making new fragment
             getActivity().getSupportFragmentManager().beginTransaction()
-                    .add(R.id.main_layout, EditWorkoutFragment.newInstance(),
-                            EditWorkoutFragment.FRAGMENT_KEY)
+                    .add(R.id.main_layout, NewWorkoutFragment.newInstance(),
+                            NewWorkoutFragment.FRAGMENT_KEY)
                     .addToBackStack(null)
                     .commit();
         }
@@ -109,8 +119,21 @@ public class ExerciseLoggingFragment extends Fragment implements View.OnClickLis
         }
     }
 
-    public void clickedEditWorkout(int adapterPosition) {
+    public void clickedEditWorkout(int adapterPosition, Workout workout) {
         // take to edit workout
+        workoutCollection
+                .whereEqualTo("startHour", workout.getStartHour())
+                .whereEqualTo("startMinute", workout.getStartMinute()).get().addOnCompleteListener(task -> {
+                    if (task.isSuccessful()) {
+                        DocumentReference doc = task.getResult().getDocuments().get(0).getReference();
+                        Log.d("FP", doc.toString());
+                        sendDocFromExerciseLogToMain.sendDocFromExerciseLogToMain(doc);
+                        getActivity().getSupportFragmentManager().beginTransaction()
+                                .add(R.id.fragment_container, EditWorkoutFragment.newInstance(workout), EditWorkoutFragment.FRAGMENT_KEY)
+                                .addToBackStack(null)
+                                .commit();
+                    }
+                });
     }
 
     private void getWorkoutCollection() {
@@ -160,5 +183,13 @@ public class ExerciseLoggingFragment extends Fragment implements View.OnClickLis
         void openMuscleMap();
     }
 
-
+    @Override
+    public void onAttach(@NonNull Context context) {
+        super.onAttach(context);
+        if (context instanceof ISendDocFromExerciseLogToMain) {
+            sendDocFromExerciseLogToMain = (ISendDocFromExerciseLogToMain) context;
+        } else {
+            throw new RuntimeException(context.toString()+ " must implement ISendDocFromExerciseLogToMain");
+        }
+    }
 }

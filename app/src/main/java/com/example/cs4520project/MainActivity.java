@@ -23,14 +23,16 @@ import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.Task;
 import com.google.firebase.auth.AuthResult;
 import com.google.firebase.firestore.CollectionReference;
+import com.google.firebase.firestore.DocumentReference;
 import com.google.firebase.firestore.FirebaseFirestore;
 
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
 
 public class MainActivity extends AppCompatActivity implements CalendarView.OnDateChangeListener,
-        View.OnClickListener, LogInFragment.LoginToMain, EditWorkoutFragment.IEditWorkoutToMain,
-        ExerciseLoggingFragment.ExerciseLogToMain{
+        View.OnClickListener, LogInFragment.LoginToMain, NewWorkoutFragment.INewWorkoutToMain,
+        ExerciseLoggingFragment.ExerciseLogToMain, EditWorkoutFragment.IEditWorkoutToMain,
+        ExerciseLoggingFragment.ISendDocFromExerciseLogToMain {
 
     private final FirebaseFirestore db = FirebaseFirestore.getInstance();
     private final CollectionReference usersCollection = db.collection("users");
@@ -49,6 +51,8 @@ public class MainActivity extends AppCompatActivity implements CalendarView.OnDa
     private Button exerciseButton, dietButton, sleepButton;
 
     boolean exerciseFragment, sleepFragment, dietFragment;
+
+    private DocumentReference docToUpdate;
 
     @SuppressLint("ResourceAsColor")
     @Override
@@ -347,5 +351,30 @@ public class MainActivity extends AppCompatActivity implements CalendarView.OnDa
         this.getSupportFragmentManager().beginTransaction().add(R.id.outerFragmentContainer,
                 ExerciseAnalysisFragment.newInstance(this.mAuth.getCurrentUser()
                         .getEmail())).addToBackStack(null).commit();
+    }
+
+    @Override
+    public void updateWorkoutInDB(Workout newWorkout) {
+        Calendar cal = Calendar.getInstance();
+        cal.setTimeInMillis(this.calender.getDate());
+
+        Map<String, Object> updateWorkout = new HashMap<>();
+        updateWorkout.put("name", newWorkout.getName());
+        updateWorkout.put("day", cal.get(Calendar.DAY_OF_MONTH));
+        updateWorkout.put("month", cal.get(Calendar.MONTH) + 1);
+        updateWorkout.put("startHour", newWorkout.getStartHour());
+        updateWorkout.put("endHour", newWorkout.getEndHour());
+        updateWorkout.put("startMinute", newWorkout.getStartMinute());
+        updateWorkout.put("endMinute", newWorkout.getEndMinute());
+        updateWorkout.put("exercises", newWorkout.getExercises());
+        updateWorkout.put("year", cal.get(Calendar.YEAR));
+
+        docToUpdate.update("exercises", "");
+        docToUpdate.set(updateWorkout);
+    }
+
+    @Override
+    public void sendDocFromExerciseLogToMain(DocumentReference doc) {
+        docToUpdate = doc;
     }
 }

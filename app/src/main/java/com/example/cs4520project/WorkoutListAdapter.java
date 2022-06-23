@@ -9,6 +9,7 @@ import android.widget.TextView;
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
+import java.util.ArrayList;
 import java.util.List;
 
 public class WorkoutListAdapter extends RecyclerView.Adapter<WorkoutListAdapter.ViewHolder> {
@@ -25,7 +26,7 @@ public class WorkoutListAdapter extends RecyclerView.Adapter<WorkoutListAdapter.
     public ViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
         View view = LayoutInflater.from(parent.getContext())
                 .inflate(R.layout.single_workout, parent, false);
-        return new ViewHolder(view, fragment);
+        return new ViewHolder(view, fragment, workouts);
     }
 
     @Override
@@ -64,8 +65,9 @@ public class WorkoutListAdapter extends RecyclerView.Adapter<WorkoutListAdapter.
         private final TextView timeText;
         private final TextView durationText;
         private final ImageView editImage;
+        private final List<Workout> workouts;
 
-        public ViewHolder(@NonNull View itemView, ExerciseLoggingFragment fragment) {
+        public ViewHolder(@NonNull View itemView, ExerciseLoggingFragment fragment, List<Workout> workouts) {
             super(itemView);
             this.fragment = fragment;
             this.nameText = itemView.findViewById(R.id.workoutNameText);
@@ -74,6 +76,7 @@ public class WorkoutListAdapter extends RecyclerView.Adapter<WorkoutListAdapter.
             this.durationText = itemView.findViewById(R.id.workoutDurationtext);
             this.editImage = itemView.findViewById(R.id.workoutEditButton);
             this.editImage.setOnClickListener(this);
+            this.workouts = workouts;
         }
 
         public TextView getNameText() {
@@ -95,7 +98,7 @@ public class WorkoutListAdapter extends RecyclerView.Adapter<WorkoutListAdapter.
         @Override
         public void onClick(View v) {
             if (editImage.getId() == v.getId()) {
-                fragment.clickedEditWorkout(getAdapterPosition());
+                fragment.clickedEditWorkout(getAdapterPosition(), workouts.get(getAdapterPosition()));
             }
         }
     }

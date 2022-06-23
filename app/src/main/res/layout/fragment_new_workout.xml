@@ -7,10 +7,10 @@
     android:layout_height="match_parent"
     android:background="@color/white"
     android:elevation="5dp"
-    tools:context=".EditWorkoutFragment">
+    tools:context=".NewWorkoutFragment">
 
     <SearchView
-        android:id="@+id/searchViewExerciseEF"
+        android:id="@+id/searchViewExercise"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
         android:layout_marginStart="20dp"
@@ -19,10 +19,10 @@
         android:queryHint="Type username"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/buttonEndTimeEF" />
+        app:layout_constraintTop_toBottomOf="@+id/buttonEndTime" />
 
     <TextView
-        android:id="@+id/textViewWorkoutEF"
+        android:id="@+id/textViewWorkout"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginStart="8dp"
@@ -37,18 +37,18 @@
         app:layout_constraintTop_toTopOf="parent" />
 
     <TextView
-        android:id="@+id/textViewNameEF"
+        android:id="@+id/textViewName"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginTop="32dp"
         android:text="@string/Name"
         android:textColor="@color/black"
         android:textSize="16sp"
-        app:layout_constraintStart_toStartOf="@+id/textViewStartTimeEF"
-        app:layout_constraintTop_toBottomOf="@+id/textViewWorkoutEF" />
+        app:layout_constraintStart_toStartOf="@+id/textViewStartTime"
+        app:layout_constraintTop_toBottomOf="@+id/textViewWorkout" />
 
     <TextView
-        android:id="@+id/textViewStartTimeEF"
+        android:id="@+id/textViewStartTime"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginStart="24dp"
@@ -57,21 +57,21 @@
         android:textColor="@color/black"
         android:textSize="16sp"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/textViewNameEF" />
+        app:layout_constraintTop_toBottomOf="@+id/textViewName" />
 
     <TextView
-        android:id="@+id/textViewEndTimeEF"
+        android:id="@+id/textViewEndTime"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginTop="32dp"
         android:text="@string/EndTime"
         android:textColor="@color/black"
         android:textSize="16sp"
-        app:layout_constraintStart_toStartOf="@+id/textViewStartTimeEF"
-        app:layout_constraintTop_toBottomOf="@+id/textViewStartTimeEF" />
+        app:layout_constraintStart_toStartOf="@+id/textViewStartTime"
+        app:layout_constraintTop_toBottomOf="@+id/textViewStartTime" />
 
     <Button
-        android:id="@+id/buttonEditWorkoutCancel"
+        android:id="@+id/buttonNewWorkoutCancel"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginStart="32dp"
@@ -81,48 +81,48 @@
         app:layout_constraintStart_toStartOf="parent" />
 
     <Button
-        android:id="@+id/buttonEditWorkoutSave"
+        android:id="@+id/buttonNewWorkoutSave"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginEnd="32dp"
         android:text="@string/EditWorkoutSave"
-        app:layout_constraintBottom_toBottomOf="@+id/buttonEditWorkoutCancel"
+        app:layout_constraintBottom_toBottomOf="@+id/buttonNewWorkoutCancel"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintTop_toTopOf="@+id/buttonEditWorkoutCancel" />
+        app:layout_constraintTop_toTopOf="@+id/buttonNewWorkoutCancel" />
 
     <EditText
-        android:id="@+id/editTextWorkoutNameEF"
+        android:id="@+id/editTextWorkoutName"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:ems="10"
         android:hint="@string/Name"
         android:inputType="textPersonName"
         android:minHeight="48dp"
-        app:layout_constraintBottom_toBottomOf="@+id/textViewNameEF"
-        app:layout_constraintStart_toStartOf="@+id/buttonStartTimeEF"
-        app:layout_constraintTop_toTopOf="@+id/textViewNameEF" />
+        app:layout_constraintBottom_toBottomOf="@+id/textViewName"
+        app:layout_constraintStart_toStartOf="@+id/buttonStartTime"
+        app:layout_constraintTop_toTopOf="@+id/textViewName" />
 
     <Button
-        android:id="@+id/buttonStartTimeEF"
+        android:id="@+id/buttonStartTime"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginStart="32dp"
         android:text="@string/SetWorkoutStartTime"
-        app:layout_constraintBottom_toBottomOf="@+id/textViewStartTimeEF"
-        app:layout_constraintStart_toEndOf="@+id/textViewStartTimeEF"
-        app:layout_constraintTop_toTopOf="@+id/textViewStartTimeEF" />
+        app:layout_constraintBottom_toBottomOf="@+id/textViewStartTime"
+        app:layout_constraintStart_toEndOf="@+id/textViewStartTime"
+        app:layout_constraintTop_toTopOf="@+id/textViewStartTime" />
 
     <Button
-        android:id="@+id/buttonEndTimeEF"
+        android:id="@+id/buttonEndTime"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:text="@string/SetWorkoutEndTime"
-        app:layout_constraintBottom_toBottomOf="@+id/textViewEndTimeEF"
-        app:layout_constraintStart_toStartOf="@+id/buttonStartTimeEF"
-        app:layout_constraintTop_toTopOf="@+id/textViewEndTimeEF" />
+        app:layout_constraintBottom_toBottomOf="@+id/textViewEndTime"
+        app:layout_constraintStart_toStartOf="@+id/buttonStartTime"
+        app:layout_constraintTop_toTopOf="@+id/textViewEndTime" />
 
     <TimePicker
-        android:id="@+id/timePickerWorkoutEF"
+        android:id="@+id/timePickerWorkout"
         style="@android:style/Widget.Material.Light.TimePicker"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
@@ -134,26 +134,26 @@
         app:layout_constraintTop_toTopOf="parent" />
 
     <Button
-        android:id="@+id/buttonSetWorkoutTimeEF"
+        android:id="@+id/buttonSetWorkoutTime"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginTop="24dp"
         android:text="@string/SetTime"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/timePickerWorkoutEF" />
+        app:layout_constraintTop_toBottomOf="@+id/timePickerWorkout" />
 
     <androidx.recyclerview.widget.RecyclerView
-        android:id="@+id/recyclerViewExercisesEF"
+        android:id="@+id/recyclerViewExercises"
         android:layout_width="0dp"
         android:layout_height="0dp"
         android:layout_marginTop="20dp"
         android:layout_marginEnd="20dp"
         android:layout_marginBottom="10dp"
-        app:layout_constraintBottom_toTopOf="@+id/buttonEditWorkoutCancel"
+        app:layout_constraintBottom_toTopOf="@+id/buttonNewWorkoutCancel"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.488"
-        app:layout_constraintStart_toStartOf="@+id/searchViewExerciseEF"
-        app:layout_constraintTop_toBottomOf="@+id/searchViewExerciseEF" />
+        app:layout_constraintStart_toStartOf="@+id/searchViewExercise"
+        app:layout_constraintTop_toBottomOf="@+id/searchViewExercise" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>

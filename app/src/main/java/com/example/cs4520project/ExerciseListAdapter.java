@@ -20,11 +20,13 @@ public class ExerciseListAdapter extends RecyclerView.Adapter<ExerciseListAdapte
     private final List<Exercise> exercises;
     private List<Exercise> filteredExercises;
     private ICheckExercises checkExercises;
+    private List<Exercise> checkedExercises;
 
-    public ExerciseListAdapter(List<Exercise> exercises, ICheckExercises checkExercises) {
+    public ExerciseListAdapter(List<Exercise> exercises, ICheckExercises checkExercises, List<Exercise> checkedExercises) {
         this.exercises = exercises;
         this.filteredExercises = exercises;
         this.checkExercises = checkExercises;
+        this.checkedExercises = checkedExercises;
     }
 
     interface ICheckExercises {
@@ -42,6 +44,13 @@ public class ExerciseListAdapter extends RecyclerView.Adapter<ExerciseListAdapte
     @Override
     public void onBindViewHolder(@NonNull ExerciseListAdapter.ViewHolder holder, int position) {
         holder.getExerciseName().setText(filteredExercises.get(position).getDisplayName());
+        boolean check = false;
+        for (Exercise e: checkedExercises) {
+                if (e.getDisplayName() == filteredExercises.get(position).getDisplayName()) {
+                    check = true;
+                }
+            }
+        holder.setChecked(check);
     }
 
     @Override
@@ -108,6 +117,15 @@ public class ExerciseListAdapter extends RecyclerView.Adapter<ExerciseListAdapte
 
         public TextView getExerciseName() {
             return exerciseName;
+        }
+
+        public void setChecked(boolean checked) {
+            this.checked = checked;
+            if (checked) {
+                checkImage.setImageDrawable(itemView.getResources().getDrawable(R.drawable.checked));
+            } else {
+                checkImage.setImageDrawable(itemView.getResources().getDrawable(R.drawable.unchecked));
+            }
         }
     }
 }

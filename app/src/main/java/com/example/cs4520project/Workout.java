@@ -1,8 +1,9 @@
 package com.example.cs4520project;
 
+import java.io.Serializable;
 import java.util.List;
 
-public class Workout {
+public class Workout implements Serializable {
     private String name;
     private int startHour, startMinute, endHour, endMinute;
     private List<Exercise> exercises;

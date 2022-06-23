@@ -19,19 +19,13 @@ import android.widget.TextView;
 import android.widget.TimePicker;
 import android.widget.Toast;
 
-import com.google.firebase.firestore.DocumentReference;
-
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 import java.util.Locale;
 
-public class EditWorkoutFragment extends Fragment implements ExerciseListAdapter.ICheckExercises {
-    public static final String FRAGMENT_KEY = "EditWorkoutFragment";
-
-    private static final String ARG_PARAM1 = "param1";
-
-    private Workout originalWorkout;
+public class NewWorkoutFragment extends Fragment implements ExerciseListAdapter.ICheckExercises {
+    public static final String FRAGMENT_KEY = "NewWorkoutFragment";
 
     private Button buttonStartTime, buttonEndTime, buttonNewWorkoutSave, buttonNewWorkoutCancel, buttonSetWorkoutTime;
     private TextView textViewWorkout, textViewName, textViewStartTime, textViewEndTime;
@@ -46,14 +40,14 @@ public class EditWorkoutFragment extends Fragment implements ExerciseListAdapter
     private int startHr, startMin, endHr, endMin;
     private List<Exercise> clickedExercises;
 
-    private IEditWorkoutToMain editWorkoutToMain;
+    private INewWorkoutToMain newWorkoutToMain;
 
-    public EditWorkoutFragment() {
+    public NewWorkoutFragment() {
         // Required empty public constructor
     }
 
-    public interface IEditWorkoutToMain {
-        public void updateWorkoutInDB(Workout newWorkout);
+    public interface INewWorkoutToMain {
+        public void addWorkoutToDB(Workout workout);
     }
 
     /**
@@ -62,10 +56,9 @@ public class EditWorkoutFragment extends Fragment implements ExerciseListAdapter
      *
      * @return A new instance of fragment SleepLogFragment.
      */
-    public static EditWorkoutFragment newInstance(Workout originalWorkout) {
-        EditWorkoutFragment fragment = new EditWorkoutFragment();
+    public static NewWorkoutFragment newInstance() {
+        NewWorkoutFragment fragment = new NewWorkoutFragment();
         Bundle args = new Bundle();
-        args.putSerializable(ARG_PARAM1, originalWorkout);
         fragment.setArguments(args);
         return fragment;
     }
@@ -74,7 +67,6 @@ public class EditWorkoutFragment extends Fragment implements ExerciseListAdapter
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         if (getArguments() != null) {
-            originalWorkout = (Workout) getArguments().getSerializable(ARG_PARAM1);
         }
     }
 
@@ -82,43 +74,29 @@ public class EditWorkoutFragment extends Fragment implements ExerciseListAdapter
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         // Inflate the layout for this fragment
-        View rootView = inflater.inflate(R.layout.fragment_edit_workout, container, false);
+        View rootView = inflater.inflate(R.layout.fragment_new_workout, container, false);
 
-        clickedExercises = originalWorkout.getExercises();
+        clickedExercises = new ArrayList<>();
 
-        buttonStartTime = rootView.findViewById(R.id.buttonStartTimeEF);
-        buttonEndTime = rootView.findViewById(R.id.buttonEndTimeEF);
-        buttonSetWorkoutTime = rootView.findViewById(R.id.buttonSetWorkoutTimeEF);
-        textViewWorkout = rootView.findViewById(R.id.textViewWorkoutEF);
-        textViewName = rootView.findViewById(R.id.textViewNameEF);
-        textViewStartTime = rootView.findViewById(R.id.textViewStartTimeEF);
-        textViewEndTime = rootView.findViewById(R.id.textViewEndTimeEF);
-        editTextWorkoutName = rootView.findViewById(R.id.editTextWorkoutNameEF);
-        buttonNewWorkoutSave = rootView.findViewById(R.id.buttonEditWorkoutSave);
-        buttonNewWorkoutCancel = rootView.findViewById(R.id.buttonEditWorkoutCancel);
-        timePickerWorkout = rootView.findViewById(R.id.timePickerWorkoutEF);
-        exercisesRecycler = rootView.findViewById(R.id.recyclerViewExercisesEF);
-
-        textViewName.setText(getString(R.string.EditWorkout));
-
-
-        startHr = originalWorkout.getStartHour();
-        startMin = originalWorkout.getStartMinute();
-        endHr = originalWorkout.getEndHour();
-        endMin = originalWorkout.getEndMinute();
-
-
-        editTextWorkoutName.setText(originalWorkout.getName());
-        buttonStartTime.setText(originalWorkout.getStartHour()+":"+ originalWorkout.getStartMinute());
-        buttonEndTime.setText(originalWorkout.getEndHour()+":"+ originalWorkout.getEndMinute());
-
+        buttonStartTime = rootView.findViewById(R.id.buttonStartTime);
+        buttonEndTime = rootView.findViewById(R.id.buttonEndTime);
+        buttonSetWorkoutTime = rootView.findViewById(R.id.buttonSetWorkoutTime);
+        textViewWorkout = rootView.findViewById(R.id.textViewWorkout);
+        textViewName = rootView.findViewById(R.id.textViewName);
+        textViewStartTime = rootView.findViewById(R.id.textViewStartTime);
+        textViewEndTime = rootView.findViewById(R.id.textViewEndTime);
+        editTextWorkoutName = rootView.findViewById(R.id.editTextWorkoutName);
+        buttonNewWorkoutSave = rootView.findViewById(R.id.buttonNewWorkoutSave);
+        buttonNewWorkoutCancel = rootView.findViewById(R.id.buttonNewWorkoutCancel);
+        timePickerWorkout = rootView.findViewById(R.id.timePickerWorkout);
+        exercisesRecycler = rootView.findViewById(R.id.recyclerViewExercises);
 
         RecyclerView.LayoutManager exerciseManager = new LinearLayoutManager(getContext());
         exercisesRecycler.setLayoutManager(exerciseManager);
         exerciseListAdapter = new ExerciseListAdapter(new ArrayList<Exercise>(Arrays.asList(Exercise.values())), this, clickedExercises);
         exercisesRecycler.setAdapter(exerciseListAdapter);
 
-        searchViewExercise = rootView.findViewById(R.id.searchViewExerciseEF);
+        searchViewExercise = rootView.findViewById(R.id.searchViewExercise);
         searchViewExercise.setOnQueryTextListener(new SearchView.OnQueryTextListener() {
             @Override
             public boolean onQueryTextSubmit(String query) {
@@ -207,12 +185,12 @@ public class EditWorkoutFragment extends Fragment implements ExerciseListAdapter
             @Override
             public void onClick(View v) {
                 if (clickedExercises.size() > 0 && editTextWorkoutName.getText().toString().length() > 0
-                        && startHr != 0 && startMin != 0 && endHr != 0 && endMin != 0) {
+                && startHr != 0 && startMin != 0 && endHr != 0 && endMin != 0) {
                     if (checkValidTime()) {
-                        Workout newWorkout = new Workout(editTextWorkoutName.getText().toString(),
+                        Workout workout = new Workout(editTextWorkoutName.getText().toString(),
                                 startHr, startMin, endHr, endMin, clickedExercises);
-                        Log.d("FP", newWorkout.toString());
-                        editWorkoutToMain.updateWorkoutInDB(newWorkout);
+                        Log.d("FP", workout.toString());
+                        newWorkoutToMain.addWorkoutToDB(workout);
                         getActivity().getSupportFragmentManager().popBackStack();
                     }
                     else {
@@ -278,10 +256,10 @@ public class EditWorkoutFragment extends Fragment implements ExerciseListAdapter
     @Override
     public void onAttach(@NonNull Context context) {
         super.onAttach(context);
-        if (context instanceof IEditWorkoutToMain) {
-            editWorkoutToMain = (IEditWorkoutToMain) context;
+        if (context instanceof INewWorkoutToMain) {
+            newWorkoutToMain = (INewWorkoutToMain) context;
         } else {
-            throw new RuntimeException(context.toString()+ " must implement IEditWorkoutToMain");
+            throw new RuntimeException(context.toString()+ " must implement INewWorkoutToMain");
         }
     }
 }

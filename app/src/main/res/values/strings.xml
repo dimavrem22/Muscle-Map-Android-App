@@ -41,8 +41,8 @@
     <string name="SetSleepTime">Set Sleep Time</string>
     <string name="hello_blank_fragment">Hello blank fragment</string>
 
-    <!-- Edit Workout Fragment -->
-    <string name="Workout">Workout</string>
+    <!-- New Workout Fragment -->
+    <string name="Workout">New Workout</string>
     <string name="Name">Name: </string>
     <string name="StartTime">Start Time: </string>
     <string name="EndTime">End Time: </string>
@@ -50,5 +50,8 @@
     <string name="EditWorkoutSave">Save</string>
     <string name="SetWorkoutStartTime">Set Workout Start Time</string>
     <string name="SetWorkoutEndTime">Set Workout End Time</string>
+
+    <!-- Edit Workout Fragment -->
+    <string name="EditWorkout">Edit Workout</string>
 
 </resources>
