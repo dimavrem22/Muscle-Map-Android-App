@@ -188,45 +188,45 @@ public class ExerciseAnalysisFragment extends Fragment implements View.OnClickLi
         this.absStrain = 0;
     }
 
-    private void colorMusclesByStrain() {
-        this.trapsFront.getDrawable().setAlpha(Math.min(127,
-                (int) Math.round(((double) this.upperTrapStrain) / 70.0 * 127)));
-        this.upperTrapsBack.getDrawable().setAlpha(Math.min(127,
-                (int) Math.round(((double) this.upperTrapStrain) / 70.0 * 127)));
-        this.pecsFront.getDrawable().setAlpha(Math.min(127,
-                (int) Math.round(((double) this.pecStrain) / 70.0 * 127)));
-        this.shouldersFront.getDrawable().setAlpha(Math.min(127,
-                (int) Math.round(((double) this.shoulderStrain) / 70.0 * 127)));
-        this.shouldersBack.getDrawable().setAlpha(Math.min(127,
-                (int) Math.round(((double) this.shoulderStrain) / 70.0 * 127)));
-        this.absFront.getDrawable().setAlpha(Math.min(127,
-                (int) Math.round(((double) this.absStrain) / 70.0 * 127)));
-        this.bicepsFront.getDrawable().setAlpha(Math.min(127,
-                (int) Math.round(((double) this.bicepsStrain) / 70.0 * 127)));
-        this.quadsFront.getDrawable().setAlpha(Math.min(127,
-                (int) Math.round(((double) this.quadStrain) / 70.0 * 127)));
-        this.calvesFront.getDrawable().setAlpha(Math.min(127,
-                (int) Math.round(((double) this.calveStrain) / 70.0 * 127)));
-        this.calvesBack.getDrawable().setAlpha(Math.min(127,
-                (int) Math.round(((double) this.calveStrain) / 70.0 * 127)));
-        this.forearmsFront.getDrawable().setAlpha(Math.min(127,
-                (int) Math.round(((double) this.forearmStrain) / 70.0 * 127)));
-        this.forearmsBack.getDrawable().setAlpha(Math.min(127,
-                (int) Math.round(((double) this.forearmStrain) / 70.0 * 127)));
-        this.calvesFront.getDrawable().setAlpha(Math.min(127,
-                (int) Math.round(((double) this.calveStrain) / 70.0 * 127)));
-        this.trapsBack.getDrawable().setAlpha(Math.min(127,
-                (int) Math.round(((double) this.trapStrain) / 70.0 * 127)));
-        this.latsBack.getDrawable().setAlpha(Math.min(127,
-                (int) Math.round(((double) this.latsStrain) / 70.0 * 127)));
-        this.trisBack.getDrawable().setAlpha(Math.min(127,
-                (int) Math.round(((double) this.triStrain) / 70.0 * 127)));
-        this.lowerBackBack.getDrawable().setAlpha(Math.min(127,
-                (int) Math.round(((double) this.lowerBackStrain) / 70.0 * 127)));
-        this.glutsBack.getDrawable().setAlpha(Math.min(127,
-                (int) Math.round(((double) this.glutStrain) / 70.0 * 127)));
-        this.hamsBack.getDrawable().setAlpha(Math.min(127,
-                (int) Math.round(((double) this.hamsStrain) / 70.0 * 127)));
+    private void colorMusclesByStrain (){
+        this.trapsFront.getDrawable().setAlpha(Math.min(255,
+                (int)Math.round(((double) this.upperTrapStrain) / 70.0 * 255)));
+        this.upperTrapsBack.getDrawable().setAlpha(Math.min(255,
+                (int)Math.round(((double) this.upperTrapStrain) / 70.0 * 255)));
+        this.pecsFront.getDrawable().setAlpha(Math.min(255,
+                (int)Math.round(((double) this.pecStrain) / 70.0 * 255)));
+        this.shouldersFront.getDrawable().setAlpha(Math.min(255,
+                (int)Math.round(((double) this.shoulderStrain) / 70.0 * 255)));
+        this.shouldersBack.getDrawable().setAlpha(Math.min(255,
+                (int)Math.round(((double) this.shoulderStrain) / 70.0 * 255)));
+        this.absFront.getDrawable().setAlpha(Math.min(255,
+                (int)Math.round(((double) this.absStrain) / 70.0 * 255)));
+        this.bicepsFront.getDrawable().setAlpha(Math.min(255,
+                (int)Math.round(((double) this.bicepsStrain) / 70.0 * 255)));
+        this.quadsFront.getDrawable().setAlpha(Math.min(255,
+                (int)Math.round(((double) this.quadStrain) / 70.0 * 255)));
+        this.calvesFront.getDrawable().setAlpha(Math.min(255,
+                (int)Math.round(((double) this.calveStrain) / 70.0 * 255)));
+        this.calvesBack.getDrawable().setAlpha(Math.min(255,
+                (int)Math.round(((double) this.calveStrain) / 70.0 * 255)));
+        this.forearmsFront.getDrawable().setAlpha(Math.min(255,
+                (int)Math.round(((double) this.forearmStrain) / 70.0 * 255)));
+        this.forearmsBack.getDrawable().setAlpha(Math.min(255,
+                (int)Math.round(((double) this.forearmStrain) / 70.0 * 255)));
+        this.calvesFront.getDrawable().setAlpha(Math.min(255,
+                (int)Math.round(((double) this.calveStrain) / 70.0 * 255)));
+        this.trapsBack.getDrawable().setAlpha(Math.min(255,
+                (int)Math.round(((double) this.trapStrain) / 70.0 * 255)));
+        this.latsBack.getDrawable().setAlpha(Math.min(255,
+                (int)Math.round(((double) this.latsStrain) / 70.0 * 255)));
+        this.trisBack.getDrawable().setAlpha(Math.min(255,
+                (int)Math.round(((double) this.triStrain) / 70.0 * 255)));
+        this.lowerBackBack.getDrawable().setAlpha(Math.min(255,
+                (int)Math.round(((double) this.lowerBackStrain) / 70.0 * 255)));
+        this.glutsBack.getDrawable().setAlpha(Math.min(255,
+                (int)Math.round(((double) this.glutStrain) / 70.0 * 255)));
+        this.hamsBack.getDrawable().setAlpha(Math.min(255,
+                (int)Math.round(((double) this.hamsStrain) / 70.0 * 255)));
 
     }
 
