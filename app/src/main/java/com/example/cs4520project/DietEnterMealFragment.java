@@ -9,9 +9,10 @@ import androidx.fragment.app.Fragment;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.EditText;
-import android.widget.TimePicker;
+import android.widget.Spinner;
 import android.widget.Toast;
 
 public class DietEnterMealFragment extends Fragment {
@@ -61,17 +62,23 @@ public class DietEnterMealFragment extends Fragment {
         EditText editTotalFat = rootView.findViewById(R.id.editTextMealTotalFat);
         EditText editAdditionalNotes = rootView.findViewById(R.id.editTextMealAdditionalNotes);
 
-        TimePicker timePicker = rootView.findViewById(R.id.timePickerMeal);
+        Spinner spinnerMealType = rootView.findViewById(R.id.spinnerMealType);
+        spinnerMealType.setAdapter(new ArrayAdapter<>(rootView.getContext(),
+                androidx.appcompat.R.layout.support_simple_spinner_dropdown_item,
+                MealType.values()));
+
         Button buttonFinish = rootView.findViewById(R.id.buttonFinishEnterMeal);
 
         buttonFinish.setOnClickListener(v -> {
-            int hour = timePicker.getHour();
-            int minute = timePicker.getMinute();
-
             String name = editName.getText().toString().trim();
-
             if (name.isEmpty()) {
                 Toast.makeText(getActivity(), "Must provide meal name", Toast.LENGTH_SHORT).show();
+                return;
+            }
+
+            MealType mealType = (MealType) spinnerMealType.getSelectedItem();
+            if (mealType == null) {
+                Toast.makeText(getActivity(), "Must provide meal type", Toast.LENGTH_SHORT).show();
                 return;
             }
 
@@ -107,7 +114,7 @@ public class DietEnterMealFragment extends Fragment {
 
             String additionalNotes = editAdditionalNotes.getText().toString().trim();
 
-            Meal meal = new Meal(name, hour, minute, calories, protein,
+            Meal meal = new Meal(name, mealType, calories, protein,
                     carbs, sodium, totalFat, additionalNotes);
             saveMeal.addMealToDB(meal);
             getActivity().getSupportFragmentManager().popBackStack();

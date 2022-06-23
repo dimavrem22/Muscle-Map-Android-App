@@ -2,8 +2,7 @@ package com.example.cs4520project;
 
 public class Meal {
     private String name;
-    private int hour;
-    private int minute;
+    private MealType mealType;
 
     private int calories;
     private int protein;
@@ -12,10 +11,9 @@ public class Meal {
     private int totalFat;
     private String additionalNotes;
 
-    public Meal(String name, int hour, int min, int calories, int protein, int carbs, int sodium, int totalFat, String additionalNotes) {
+    public Meal(String name, MealType mealType, int calories, int protein, int carbs, int sodium, int totalFat, String additionalNotes) {
         this.name = name;
-        this.hour = hour;
-        this.minute = min;
+        this.mealType = mealType;
         this.calories = calories;
         this.protein = protein;
         this.carbs = carbs;
@@ -32,12 +30,8 @@ public class Meal {
         return name;
     }
 
-    public int getHour() {
-        return hour;
-    }
-
-    public int getMinute() {
-        return minute;
+    public MealType getMealType() {
+        return mealType;
     }
 
     public int getCalories() {

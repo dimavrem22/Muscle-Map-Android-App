@@ -77,15 +77,17 @@ public class MainActivity extends AppCompatActivity implements CalendarView.OnDa
         this.monthText.setText(Utils.monthString(cal.get(Calendar.MONTH)));
 
         this.exerciseButton = this.findViewById(R.id.exercise_button);
-        this.exerciseButton.setOnClickListener(v -> {
+        this.exerciseButton.setOnClickListener(this);
+
+        dietButton = findViewById(R.id.diet_button);
+        dietButton.setOnClickListener(v -> {
             getSupportFragmentManager().beginTransaction()
                     .add(R.id.fragment_container, DietLogFragment.newInstance(),
                             DietLogFragment.FRAGMENT_TAG)
                     .addToBackStack(null)
                     .commit();
         });
-        this.dietButton = this.findViewById(R.id.diet_button);
-        this.dietButton.setOnClickListener(this);
+
         this.sleepButton = this.findViewById(R.id.sleep_button);
         this.sleepButton.setOnClickListener(this);
 
@@ -353,10 +355,10 @@ public class MainActivity extends AppCompatActivity implements CalendarView.OnDa
         calendar.setTimeInMillis(calender.getDate());
 
         Map<String, Object> dbMeal = new HashMap<>();
+        // TODO: year?
         dbMeal.put("day", calendar.get(Calendar.DAY_OF_MONTH));
         dbMeal.put("month", calendar.get(Calendar.MONTH) + 1);
-        dbMeal.put("hour", meal.getHour());
-        dbMeal.put("minute", meal.getMinute());
+        dbMeal.put("type", meal.getMealType().name());
         dbMeal.put("name", meal.getName());
         dbMeal.put("calories", meal.getCalories());
         dbMeal.put("protein", meal.getProtein());

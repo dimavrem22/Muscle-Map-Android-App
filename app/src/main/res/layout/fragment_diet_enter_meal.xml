@@ -41,13 +41,13 @@
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/timePickerMeal" />
+        app:layout_constraintTop_toBottomOf="@+id/spinnerMealType" />
 
     <EditText
         android:id="@+id/editTextMealName"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginTop="16dp"
+        android:layout_marginTop="32dp"
         android:ems="10"
         android:hint="Enter meal name..."
         android:inputType="textPersonName"
@@ -100,16 +100,11 @@
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/editTextMealTotalFat" />
 
-    <TimePicker
-        android:id="@+id/timePickerMeal"
-        style="@android:style/Widget.Material.Light.TimePicker"
-        android:layout_width="248dp"
-        android:layout_height="295dp"
-        android:layout_centerHorizontal="true"
-        android:layout_marginTop="12dp"
-        android:scrollbarStyle="insideInset"
+    <Spinner
+        android:id="@+id/spinnerMealType"
+        android:layout_width="202dp"
+        android:layout_height="33dp"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.429"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/editTextMealAdditionalNotes" />
 
