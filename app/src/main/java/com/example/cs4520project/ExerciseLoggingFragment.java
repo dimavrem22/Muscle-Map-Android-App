@@ -38,6 +38,7 @@ public class ExerciseLoggingFragment extends Fragment implements View.OnClickLis
     private List<Workout> workoutList;
 
     private Button newWorkoutButton;
+    private Button muscleMapButton;
     private WorkoutListAdapter workoutListAdapter;
 
     public ExerciseLoggingFragment() {
@@ -84,6 +85,9 @@ public class ExerciseLoggingFragment extends Fragment implements View.OnClickLis
         workoutRecycler.setAdapter(workoutListAdapter);
         workoutListAdapter.notifyDataSetChanged();
 
+        this.muscleMapButton = rootView.findViewById(R.id.muscleMapButton);
+        this.muscleMapButton.setOnClickListener(this);
+
         getWorkoutCollection();
 
         return rootView;
@@ -98,6 +102,10 @@ public class ExerciseLoggingFragment extends Fragment implements View.OnClickLis
                             EditWorkoutFragment.FRAGMENT_KEY)
                     .addToBackStack(null)
                     .commit();
+        }
+        else if (v.getId() == this.muscleMapButton.getId()){
+            ExerciseLogToMain context = (ExerciseLogToMain)this.getContext();
+            context.openMuscleMap();
         }
     }
 
@@ -147,4 +155,10 @@ public class ExerciseLoggingFragment extends Fragment implements View.OnClickLis
         this.year = year;
         populateWorkouts();
     }
+
+    public interface ExerciseLogToMain {
+        void openMuscleMap();
+    }
+
+
 }

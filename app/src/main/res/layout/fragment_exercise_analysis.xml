@@ -1,11 +1,236 @@
-<?xml version="1.0" encoding="utf-8"?>
 <androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:id="@+id/frameLayout"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    android:background="#FFFFFF"
     tools:context=".ExerciseAnalysisFragment">
+
+    <TextView
+        android:id="@+id/textView4"
+        android:layout_width="193dp"
+        android:layout_height="25dp"
+        android:layout_marginStart="20dp"
+        android:layout_marginTop="20dp"
+        android:text="Your Muscle Map"
+        android:textSize="20dp"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
+
+    <ImageView
+        android:id="@+id/frontViewImage"
+        android:layout_width="wrap_content"
+        android:layout_height="456dp"
+        android:layout_marginTop="15dp"
+        android:src="@drawable/front_view"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/textView4" />
+
+
+    <ImageView
+        android:id="@+id/bicepsFrontImage"
+        android:layout_width="wrap_content"
+        android:layout_height="456dp"
+        android:layout_marginTop="15dp"
+        android:src="@drawable/biceps_front"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/textView4" />
+
+    <ImageView
+        android:id="@+id/absFrontImage"
+        android:layout_width="wrap_content"
+        android:layout_height="456dp"
+        android:layout_marginTop="15dp"
+        android:src="@drawable/biceps_front"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/textView4" />
+
+    <ImageView
+        android:id="@+id/trapsFrontImage"
+        android:layout_width="wrap_content"
+        android:layout_height="456dp"
+        android:layout_marginTop="15dp"
+        android:src="@drawable/traps_front"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/textView4" />
+
+
+    <ImageView
+        android:id="@+id/pecsFrontImage"
+        android:layout_width="wrap_content"
+        android:layout_height="456dp"
+        android:layout_marginTop="15dp"
+        android:src="@drawable/peck_front"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/textView4" />
+
+    <ImageView
+        android:id="@+id/calvesFrontImage"
+        android:layout_width="wrap_content"
+        android:layout_height="456dp"
+        android:layout_marginTop="15dp"
+        android:src="@drawable/calves_front"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/textView4" />
+
+
+    <ImageView
+        android:id="@+id/quadsFrontImage"
+        android:layout_width="wrap_content"
+        android:layout_height="456dp"
+        android:layout_marginTop="15dp"
+        android:src="@drawable/quads_front"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/textView4" />
+
+    <ImageView
+        android:id="@+id/forearmsFrontImage"
+        android:layout_width="wrap_content"
+        android:layout_height="456dp"
+        android:layout_marginTop="15dp"
+        android:src="@drawable/forearems_front"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/textView4" />
+
+    <ImageView
+        android:id="@+id/shouldersFrontImage"
+        android:layout_width="wrap_content"
+        android:layout_height="456dp"
+        android:layout_marginTop="15dp"
+        android:src="@drawable/shoulders_front"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/textView4" />
+
+    <ImageView
+        android:id="@+id/flipViewButton"
+        android:layout_width="92dp"
+        android:layout_height="95dp"
+        android:layout_marginStart="10dp"
+        android:src="@drawable/flip"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="@+id/frontViewImage"
+        android:translationZ="90dp"/>
+
+    <ImageView
+        android:id="@+id/backViewImage"
+        android:layout_width="wrap_content"
+        android:layout_height="456dp"
+        android:layout_marginTop="15dp"
+        android:src="@drawable/back_view"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/textView4" />
+
+    <ImageView
+        android:id="@+id/glutesBackImage"
+        android:layout_width="wrap_content"
+        android:layout_height="456dp"
+        android:layout_marginTop="15dp"
+        android:src="@drawable/glutes_back"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/textView4" />
+
+    <ImageView
+        android:id="@+id/calvesBackImage"
+        android:layout_width="wrap_content"
+        android:layout_height="456dp"
+        android:layout_marginTop="15dp"
+        android:src="@drawable/calves_back"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/textView4" />
+
+    <ImageView
+        android:id="@+id/hamsBackImage"
+        android:layout_width="wrap_content"
+        android:layout_height="456dp"
+        android:layout_marginTop="15dp"
+        android:src="@drawable/hamstrings_back"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/textView4" />
+
+    <ImageView
+        android:id="@+id/forearmsBackImage"
+        android:layout_width="wrap_content"
+        android:layout_height="456dp"
+        android:layout_marginTop="15dp"
+        android:src="@drawable/foreams_back"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/textView4" />
+
+    <ImageView
+        android:id="@+id/lowerBackImage"
+        android:layout_width="wrap_content"
+        android:layout_height="456dp"
+        android:layout_marginTop="15dp"
+        android:src="@drawable/lower_back_back"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/textView4" />
+
+    <ImageView
+        android:id="@+id/latsBackImage"
+        android:layout_width="wrap_content"
+        android:layout_height="456dp"
+        android:layout_marginTop="15dp"
+        android:src="@drawable/lats_back"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/textView4" />
+
+    <ImageView
+        android:id="@+id/trapsBackImage"
+        android:layout_width="wrap_content"
+        android:layout_height="456dp"
+        android:layout_marginTop="15dp"
+        android:src="@drawable/traps_back"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/textView4" />
+
+    <ImageView
+        android:id="@+id/upperTrapsBackImage"
+        android:layout_width="wrap_content"
+        android:layout_height="456dp"
+        android:layout_marginTop="15dp"
+        android:src="@drawable/upper_traps_back"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/textView4" />
+
+    <ImageView
+        android:id="@+id/trisBackImage"
+        android:layout_width="wrap_content"
+        android:layout_height="456dp"
+        android:layout_marginTop="15dp"
+        android:src="@drawable/tris_back"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/textView4" />
+
+    <ImageView
+        android:id="@+id/shouldersBackImage"
+        android:layout_width="wrap_content"
+        android:layout_height="456dp"
+        android:layout_marginTop="15dp"
+        android:src="@drawable/shoulders_back"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/textView4" />
+
 
 
 

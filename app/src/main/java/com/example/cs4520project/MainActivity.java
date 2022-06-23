@@ -29,7 +29,8 @@ import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
 
 public class MainActivity extends AppCompatActivity implements CalendarView.OnDateChangeListener,
-        View.OnClickListener, LogInFragment.LoginToMain, EditWorkoutFragment.IEditWorkoutToMain {
+        View.OnClickListener, LogInFragment.LoginToMain, EditWorkoutFragment.IEditWorkoutToMain,
+        ExerciseLoggingFragment.ExerciseLogToMain{
 
     private final FirebaseFirestore db = FirebaseFirestore.getInstance();
     private final CollectionReference usersCollection = db.collection("users");
@@ -341,4 +342,10 @@ public class MainActivity extends AppCompatActivity implements CalendarView.OnDa
                 });
     }
 
+    @Override
+    public void openMuscleMap() {
+        this.getSupportFragmentManager().beginTransaction().add(R.id.outerFragmentContainer,
+                ExerciseAnalysisFragment.newInstance(this.mAuth.getCurrentUser()
+                        .getEmail())).addToBackStack(null).commit();
+    }
 }
