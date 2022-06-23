@@ -80,18 +80,18 @@ public class ExerciseAnalysisFragment extends Fragment implements View.OnClickLi
         this.frontView = rootView.findViewById(R.id.frontViewImage);
         this.bicepsFront = rootView.findViewById(R.id.bicepsFrontImage);
         this.frontMuscleImages.add(bicepsFront);
-//        this.pecsFront = rootView.findViewById(R.id.pecsFrontImage);
-//        this.frontMuscleImages.add(pecsFront);
+        this.pecsFront = rootView.findViewById(R.id.pecsFrontImage);
+        this.frontMuscleImages.add(pecsFront);
         this.calvesFront = rootView.findViewById(R.id.calvesFrontImage);
         this.frontMuscleImages.add(calvesFront);
-//        this.quadsFront = rootView.findViewById(R.id.quadsFrontImage);
-//        this.frontMuscleImages.add(quadsFront);
+        this.quadsFront = rootView.findViewById(R.id.quadsFrontImage);
+        this.frontMuscleImages.add(quadsFront);
         this.forearmsFront = rootView.findViewById(R.id.forearmsFrontImage);
         this.frontMuscleImages.add(forearmsFront);
         this.absFront = rootView.findViewById(R.id.absFrontImage);
         this.frontMuscleImages.add(absFront);
-//        this.shouldersFront = rootView.findViewById(R.id.shouldersFrontImage);
-//        this.frontMuscleImages.add(shouldersFront);
+        this.shouldersFront = rootView.findViewById(R.id.shouldersFrontImage);
+        this.frontMuscleImages.add(shouldersFront);
         this.trapsFront = rootView.findViewById(R.id.trapsFrontImage);
         this.frontMuscleImages.add(trapsFront);
 
@@ -128,7 +128,7 @@ public class ExerciseAnalysisFragment extends Fragment implements View.OnClickLi
         }
         this.backView.setVisibility(View.INVISIBLE);
 
-        this.shouldersBack.getDrawable().setAlpha(12);
+        this.shouldersBack.getDrawable().setAlpha(72);
 
         return rootView;
     }
