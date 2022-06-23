@@ -33,7 +33,8 @@ public class MainActivity extends AppCompatActivity implements CalendarView.OnDa
 
         View.OnClickListener, LogInFragment.LoginToMain, NewWorkoutFragment.INewWorkoutToMain,
         ExerciseLoggingFragment.ExerciseLogToMain, EditWorkoutFragment.IEditWorkoutToMain,
-        ExerciseLoggingFragment.ISendDocFromExerciseLogToMain, DietEnterMealFragment.ISaveMeal {
+        ExerciseLoggingFragment.ISendDocFromExerciseLogToMain, DietEnterMealFragment.ISaveMeal,
+        NewSleepLogFragment.IAddNewSleepLogToDB {
 
 
     private final FirebaseFirestore db = FirebaseFirestore.getInstance();
@@ -82,7 +83,15 @@ public class MainActivity extends AppCompatActivity implements CalendarView.OnDa
         this.monthText.setText(Utils.monthString(cal.get(Calendar.MONTH)));
 
         this.exerciseButton = this.findViewById(R.id.exercise_button);
-        this.exerciseButton.setOnClickListener(this);
+        exerciseButton.setOnClickListener(v -> {
+            cal.setTimeInMillis(calender.getDate());
+
+            getSupportFragmentManager().beginTransaction().replace(R.id.fragment_container,
+                    ExerciseLoggingFragment.newInstance(mAuth.getCurrentUser().getEmail(),
+                            cal.get(Calendar.DAY_OF_MONTH), cal.get(Calendar.MONTH) + 1,
+                            cal.get(Calendar.YEAR)),
+                    ExerciseLoggingFragment.FRAGMENT_KEY).commit();
+        });
 
         dietButton = findViewById(R.id.diet_button);
         dietButton.setOnClickListener(v -> {
@@ -94,7 +103,19 @@ public class MainActivity extends AppCompatActivity implements CalendarView.OnDa
         });
 
         this.sleepButton = this.findViewById(R.id.sleep_button);
-        this.sleepButton.setOnClickListener(this);
+        this.sleepButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                sleepFragment = true;
+                getSupportFragmentManager().beginTransaction()
+                        .add(R.id.fragment_container, SleepLogFragment.newInstance(mAuth.getCurrentUser().getEmail(),
+                                        cal.get(Calendar.DAY_OF_MONTH), cal.get(Calendar.MONTH) + 1,
+                                        cal.get(Calendar.YEAR)),
+                                SleepLogFragment.FRAGMENT_TAG)
+                        .addToBackStack(null)
+                        .commit();
+            }
+        });
 
         this.nextArrow = this.findViewById(R.id.next_button);
         this.nextArrow.setOnClickListener(this);
@@ -312,9 +333,13 @@ public class MainActivity extends AppCompatActivity implements CalendarView.OnDa
             ExerciseLoggingFragment f = (ExerciseLoggingFragment)
                     this.getSupportFragmentManager().findFragmentByTag(ExerciseLoggingFragment.FRAGMENT_KEY);
             f.changeDate(day, month, year);
-        } else if (this.sleepFragment) {
+        }
+        if (this.sleepFragment) {
             // change sleep frag date
-        } else if (this.dietFragment) {
+            SleepLogFragment f = (SleepLogFragment) this.getSupportFragmentManager().findFragmentByTag(SleepLogFragment.FRAGMENT_TAG);
+            f.changeDate(day, month, year);
+        }
+        if (this.dietFragment) {
             // change diet frag date
         }
     }
@@ -409,5 +434,29 @@ public class MainActivity extends AppCompatActivity implements CalendarView.OnDa
     @Override
     public void sendDocFromExerciseLogToMain(DocumentReference doc) {
         docToUpdate = doc;
+    }
+
+    @Override
+    public void addNewSleepLogToDB(Sleep sleep) {
+        Calendar cal = Calendar.getInstance();
+        cal.setTimeInMillis(calender.getDate());
+
+        Map<String, Object> addSleep = new HashMap<>();
+        addSleep.put("day", cal.get(Calendar.DAY_OF_MONTH));
+        addSleep.put("month", cal.get(Calendar.MONTH) + 1);
+        addSleep.put("sleepHour", sleep.getSleepHr());
+        addSleep.put("wakeHour", sleep.getSleepMin());
+        addSleep.put("sleepMinute", sleep.getWakeHr());
+        addSleep.put("wakeMinute", sleep.getSleepMin());
+        addSleep.put("year", cal.get(Calendar.YEAR));
+
+        usersCollection.whereEqualTo("email", mAuth.getCurrentUser().getEmail())
+                .get().addOnCompleteListener(task -> {
+                    if (task.isSuccessful()) {
+                        CollectionReference sleepCollection = task.getResult().getDocuments().get(0)
+                                .getReference().collection("sleep");
+                        sleepCollection.add(addSleep);
+                    }
+                });
     }
 }

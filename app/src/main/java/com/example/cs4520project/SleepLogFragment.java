@@ -4,22 +4,48 @@ import android.os.Bundle;
 
 import androidx.fragment.app.Fragment;
 
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.TextView;
-import android.widget.TimePicker;
 
-import java.util.Locale;
+import com.google.firebase.firestore.CollectionReference;
+import com.google.firebase.firestore.DocumentReference;
+import com.google.firebase.firestore.DocumentSnapshot;
+import com.google.firebase.firestore.FirebaseFirestore;
 
+import org.w3c.dom.Text;
+
+import java.util.List;
+import java.util.stream.Collectors;
+
+/**
+ * A simple {@link Fragment} subclass.
+ * Use the {@link SleepLogFragment#newInstance} factory method to
+ * create an instance of this fragment.
+ */
 public class SleepLogFragment extends Fragment {
-    private Button buttonSelectSleepTime, buttonSelectWakeTime, buttonSetTime;
-    private TextView textViewGetToSleep, textViewWakeUp;
+    public static final String FRAGMENT_TAG = "Sleep Log Fragment";
 
-    private TimePicker timePicker;
+    private final FirebaseFirestore db = FirebaseFirestore.getInstance();
+    private final CollectionReference usersCollection = db.collection("users");
+    private CollectionReference sleepCollection;
 
-    private int sleepHr, sleepMin, wakeHr, wakeMin;
+    private static final String ARG_EMAIL = "email";
+    private static final String ARG_DAY = "day";
+    private static final String ARG_MONTH = "month";
+    private static final String ARG_YEAR = "year";
+
+    private String email;
+    private int day, month, year;
+    private Sleep sleep;
+
+    private TextView textViewBedTimeShow, textViewWakeTimeShow, textViewHoursOfSleep,
+            textViewBedTime, textViewSleepTime;
+
+    private Button buttonSetSleepTime;
 
     public SleepLogFragment() {
         // Required empty public constructor
@@ -29,12 +55,15 @@ public class SleepLogFragment extends Fragment {
      * Use this factory method to create a new instance of
      * this fragment using the provided parameters.
      *
-     * @return A new instance of fragment SleepLogFragment.
+     * @return A new instance of fragment SleepMainFragment.
      */
-    // TODO: Rename and change types and number of parameters
-    public static SleepLogFragment newInstance() {
+    public static SleepLogFragment newInstance(String email, int day, int month, int year) {
         SleepLogFragment fragment = new SleepLogFragment();
         Bundle args = new Bundle();
+        args.putString(ARG_EMAIL, email);
+        args.putInt(ARG_DAY, day);
+        args.putInt(ARG_MONTH, month);
+        args.putInt(ARG_YEAR, year);
         fragment.setArguments(args);
         return fragment;
     }
@@ -43,6 +72,10 @@ public class SleepLogFragment extends Fragment {
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         if (getArguments() != null) {
+            email = getArguments().getString(ARG_EMAIL);
+            day = getArguments().getInt(ARG_DAY);
+            month = getArguments().getInt(ARG_MONTH);
+            year = getArguments().getInt(ARG_YEAR);
         }
     }
 
@@ -50,79 +83,82 @@ public class SleepLogFragment extends Fragment {
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         // Inflate the layout for this fragment
-        View rootView = inflater.inflate(R.layout.fragment_sleep_log, container, false);
+        View view = inflater.inflate(R.layout.fragment_sleep_log, container, false);
 
-        buttonSelectSleepTime = rootView.findViewById(R.id.buttonSelectSleepTime);
-        buttonSelectWakeTime = rootView.findViewById(R.id.buttonSelectWakeTime);
-        buttonSetTime = rootView.findViewById(R.id.buttonSetTime);
-        textViewGetToSleep = rootView.findViewById(R.id.textViewGetToSleep);
-        textViewWakeUp = rootView.findViewById(R.id.textViewWakeUp);
+        textViewBedTimeShow = view.findViewById(R.id.textViewBedTimeShow);
+        textViewWakeTimeShow = view.findViewById(R.id.textViewWakeTimeShow);
+        textViewHoursOfSleep = view.findViewById(R.id.textViewHoursOfSleep);
+        textViewBedTime = view.findViewById(R.id.textViewBedTime);
+        textViewSleepTime = view.findViewById(R.id.textViewSleepTime);
 
-        timePicker = rootView.findViewById(R.id.timePickerWorkout);
-
-        buttonSetTime.setVisibility(View.INVISIBLE);
-
-        timePicker.setVisibility(View.INVISIBLE);
-        timePicker.setEnabled(true);
-
-        buttonSelectSleepTime.setOnClickListener(v -> {
-            buttonSelectSleepTime.setVisibility(View.INVISIBLE);
-            buttonSelectWakeTime.setVisibility(View.INVISIBLE);
-            textViewGetToSleep.setVisibility(View.INVISIBLE);
-            textViewWakeUp.setVisibility(View.INVISIBLE);
-
-            buttonSetTime.setVisibility(View.VISIBLE);
-
-            timePicker.setVisibility(View.VISIBLE);
-            timePicker.setEnabled(true);
-
-            timePicker.setOnTimeChangedListener(timeChangedListenerSleep);
+        buttonSetSleepTime = view.findViewById(R.id.buttonSetSleepTime);
+        buttonSetSleepTime.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                getActivity().getSupportFragmentManager().beginTransaction()
+                        .add(R.id.main_layout, NewSleepLogFragment.newInstance(),
+                                NewSleepLogFragment.FRAGMENT_TAG)
+                        .addToBackStack(null)
+                        .commit();
+            }
         });
 
-        buttonSelectWakeTime.setOnClickListener(v -> {
-            buttonSelectSleepTime.setVisibility(View.INVISIBLE);
-            buttonSelectWakeTime.setVisibility(View.INVISIBLE);
-            textViewGetToSleep.setVisibility(View.INVISIBLE);
-            textViewWakeUp.setVisibility(View.INVISIBLE);
+        getSleepCollection();
 
-            buttonSetTime.setVisibility(View.VISIBLE);
-
-            timePicker.setVisibility(View.VISIBLE);
-            timePicker.setEnabled(true);
-
-            timePicker.setOnTimeChangedListener(timeChangedListenerWake);
-        });
-
-        buttonSetTime.setOnClickListener(v -> {
-            buttonSelectSleepTime.setVisibility(View.VISIBLE);
-            buttonSelectWakeTime.setVisibility(View.VISIBLE);
-            textViewGetToSleep.setVisibility(View.VISIBLE);
-            textViewWakeUp.setVisibility(View.VISIBLE);
-
-            timePicker.setVisibility(View.INVISIBLE);
-            timePicker.setEnabled(false);
-
-            buttonSetTime.setVisibility(View.INVISIBLE);
-        });
-
-        return rootView;
+        return view;
     }
 
-    private final TimePicker.OnTimeChangedListener timeChangedListenerSleep = new TimePicker.OnTimeChangedListener() {
-        @Override
-        public void onTimeChanged(TimePicker tp, int hour, int min) {
-            sleepHr = hour;
-            sleepMin = min;
-            buttonSelectSleepTime.setText(String.format(Locale.getDefault(), "%02d:%02d", hour, min));
-        }
-    };
+    private void getSleepCollection() {
+        usersCollection.whereEqualTo("email", email)
+                .get().addOnCompleteListener(task -> {
+                    if (task.isSuccessful()) {
+                        sleepCollection = task.getResult().getDocuments().get(0)
+                                .getReference().collection("sleep");
+                        sleepCollection.addSnapshotListener((value, error) -> setSleepLog());
+                        setSleepLog();
+                    }
+                });
+    }
 
-    private final TimePicker.OnTimeChangedListener timeChangedListenerWake = new TimePicker.OnTimeChangedListener() {
-        @Override
-        public void onTimeChanged(TimePicker tp, int hour, int min) {
-            wakeHr = hour;
-            wakeMin = min;
-            buttonSelectWakeTime.setText(String.format(Locale.getDefault(), "%02d:%02d", hour, min));
-        }
-    };
+    private void setSleepLog() {
+        sleepCollection
+                .whereEqualTo("day", day)
+                .whereEqualTo("month", month)
+                .whereEqualTo("year", year).get().addOnCompleteListener(task -> {
+                    if (task.isSuccessful()) {
+                        if (task.getResult().getDocuments().size() > 0) {
+                            DocumentSnapshot doc = task.getResult().getDocuments().get(0);
+                            Sleep sleep = new Sleep();
+                            sleep.setSleepHr((int)Math.round(doc.getDouble("sleepHour")));
+                            sleep.setSleepMin((int)Math.round(doc.getDouble("sleepMinute")));
+                            sleep.setWakeHr((int)Math.round(doc.getDouble("wakeHour")));
+                            sleep.setWakeMin((int)Math.round(doc.getDouble("wakeMinute")));
+                            this.sleep = sleep;
+                            textViewBedTimeShow.setText(sleep.getSleepTimeInTwelveHrFormat());
+                            textViewWakeTimeShow.setText(sleep.getWakeTimeInTwelveHrFormat());
+                            textViewHoursOfSleep.setText(getString(R.string.HoursOfSleep, sleep.getAmountOfSleep()));
+                            textViewBedTimeShow.setVisibility(View.VISIBLE);
+                            textViewWakeTimeShow.setVisibility(View.VISIBLE);
+                            textViewHoursOfSleep.setVisibility(View.VISIBLE);
+                            textViewBedTime.setVisibility(View.VISIBLE);
+                            textViewSleepTime.setVisibility(View.VISIBLE);
+                            Log.d("FP", this.sleep.toString());
+                        }
+                        else {
+                            textViewBedTimeShow.setVisibility(View.INVISIBLE);
+                            textViewWakeTimeShow.setVisibility(View.INVISIBLE);
+                            textViewHoursOfSleep.setVisibility(View.INVISIBLE);
+                            textViewBedTime.setVisibility(View.INVISIBLE);
+                            textViewSleepTime.setVisibility(View.INVISIBLE);
+                        }
+                    }
+                });
+    }
+
+    public void changeDate(int day, int month, int year) {
+        this.day = day;
+        this.month = month;
+        this.year = year;
+        setSleepLog();
+    }
 }

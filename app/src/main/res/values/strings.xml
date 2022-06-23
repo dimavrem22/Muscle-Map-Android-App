@@ -25,15 +25,15 @@
     <string name="invalid_credentials">Incorrect email or password.</string>
 
 
-    <!-- Sleep Log Fragment -->
+    <!-- New Sleep Log Fragment -->
     <string name="GetToSleep">Get To Sleep By </string>
     <string name="WakeUp">Wake Up By </string>
     <string name="SelectSleepTime">Select Sleep Time</string>
     <string name="SelectWakeTime">Select Wake Time</string>
     <string name="SetTime">Set Time</string>
 
-    <!-- Sleep Main Fragment -->
-    <string name="HoursOfSleep">You have Slept For 9 Hours</string>
+    <!-- Sleep log Fragment -->
+    <string name="HoursOfSleep">You have slept for %1$s</string>
     <string name="BedTime">Bed Time</string>
     <string name="WakeTime">Wake Time</string>
     <string name="BedTimeExample">10:30PM</string>
@@ -50,6 +50,7 @@
     <string name="EditWorkoutSave">Save</string>
     <string name="SetWorkoutStartTime">Set Workout Start Time</string>
     <string name="SetWorkoutEndTime">Set Workout End Time</string>
+    <string name="SaveSleepTime">Save</string>
 
     <!-- Edit Workout Fragment -->
     <string name="EditWorkout">Edit Workout</string>
