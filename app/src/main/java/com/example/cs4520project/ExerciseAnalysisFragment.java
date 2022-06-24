@@ -372,6 +372,8 @@ public class ExerciseAnalysisFragment extends Fragment implements View.OnClickLi
     public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
         if (position == 0){
             this.getMuscleStrain();
+        } else if(position == 1) {
+            this.getCurrentWeekStrain();
         } else if (position == 2) {
             this.getCurrentMonthStrain();
         } else if (position == 3){
@@ -431,6 +433,35 @@ public class ExerciseAnalysisFragment extends Fragment implements View.OnClickLi
                                     .map(Exercise::valueOf).collect(Collectors.toList());
                             for (Exercise ex: exercises){
                                 this.updateStrain(ex,0.1338);
+                            }
+                        }
+                        this.progressBar.setVisibility(View.INVISIBLE);
+                        this.spinner.setEnabled(true);
+                        this.flipImage.setEnabled(true);
+                        this.colorMusclesByStrain();
+
+                    }
+                });
+    }
+
+    private void getCurrentWeekStrain(){
+        this.progressBar.setVisibility(View.VISIBLE);
+        this.spinner.setEnabled(false);
+        this.flipImage.setEnabled(false);
+        this.initializeStrain();
+
+        workoutCollection
+                .whereEqualTo("year",Calendar.getInstance().get(Calendar.YEAR) )
+                .whereEqualTo("week",Calendar.getInstance().get(Calendar.WEEK_OF_YEAR))
+                .get().addOnCompleteListener(task -> {
+                    if (task.isSuccessful()){
+                        for (DocumentSnapshot d: task.getResult().getDocuments()){
+                            List<String> exerciseNames = (List<String>) d.get("exercises");
+                            List<Exercise> exercises = exerciseNames
+                                    .stream()
+                                    .map(Exercise::valueOf).collect(Collectors.toList());
+                            for (Exercise ex: exercises){
+                                this.updateStrain(ex,6.9);
                             }
                         }
                         this.progressBar.setVisibility(View.INVISIBLE);

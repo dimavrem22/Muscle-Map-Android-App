@@ -366,6 +366,7 @@ public class MainActivity extends AppCompatActivity implements CalendarView.OnDa
         Map<String, Object> addWorkout = new HashMap<>();
         addWorkout.put("name", workout.getName());
         addWorkout.put("day", cal.get(Calendar.DAY_OF_MONTH));
+        addWorkout.put("week", cal.get(Calendar.WEEK_OF_YEAR));
         addWorkout.put("month", cal.get(Calendar.MONTH) + 1);
         addWorkout.put("startHour", workout.getStartHour());
         addWorkout.put("endHour", workout.getEndHour());
