@@ -30,7 +30,6 @@ public class ExerciseAnalysisFragment extends Fragment implements View.OnClickLi
     private final FirebaseFirestore db = FirebaseFirestore.getInstance();
     private final CollectionReference usersCollection = db.collection("users");
 
-
     private static final String ARG_EMAIL = "email";
     private String email;
 
@@ -94,7 +93,7 @@ public class ExerciseAnalysisFragment extends Fragment implements View.OnClickLi
         this.counter = 0;
         this.initializeStrain();
 
-        this.listOfAnalyzedWorkouts = new ArrayList<Workout>();
+        this.listOfAnalyzedWorkouts = new ArrayList<>();
 
         this.lookingFront = true;
 
@@ -102,8 +101,7 @@ public class ExerciseAnalysisFragment extends Fragment implements View.OnClickLi
         this.flipImage.setOnClickListener(this);
         this.progressBar = rootView.findViewById(R.id.workoutAnalysisProgressBar);
 
-        this.frontMuscleImages = new ArrayList<ImageView>();
-
+        this.frontMuscleImages = new ArrayList<>();
 
         this.frontView = rootView.findViewById(R.id.frontViewImage);
         this.bicepsFront = rootView.findViewById(R.id.bicepsFrontImage);
@@ -127,8 +125,7 @@ public class ExerciseAnalysisFragment extends Fragment implements View.OnClickLi
 //            i.setVisibility(View.INVISIBLE);
 //        }
 
-
-        this.backMuscleImages = new ArrayList<ImageView>();
+        this.backMuscleImages = new ArrayList<>();
         this.backView = rootView.findViewById(R.id.backViewImage);
         this.glutsBack = rootView.findViewById(R.id.glutesBackImage);
         this.backMuscleImages.add(this.glutsBack);
@@ -162,7 +159,6 @@ public class ExerciseAnalysisFragment extends Fragment implements View.OnClickLi
         return rootView;
     }
 
-
     @Override
     public void onClick(View v) {
         if (v.getId() == this.flipImage.getId()) {
@@ -189,30 +185,26 @@ public class ExerciseAnalysisFragment extends Fragment implements View.OnClickLi
         }
     }
 
-
-
     private void getMuscleStrain() {
         this.flipImage.setEnabled(false);
         this.progressBar.setVisibility(View.VISIBLE);
-
 
         this.initializeStrain();
         this.counter = 0;
         Calendar cal = Calendar.getInstance();
 
         int queryDay = cal.get(Calendar.DAY_OF_MONTH);
-        int queryMonth =  cal.get(Calendar.MONTH) + 1;
+        int queryMonth = cal.get(Calendar.MONTH) + 1;
         int queryYear = cal.get(Calendar.YEAR);
 
         AtomicInteger resultCounter = new AtomicInteger();
 
-        while (this.counter < 4 ){
-
+        while (this.counter < 4) {
             int factor;
 
-            if (this.counter == 0 || this.counter == 1 ){
+            if (this.counter == 0 || this.counter == 1) {
                 factor = 8;
-            } else if (this.counter == 2){
+            } else if (this.counter == 2) {
                 factor = 4;
             } else {
                 factor = 2;
@@ -222,20 +214,20 @@ public class ExerciseAnalysisFragment extends Fragment implements View.OnClickLi
                     .whereEqualTo("day", queryDay)
                     .whereEqualTo("month", queryMonth)
                     .whereEqualTo("year", queryYear).get().addOnCompleteListener(task -> {
-                        if(task.isSuccessful()){
+                        if (task.isSuccessful()) {
                             for (DocumentSnapshot d : task.getResult().getDocuments()) {
                                 List<String> exerciseNames = (List<String>) d.get("exercises");
                                 List<Exercise> exercises = exerciseNames
                                         .stream()
                                         .map(Exercise::valueOf).collect(Collectors.toList());
-                                for (Exercise ex: exercises){
+                                for (Exercise ex : exercises) {
                                     this.updateStrain(ex, factor);
                                 }
                             }
                             resultCounter.addAndGet(1);
 
                             // done getting the workout for the last day;
-                            if (resultCounter.get() >= 4){
+                            if (resultCounter.get() >= 4) {
                                 Log.d("assf", "getting last");
                                 this.colorMusclesByStrain();
                                 this.flipImage.setEnabled(true);
@@ -245,64 +237,51 @@ public class ExerciseAnalysisFragment extends Fragment implements View.OnClickLi
                         }
                     });
 
-            cal.setTimeInMillis(cal.getTimeInMillis() - 24*60*60*1000 );
+            cal.setTimeInMillis(cal.getTimeInMillis() - 24 * 60 * 60 * 1000);
 
-             queryDay = cal.get(Calendar.DAY_OF_MONTH);
-             queryMonth =  cal.get(Calendar.MONTH) + 1;
-             queryYear = cal.get(Calendar.YEAR);
+            queryDay = cal.get(Calendar.DAY_OF_MONTH);
+            queryMonth = cal.get(Calendar.MONTH) + 1;
+            queryYear = cal.get(Calendar.YEAR);
 
-             this.counter ++;
+            this.counter++;
         }
     }
 
-    private void updateStrain(Exercise exercise, int factor){
-        if (exercise.getMuscleGroup() == MuscleGroup.ABS){
+    private void updateStrain(Exercise exercise, int factor) {
+        if (exercise.getMuscleGroup() == MuscleGroup.ABS) {
             this.absStrain += factor;
-        }
-        else if (exercise.getMuscleGroup() == MuscleGroup.TRAPS){
+        } else if (exercise.getMuscleGroup() == MuscleGroup.TRAPS) {
             this.trapStrain += factor;
-        }
-        else if (exercise.getMuscleGroup() == MuscleGroup.SHOULDERS){
+        } else if (exercise.getMuscleGroup() == MuscleGroup.SHOULDERS) {
             this.shoulderStrain += factor;
-        }
-        else if (exercise.getMuscleGroup() == MuscleGroup.PECS){
+        } else if (exercise.getMuscleGroup() == MuscleGroup.PECS) {
             this.pecStrain += factor;
-        }
-        else if (exercise.getMuscleGroup() == MuscleGroup.BICEPS){
+        } else if (exercise.getMuscleGroup() == MuscleGroup.BICEPS) {
             this.bicepsStrain += factor;
-        }
-        else if (exercise.getMuscleGroup() == MuscleGroup.FOREARMS){
+        } else if (exercise.getMuscleGroup() == MuscleGroup.FOREARMS) {
             this.forearmStrain += factor;
-        }
-        else if (exercise.getMuscleGroup() == MuscleGroup.QUADS){
+        } else if (exercise.getMuscleGroup() == MuscleGroup.QUADS) {
             this.quadStrain += factor;
-        }
-        else if (exercise.getMuscleGroup() == MuscleGroup.CALVES){
+        } else if (exercise.getMuscleGroup() == MuscleGroup.CALVES) {
             this.calveStrain += factor;
-        }
-        else if (exercise.getMuscleGroup() == MuscleGroup.TRICEPS){
+        } else if (exercise.getMuscleGroup() == MuscleGroup.TRICEPS) {
             this.triStrain += factor;
-        }
-        else if (exercise.getMuscleGroup() == MuscleGroup.LATS){
+        } else if (exercise.getMuscleGroup() == MuscleGroup.LATS) {
             this.latsStrain += factor;
-        }
-        else if (exercise.getMuscleGroup() == MuscleGroup.UPPER_TRAPS){
+        } else if (exercise.getMuscleGroup() == MuscleGroup.UPPER_TRAPS) {
             this.upperTrapStrain += factor;
-        }
-        else if (exercise.getMuscleGroup() == MuscleGroup.LOWER_BACK){
+        } else if (exercise.getMuscleGroup() == MuscleGroup.LOWER_BACK) {
             this.lowerBackStrain += factor;
-        }
-        else if (exercise.getMuscleGroup() == MuscleGroup.GLUTS){
+        } else if (exercise.getMuscleGroup() == MuscleGroup.GLUTS) {
             this.glutStrain += factor;
-        }
-        else if (exercise.getMuscleGroup() == MuscleGroup.HAMSTRINGS){
+        } else if (exercise.getMuscleGroup() == MuscleGroup.HAMSTRINGS) {
             this.hamsStrain += factor;
         }
     }
 
-    private void getWorkoutCollection(){
+    private void getWorkoutCollection() {
         usersCollection.whereEqualTo("email", this.email).get().addOnCompleteListener(task -> {
-            if (task.isSuccessful()){
+            if (task.isSuccessful()) {
                 this.workoutCollection =
                         task.getResult().getDocuments().get(0)
                                 .getReference().collection("workouts");
@@ -310,8 +289,6 @@ public class ExerciseAnalysisFragment extends Fragment implements View.OnClickLi
             }
         });
     }
-
-
 
     private void initializeStrain() {
         this.upperTrapStrain = 0;
@@ -330,47 +307,44 @@ public class ExerciseAnalysisFragment extends Fragment implements View.OnClickLi
         this.absStrain = 0;
     }
 
-    private void colorMusclesByStrain (){
+    private void colorMusclesByStrain() {
         this.trapsFront.getDrawable().setAlpha(Math.min(255,
-                (int)Math.round(((double) this.upperTrapStrain) / 70.0 * 255)));
+                (int) Math.round(((double) this.upperTrapStrain) / 70.0 * 255)));
         this.upperTrapsBack.getDrawable().setAlpha(Math.min(255,
-                (int)Math.round(((double) this.upperTrapStrain) / 70.0 * 255)));
+                (int) Math.round(((double) this.upperTrapStrain) / 70.0 * 255)));
         this.pecsFront.getDrawable().setAlpha(Math.min(255,
-                (int)Math.round(((double) this.pecStrain) / 70.0 * 255)));
+                (int) Math.round(((double) this.pecStrain) / 70.0 * 255)));
         this.shouldersFront.getDrawable().setAlpha(Math.min(255,
-                (int)Math.round(((double) this.shoulderStrain) / 70.0 * 255)));
+                (int) Math.round(((double) this.shoulderStrain) / 70.0 * 255)));
         this.shouldersBack.getDrawable().setAlpha(Math.min(255,
-                (int)Math.round(((double) this.shoulderStrain) / 70.0 * 255)));
+                (int) Math.round(((double) this.shoulderStrain) / 70.0 * 255)));
         this.absFront.getDrawable().setAlpha(Math.min(255,
-                (int)Math.round(((double) this.absStrain) / 70.0 * 255)));
+                (int) Math.round(((double) this.absStrain) / 70.0 * 255)));
         this.bicepsFront.getDrawable().setAlpha(Math.min(255,
-                (int)Math.round(((double) this.bicepsStrain) / 70.0 * 255)));
+                (int) Math.round(((double) this.bicepsStrain) / 70.0 * 255)));
         this.quadsFront.getDrawable().setAlpha(Math.min(255,
-                (int)Math.round(((double) this.quadStrain) / 70.0 * 255)));
+                (int) Math.round(((double) this.quadStrain) / 70.0 * 255)));
         this.calvesFront.getDrawable().setAlpha(Math.min(255,
-                (int)Math.round(((double) this.calveStrain) / 70.0 * 255)));
+                (int) Math.round(((double) this.calveStrain) / 70.0 * 255)));
         this.calvesBack.getDrawable().setAlpha(Math.min(255,
-                (int)Math.round(((double) this.calveStrain) / 70.0 * 255)));
+                (int) Math.round(((double) this.calveStrain) / 70.0 * 255)));
         this.forearmsFront.getDrawable().setAlpha(Math.min(255,
-                (int)Math.round(((double) this.forearmStrain) / 70.0 * 255)));
+                (int) Math.round(((double) this.forearmStrain) / 70.0 * 255)));
         this.forearmsBack.getDrawable().setAlpha(Math.min(255,
-                (int)Math.round(((double) this.forearmStrain) / 70.0 * 255)));
+                (int) Math.round(((double) this.forearmStrain) / 70.0 * 255)));
         this.calvesFront.getDrawable().setAlpha(Math.min(255,
-                (int)Math.round(((double) this.calveStrain) / 70.0 * 255)));
+                (int) Math.round(((double) this.calveStrain) / 70.0 * 255)));
         this.trapsBack.getDrawable().setAlpha(Math.min(255,
-                (int)Math.round(((double) this.trapStrain) / 70.0 * 255)));
+                (int) Math.round(((double) this.trapStrain) / 70.0 * 255)));
         this.latsBack.getDrawable().setAlpha(Math.min(255,
-                (int)Math.round(((double) this.latsStrain) / 70.0 * 255)));
+                (int) Math.round(((double) this.latsStrain) / 70.0 * 255)));
         this.trisBack.getDrawable().setAlpha(Math.min(255,
-                (int)Math.round(((double) this.triStrain) / 70.0 * 255)));
+                (int) Math.round(((double) this.triStrain) / 70.0 * 255)));
         this.lowerBackBack.getDrawable().setAlpha(Math.min(255,
-                (int)Math.round(((double) this.lowerBackStrain) / 70.0 * 255)));
+                (int) Math.round(((double) this.lowerBackStrain) / 70.0 * 255)));
         this.glutsBack.getDrawable().setAlpha(Math.min(255,
-                (int)Math.round(((double) this.glutStrain) / 70.0 * 255)));
+                (int) Math.round(((double) this.glutStrain) / 70.0 * 255)));
         this.hamsBack.getDrawable().setAlpha(Math.min(255,
-                (int)Math.round(((double) this.hamsStrain) / 70.0 * 255)));
-
+                (int) Math.round(((double) this.hamsStrain) / 70.0 * 255)));
     }
-
-
 }

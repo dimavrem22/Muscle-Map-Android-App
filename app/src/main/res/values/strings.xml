@@ -70,4 +70,6 @@
     <string name="avg_calories_lunch">Average lunch calories</string>
     <string name="avg_calories_dinner">Average dinner calories</string>
     <string name="avg_calories_snack">Average snack calories</string>
+
+    <string name="logout_button">Logout</string>
 </resources>

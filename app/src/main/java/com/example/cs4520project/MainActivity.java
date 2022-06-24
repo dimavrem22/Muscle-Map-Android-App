@@ -9,6 +9,7 @@ import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
 import android.widget.CalendarView;
+import android.widget.ImageButton;
 import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Button;
@@ -24,6 +25,7 @@ import com.google.android.gms.tasks.Task;
 import com.google.firebase.auth.AuthResult;
 import com.google.firebase.firestore.CollectionReference;
 import com.google.firebase.firestore.DocumentReference;
+import com.google.firebase.firestore.DocumentSnapshot;
 import com.google.firebase.firestore.FirebaseFirestore;
 
 import com.google.firebase.auth.FirebaseAuth;
@@ -35,8 +37,6 @@ public class MainActivity extends AppCompatActivity implements CalendarView.OnDa
         ExerciseLogFragment.ExerciseLogToMain, EditWorkoutFragment.IEditWorkoutToMain,
         ExerciseLogFragment.ISendDocFromExerciseLogToMain, DietEnterMealFragment.ISaveMeal,
         NewSleepLogFragment.IAddNewSleepLogToDB {
-
-
     private final FirebaseFirestore db = FirebaseFirestore.getInstance();
     private final CollectionReference usersCollection = db.collection("users");
 
@@ -53,7 +53,7 @@ public class MainActivity extends AppCompatActivity implements CalendarView.OnDa
 
     private Button exerciseButton, dietButton, sleepButton;
 
-    boolean exerciseFragment, sleepFragment, dietFragment;
+    private boolean exerciseFragment, sleepFragment, dietFragment;
 
     private DocumentReference docToUpdate;
 
@@ -111,6 +111,29 @@ public class MainActivity extends AppCompatActivity implements CalendarView.OnDa
                     .addToBackStack(null)
                     .commit();
         });
+
+        ImageButton profileButton = findViewById(R.id.imageButtonProfile);
+        profileButton.setOnClickListener(v -> usersCollection
+                .whereEqualTo("email", mAuth.getCurrentUser().getEmail())
+                .get()
+                .addOnCompleteListener(
+                        task -> {
+                            if (task.isSuccessful()) {
+                                DocumentSnapshot d = task.getResult().getDocuments()
+                                        .get(0);
+                                String email = d.getString("email");
+                                String name = d.getString("name");
+                                Profile profile = new Profile(email, name);
+                                getSupportFragmentManager()
+                                        .beginTransaction()
+                                        .add(R.id.fragment_container, ProfileFragment.newInstance(
+                                                        profile),
+                                                ProfileFragment.FRAGMENT_TAG)
+                                        .addToBackStack(null)
+                                        .commit();
+                            }
+                        }
+                ));
 
         this.nextArrow = this.findViewById(R.id.next_button);
         this.nextArrow.setOnClickListener(this);
@@ -403,7 +426,7 @@ public class MainActivity extends AppCompatActivity implements CalendarView.OnDa
     @Override
     public void updateWorkoutInDB(Workout newWorkout) {
         Calendar cal = Calendar.getInstance();
-        cal.setTimeInMillis(this.calender.getDate());
+        cal.setTimeInMillis(calender.getDate());
 
         Map<String, Object> updateWorkout = new HashMap<>();
         updateWorkout.put("name", newWorkout.getName());

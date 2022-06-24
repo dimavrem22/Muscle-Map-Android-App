@@ -19,8 +19,6 @@ import android.widget.TextView;
 import android.widget.TimePicker;
 import android.widget.Toast;
 
-import com.google.firebase.firestore.DocumentReference;
-
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
@@ -53,9 +51,7 @@ public class EditWorkoutFragment extends Fragment implements ExerciseListAdapter
     }
 
     public interface IEditWorkoutToMain {
-
-        public void updateWorkoutInDB(Workout newWorkout);
-
+        void updateWorkoutInDB(Workout newWorkout);
     }
 
     /**
@@ -103,7 +99,6 @@ public class EditWorkoutFragment extends Fragment implements ExerciseListAdapter
 
         textViewName.setText(getString(R.string.EditWorkout));
 
-
         startHr = originalWorkout.getStartHour();
         startMin = originalWorkout.getStartMinute();
         endHr = originalWorkout.getEndHour();
@@ -111,8 +106,8 @@ public class EditWorkoutFragment extends Fragment implements ExerciseListAdapter
 
 
         editTextWorkoutName.setText(originalWorkout.getName());
-        buttonStartTime.setText(originalWorkout.getStartHour()+":"+ originalWorkout.getStartMinute());
-        buttonEndTime.setText(originalWorkout.getEndHour()+":"+ originalWorkout.getEndMinute());
+        buttonStartTime.setText(originalWorkout.getStartHour() + ":" + originalWorkout.getStartMinute());
+        buttonEndTime.setText(originalWorkout.getEndHour() + ":" + originalWorkout.getEndMinute());
 
 
         RecyclerView.LayoutManager exerciseManager = new LinearLayoutManager(getContext());
@@ -205,25 +200,20 @@ public class EditWorkoutFragment extends Fragment implements ExerciseListAdapter
             buttonNewWorkoutCancel.setVisibility(View.VISIBLE);
         });
 
-        buttonNewWorkoutSave.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                if (clickedExercises.size() > 0 && editTextWorkoutName.getText().toString().length() > 0
-                        && startHr != 0 && startMin != 0 && endHr != 0 && endMin != 0) {
-                    if (checkValidTime()) {
-                        Workout newWorkout = new Workout(editTextWorkoutName.getText().toString(),
-                                startHr, startMin, endHr, endMin, clickedExercises);
-                        Log.d("FP", newWorkout.toString());
-                        editWorkoutToMain.updateWorkoutInDB(newWorkout);
-                        getActivity().getSupportFragmentManager().popBackStack();
-                    }
-                    else {
-                        Toast.makeText(getContext(), "Enter A Valid Time!", Toast.LENGTH_SHORT).show();
-                    }
+        buttonNewWorkoutSave.setOnClickListener(v -> {
+            if (clickedExercises.size() > 0 && editTextWorkoutName.getText().toString().length() > 0
+                    && startHr != 0 && startMin != 0 && endHr != 0 && endMin != 0) {
+                if (checkValidTime()) {
+                    Workout newWorkout = new Workout(editTextWorkoutName.getText().toString(),
+                            startHr, startMin, endHr, endMin, clickedExercises);
+                    Log.d("FP", newWorkout.toString());
+                    editWorkoutToMain.updateWorkoutInDB(newWorkout);
+                    getActivity().getSupportFragmentManager().popBackStack();
+                } else {
+                    Toast.makeText(getContext(), "Enter A Valid Time!", Toast.LENGTH_SHORT).show();
                 }
-                else {
-                    Toast.makeText(getContext(), "Empty Fields!", Toast.LENGTH_SHORT).show();
-                }
+            } else {
+                Toast.makeText(getContext(), "Empty Fields!", Toast.LENGTH_SHORT).show();
             }
         });
 
@@ -258,8 +248,7 @@ public class EditWorkoutFragment extends Fragment implements ExerciseListAdapter
     public void checkExercise(Exercise exercise) {
         if (clickedExercises.contains(exercise)) {
             clickedExercises.remove(exercise);
-        }
-        else {
+        } else {
             clickedExercises.add(exercise);
         }
     }
@@ -268,8 +257,7 @@ public class EditWorkoutFragment extends Fragment implements ExerciseListAdapter
         boolean valid = false;
         if (startHr < endHr) {
             valid = true;
-        }
-        else if (startHr == endHr) {
+        } else if (startHr == endHr) {
             if (startMin < endMin) {
                 valid = true;
             }
@@ -283,7 +271,7 @@ public class EditWorkoutFragment extends Fragment implements ExerciseListAdapter
         if (context instanceof IEditWorkoutToMain) {
             editWorkoutToMain = (IEditWorkoutToMain) context;
         } else {
-            throw new RuntimeException(context.toString()+ " must implement IEditWorkoutToMain");
+            throw new RuntimeException(context + " must implement IEditWorkoutToMain");
         }
     }
 }

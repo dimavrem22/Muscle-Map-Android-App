@@ -12,6 +12,17 @@
     tools:context=".MainActivity">
 
 
+    <ImageButton
+        android:id="@+id/imageButtonProfile"
+        android:layout_width="65dp"
+        android:layout_height="60dp"
+        android:adjustViewBounds="true"
+        android:scaleType="fitCenter"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toEndOf="@+id/next_button"
+        app:layout_constraintTop_toTopOf="parent"
+        app:srcCompat="@drawable/user_icon" />
+
     <androidx.constraintlayout.widget.ConstraintLayout
         android:id="@+id/outerFragmentContainer"
         android:layout_width="match_parent"

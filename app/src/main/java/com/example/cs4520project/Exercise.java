@@ -1,6 +1,6 @@
 package com.example.cs4520project;
 
-import java.security.spec.ECField;
+import java.util.Objects;
 
 public enum Exercise {
     BICEP_CURLS("Bicep Curls", ExerciseDifficulty.EASY, MuscleGroup.BICEPS),
@@ -97,7 +97,7 @@ public enum Exercise {
 
     public static Exercise getExercise(String name) {
         for (Exercise e: Exercise.values()) {
-            if (e.getDisplayName() == name) {
+            if (Objects.equals(e.getDisplayName(), name)) {
                 return e;
             }
         }
