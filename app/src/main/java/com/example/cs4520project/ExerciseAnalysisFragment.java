@@ -18,7 +18,6 @@ import com.google.firebase.firestore.CollectionReference;
 import com.google.firebase.firestore.DocumentSnapshot;
 import com.google.firebase.firestore.FirebaseFirestore;
 
-import java.io.StringReader;
 import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.List;
@@ -100,7 +99,7 @@ public class ExerciseAnalysisFragment extends Fragment implements View.OnClickLi
 
         this.counter = 0;
         this.initializeStrain();
-        this.timeFrames = new ArrayList<String>();
+        this.timeFrames = new ArrayList<>();
         this.timeFrames.add("Today's Status");
         this.timeFrames.add("Current Week");
         this.timeFrames.add("Current Month");
@@ -327,45 +326,44 @@ public class ExerciseAnalysisFragment extends Fragment implements View.OnClickLi
 
     private void colorMusclesByStrain() {
         this.trapsFront.getDrawable().setAlpha(Math.min(255,
-                (int) Math.round(((double) this.upperTrapStrain) / 70.0 * 255)));
+                (int) Math.round(this.upperTrapStrain / 70.0 * 255)));
         this.upperTrapsBack.getDrawable().setAlpha(Math.min(255,
-                (int) Math.round(((double) this.upperTrapStrain) / 70.0 * 255)));
+                (int) Math.round(this.upperTrapStrain / 70.0 * 255)));
         this.pecsFront.getDrawable().setAlpha(Math.min(255,
-                (int) Math.round(((double) this.pecStrain) / 70.0 * 255)));
+                (int) Math.round(this.pecStrain / 70.0 * 255)));
         this.shouldersFront.getDrawable().setAlpha(Math.min(255,
-                (int) Math.round(((double) this.shoulderStrain) / 70.0 * 255)));
+                (int) Math.round(this.shoulderStrain / 70.0 * 255)));
         this.shouldersBack.getDrawable().setAlpha(Math.min(255,
-                (int) Math.round(((double) this.shoulderStrain) / 70.0 * 255)));
+                (int) Math.round(this.shoulderStrain / 70.0 * 255)));
         this.absFront.getDrawable().setAlpha(Math.min(255,
-                (int) Math.round(((double) this.absStrain) / 70.0 * 255)));
+                (int) Math.round(this.absStrain / 70.0 * 255)));
         this.bicepsFront.getDrawable().setAlpha(Math.min(255,
-                (int) Math.round(((double) this.bicepsStrain) / 70.0 * 255)));
+                (int) Math.round(this.bicepsStrain / 70.0 * 255)));
         this.quadsFront.getDrawable().setAlpha(Math.min(255,
-                (int) Math.round(((double) this.quadStrain) / 70.0 * 255)));
+                (int) Math.round(this.quadStrain / 70.0 * 255)));
         this.calvesFront.getDrawable().setAlpha(Math.min(255,
-                (int) Math.round(((double) this.calveStrain) / 70.0 * 255)));
+                (int) Math.round(this.calveStrain / 70.0 * 255)));
         this.calvesBack.getDrawable().setAlpha(Math.min(255,
-                (int) Math.round(((double) this.calveStrain) / 70.0 * 255)));
+                (int) Math.round(this.calveStrain / 70.0 * 255)));
         this.forearmsFront.getDrawable().setAlpha(Math.min(255,
-                (int) Math.round(((double) this.forearmStrain) / 70.0 * 255)));
+                (int) Math.round(this.forearmStrain / 70.0 * 255)));
         this.forearmsBack.getDrawable().setAlpha(Math.min(255,
-                (int) Math.round(((double) this.forearmStrain) / 70.0 * 255)));
+                (int) Math.round(this.forearmStrain / 70.0 * 255)));
         this.calvesFront.getDrawable().setAlpha(Math.min(255,
-                (int) Math.round(((double) this.calveStrain) / 70.0 * 255)));
+                (int) Math.round(this.calveStrain / 70.0 * 255)));
         this.trapsBack.getDrawable().setAlpha(Math.min(255,
-                (int) Math.round(((double) this.trapStrain) / 70.0 * 255)));
+                (int) Math.round(this.trapStrain / 70.0 * 255)));
         this.latsBack.getDrawable().setAlpha(Math.min(255,
-                (int) Math.round(((double) this.latsStrain) / 70.0 * 255)));
+                (int) Math.round(this.latsStrain / 70.0 * 255)));
         this.trisBack.getDrawable().setAlpha(Math.min(255,
-                (int) Math.round(((double) this.triStrain) / 70.0 * 255)));
+                (int) Math.round(this.triStrain / 70.0 * 255)));
         this.lowerBackBack.getDrawable().setAlpha(Math.min(255,
-                (int) Math.round(((double) this.lowerBackStrain) / 70.0 * 255)));
+                (int) Math.round(this.lowerBackStrain / 70.0 * 255)));
         this.glutsBack.getDrawable().setAlpha(Math.min(255,
-                (int) Math.round(((double) this.glutStrain) / 70.0 * 255)));
+                (int) Math.round(this.glutStrain / 70.0 * 255)));
         this.hamsBack.getDrawable().setAlpha(Math.min(255,
-                (int) Math.round(((double) this.hamsStrain) / 70.0 * 255)));
+                (int) Math.round(this.hamsStrain / 70.0 * 255)));
     }
-
 
     @Override
     public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {

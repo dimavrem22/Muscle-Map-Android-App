@@ -10,7 +10,6 @@ import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
 import android.widget.CalendarView;
-import android.widget.ImageButton;
 import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Button;
@@ -21,9 +20,6 @@ import java.util.Date;
 import java.util.HashMap;
 import java.util.Map;
 
-import com.google.android.gms.tasks.OnCompleteListener;
-import com.google.android.gms.tasks.Task;
-import com.google.firebase.auth.AuthResult;
 import com.google.firebase.firestore.CollectionReference;
 import com.google.firebase.firestore.DocumentReference;
 import com.google.firebase.firestore.DocumentSnapshot;
@@ -33,11 +29,10 @@ import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
 
 public class MainActivity extends AppCompatActivity implements CalendarView.OnDateChangeListener,
-
         View.OnClickListener, LogInFragment.LoginToMain, NewWorkoutFragment.INewWorkoutToMain,
         ExerciseLogFragment.ExerciseLogToMain, EditWorkoutFragment.IEditWorkoutToMain,
         ExerciseLogFragment.ISendDocFromExerciseLogToMain, DietEnterMealFragment.ISaveMeal,
-        NewSleepLogFragment.IAddNewSleepLogToDB, ProfileFragment.FromProfileFragmentToMain{
+        NewSleepLogFragment.IAddNewSleepLogToDB, ProfileFragment.FromProfileFragmentToMain {
     private final FirebaseFirestore db = FirebaseFirestore.getInstance();
     private final CollectionReference usersCollection = db.collection("users");
 
@@ -477,7 +472,7 @@ public class MainActivity extends AppCompatActivity implements CalendarView.OnDa
 
     @Override
     public void logoutRequest() {
-        for (Fragment f: this.getSupportFragmentManager().getFragments()){
+        for (Fragment f : this.getSupportFragmentManager().getFragments()) {
             this.getSupportFragmentManager().beginTransaction().remove(f).commit();
         }
         this.mAuth.signOut();

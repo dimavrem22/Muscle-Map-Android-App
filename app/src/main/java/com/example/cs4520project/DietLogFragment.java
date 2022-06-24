@@ -15,6 +15,7 @@ import com.google.firebase.firestore.CollectionReference;
 import com.google.firebase.firestore.DocumentSnapshot;
 import com.google.firebase.firestore.FirebaseFirestore;
 
+import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
@@ -126,7 +127,7 @@ public class DietLogFragment extends Fragment {
                             String additionalNotes = d.getString("additionalNotes");
                             Meal meal = new Meal(name, mealType, calories,
                                     protein, carbs, sodium, totalFat, additionalNotes);
-                            meal.setDate(new Date(year, month, day));
+                            meal.setDate(LocalDate.of(year, month, day));
                             meals.add(meal);
                         }
                         mealAdapter.notifyDataSetChanged();

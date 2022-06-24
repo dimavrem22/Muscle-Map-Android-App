@@ -13,10 +13,15 @@ import android.widget.Spinner;
 import android.widget.TextView;
 
 import com.github.mikephil.charting.charts.LineChart;
+import com.github.mikephil.charting.data.Entry;
+import com.github.mikephil.charting.data.LineData;
 import com.github.mikephil.charting.data.LineDataSet;
+import com.google.firebase.firestore.CollectionReference;
 
+import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.Calendar;
+import java.util.Collections;
 import java.util.Comparator;
 import java.util.Date;
 import java.util.List;
@@ -73,6 +78,14 @@ public class DietAnalysisFragment extends Fragment {
                 ChartType chartType = (ChartType) parent.getItemAtPosition(position);
                 switch (chartType) {
                     case CALORIES_PAST_WEEK:
+                        List<Integer> calories = caloriesPastWeek(LocalDate.now());
+                        List<Entry> entries = new ArrayList<>();
+                        for (int i = 0; i < calories.size(); i++) {
+                            entries.add(new Entry(i, calories.get(i)));
+                        }
+                        LineDataSet dataSet = new LineDataSet(entries, "Total calories per day");
+                        LineData data = new LineData(dataSet);
+                        chart.setData(data);
                         break;
                     default:
                         break;
@@ -103,17 +116,17 @@ public class DietAnalysisFragment extends Fragment {
         return rootView;
     }
 
-    private int[] caloriesPastWeek(Date date) {
-        calendar.setTime(date);
-        int[] week = new int[7];
+    private List<Integer> caloriesPastWeek(LocalDate date) {
+        List<Integer> week = new ArrayList<>();
         for (int i = 0; i < 7; i++) {
-            week[i] = caloriesOnDate(calendar.getTime());
-            calendar.add(Calendar.DATE, -1);
+            week.add(caloriesOnDate(date));
+            date = date.minusDays(1);
         }
+        Collections.reverse(week);
         return week;
     }
 
-    private int caloriesOnDate(Date date) {
+    private int caloriesOnDate(LocalDate date) {
         return meals.stream()
                 .filter(meal -> date.equals(meal.getDate()))
                 .mapToInt(Meal::getCalories)
