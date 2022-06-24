@@ -9,7 +9,14 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
 
+import com.google.firebase.firestore.CollectionReference;
+import com.google.firebase.firestore.DocumentSnapshot;
+import com.google.firebase.firestore.FirebaseFirestore;
+
 import java.util.ArrayList;
+import java.util.Calendar;
+import java.util.List;
+import java.util.stream.Collectors;
 
 /**
  * A simple {@link Fragment} subclass.
@@ -17,6 +24,10 @@ import java.util.ArrayList;
  * create an instance of this fragment.
  */
 public class ExerciseAnalysisFragment extends Fragment implements View.OnClickListener {
+    private final FirebaseFirestore db = FirebaseFirestore.getInstance();
+    private final CollectionReference usersCollection = db.collection("users");
+
+
     private static final String ARG_EMAIL = "email";
     private String email;
 
@@ -39,6 +50,10 @@ public class ExerciseAnalysisFragment extends Fragment implements View.OnClickLi
             latsBack, lowerBackBack, glutsBack, hamsBack, calvesBack;
 
     private ArrayList<ImageView> backMuscleImages;
+
+    private CollectionReference workoutCollection;
+
+    private ArrayList<Workout> listOfAnalyzedWorkouts;
 
     public ExerciseAnalysisFragment() {
         // Required empty public constructor
@@ -73,6 +88,8 @@ public class ExerciseAnalysisFragment extends Fragment implements View.OnClickLi
 
         this.counter = 0;
         this.initializeStrain();
+
+        this.listOfAnalyzedWorkouts = new ArrayList<Workout>();
 
         this.lookingFront = true;
 
@@ -166,8 +183,49 @@ public class ExerciseAnalysisFragment extends Fragment implements View.OnClickLi
     }
 
 
-    private void getWorkoutList() {
 
+    private void getWorkoutList() {
+        this.counter = 0;
+        Calendar cal = Calendar.getInstance();
+
+        int queryDay = cal.get(Calendar.DAY_OF_MONTH);
+        int queryMonth =  cal.get(Calendar.MONTH) + 1;
+        int queryYear = cal.get(Calendar.YEAR);
+
+        while (this.counter < 4 ){
+
+            this.workoutCollection
+                    .whereEqualTo("day", queryDay)
+                    .whereEqualTo("month", queryMonth)
+                    .whereEqualTo("year", queryYear).get().addOnCompleteListener(task -> {
+                        if(task.isSuccessful()){
+                            for (DocumentSnapshot d : task.getResult().getDocuments()) {
+                                Workout wo = new Workout();
+                                wo.setName(d.getString("name"));
+                                List<String> exerciseNames = (List<String>) d.get("exercises");
+                                List<Exercise> exercises = exerciseNames
+                                        .stream()
+                                        .map(Exercise::valueOf).collect(Collectors.toList());
+                                wo.setExercises(exercises);
+                                wo.setStartHour((int) Math.round(d.getDouble("startHour")));
+                                wo.setStartMinute((int) Math.round(d.getDouble("startMinute")));
+                                wo.setEndHour((int) Math.round(d.getDouble("endHour")));
+                                wo.setEndMinute((int) Math.round(d.getDouble("endMinute")));
+                                listOfAnalyzedWorkouts.add(wo);
+                            }
+                        }
+                    });
+        }
+    }
+
+    private void getWorkoutCollection(){
+        usersCollection.whereEqualTo("email", this.email).get().addOnCompleteListener(task -> {
+            if (task.isSuccessful()){
+                this.workoutCollection =
+                        task.getResult().getDocuments().get(0)
+                                .getReference().collection("workouts");
+            }
+        });
     }
 
 
