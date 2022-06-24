@@ -8,13 +8,17 @@ import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.AdapterView;
+import android.widget.ArrayAdapter;
 import android.widget.ImageView;
 import android.widget.ProgressBar;
+import android.widget.Spinner;
 
 import com.google.firebase.firestore.CollectionReference;
 import com.google.firebase.firestore.DocumentSnapshot;
 import com.google.firebase.firestore.FirebaseFirestore;
 
+import java.io.StringReader;
 import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.List;
@@ -26,9 +30,12 @@ import java.util.stream.Collectors;
  * Use the {@link ExerciseAnalysisFragment#newInstance} factory method to
  * create an instance of this fragment.
  */
-public class ExerciseAnalysisFragment extends Fragment implements View.OnClickListener {
+public class ExerciseAnalysisFragment extends Fragment implements View.OnClickListener,
+        AdapterView.OnItemSelectedListener {
     private final FirebaseFirestore db = FirebaseFirestore.getInstance();
     private final CollectionReference usersCollection = db.collection("users");
+
+    private ArrayList<String> timeFrames;
 
     private static final String ARG_EMAIL = "email";
     private String email;
@@ -37,7 +44,7 @@ public class ExerciseAnalysisFragment extends Fragment implements View.OnClickLi
 
     private int counter = 0;
 
-    private int upperTrapStrain, shoulderStrain, pecStrain, bicepsStrain, forearmStrain,
+    private Double upperTrapStrain, shoulderStrain, pecStrain, bicepsStrain, forearmStrain,
             quadStrain, calveStrain, trapStrain, triStrain, lowerBackStrain, glutStrain,
             hamsStrain, latsStrain, absStrain;
 
@@ -52,6 +59,7 @@ public class ExerciseAnalysisFragment extends Fragment implements View.OnClickLi
             latsBack, lowerBackBack, glutsBack, hamsBack, calvesBack;
 
     private ProgressBar progressBar;
+    private Spinner spinner;
 
     private ArrayList<ImageView> backMuscleImages;
 
@@ -92,6 +100,11 @@ public class ExerciseAnalysisFragment extends Fragment implements View.OnClickLi
 
         this.counter = 0;
         this.initializeStrain();
+        this.timeFrames = new ArrayList<String>();
+        this.timeFrames.add("Today's Status");
+        this.timeFrames.add("Current Week");
+        this.timeFrames.add("Current Month");
+        this.timeFrames.add("Current Year");
 
         this.listOfAnalyzedWorkouts = new ArrayList<>();
 
@@ -220,8 +233,8 @@ public class ExerciseAnalysisFragment extends Fragment implements View.OnClickLi
                                 List<Exercise> exercises = exerciseNames
                                         .stream()
                                         .map(Exercise::valueOf).collect(Collectors.toList());
-                                for (Exercise ex : exercises) {
-                                    this.updateStrain(ex, factor);
+                                for (Exercise ex: exercises){
+                                    this.updateStrain(ex, factor*1.0);
                                 }
                             }
                             resultCounter.addAndGet(1);
@@ -247,8 +260,8 @@ public class ExerciseAnalysisFragment extends Fragment implements View.OnClickLi
         }
     }
 
-    private void updateStrain(Exercise exercise, int factor) {
-        if (exercise.getMuscleGroup() == MuscleGroup.ABS) {
+    private void updateStrain(Exercise exercise, Double factor){
+        if (exercise.getMuscleGroup() == MuscleGroup.ABS){
             this.absStrain += factor;
         } else if (exercise.getMuscleGroup() == MuscleGroup.TRAPS) {
             this.trapStrain += factor;
@@ -286,25 +299,31 @@ public class ExerciseAnalysisFragment extends Fragment implements View.OnClickLi
                         task.getResult().getDocuments().get(0)
                                 .getReference().collection("workouts");
                 this.getMuscleStrain();
+                this.spinner = getActivity().findViewById(R.id.exerciseAnalysisSpinner);
+                this.spinner.setOnItemSelectedListener(this);
+                this.spinner.setAdapter(new ArrayAdapter<>(this.getContext(),
+                        androidx.appcompat.R.layout.support_simple_spinner_dropdown_item,
+                        this.timeFrames));;
+
             }
         });
     }
 
     private void initializeStrain() {
-        this.upperTrapStrain = 0;
-        this.shoulderStrain = 0;
-        this.pecStrain = 0;
-        this.bicepsStrain = 0;
-        this.forearmStrain = 0;
-        this.quadStrain = 0;
-        this.calveStrain = 0;
-        this.trapStrain = 0;
-        this.triStrain = 0;
-        this.lowerBackStrain = 0;
-        this.glutStrain = 0;
-        this.hamsStrain = 0;
-        this.latsStrain = 0;
-        this.absStrain = 0;
+        this.upperTrapStrain = 0.0;
+        this.shoulderStrain = 0.0;
+        this.pecStrain = 0.0;
+        this.bicepsStrain = 0.0;
+        this.forearmStrain = 0.0;
+        this.quadStrain = 0.0;
+        this.calveStrain = 0.0;
+        this.trapStrain = 0.0;
+        this.triStrain = 0.0;
+        this.lowerBackStrain = 0.0;
+        this.glutStrain = 0.0;
+        this.hamsStrain = 0.0;
+        this.latsStrain = 0.0;
+        this.absStrain = 0.0;
     }
 
     private void colorMusclesByStrain() {
@@ -347,4 +366,80 @@ public class ExerciseAnalysisFragment extends Fragment implements View.OnClickLi
         this.hamsBack.getDrawable().setAlpha(Math.min(255,
                 (int) Math.round(((double) this.hamsStrain) / 70.0 * 255)));
     }
+
+
+    @Override
+    public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
+        if (position == 0){
+            this.getMuscleStrain();
+        } else if (position == 2) {
+            this.getCurrentMonthStrain();
+        } else if (position == 3){
+            this.getCurrentYearStrain();
+        }
+    }
+
+    @Override
+    public void onNothingSelected(AdapterView<?> parent) {
+        this.spinner.setSelection(0);
+    }
+
+
+    private void getCurrentMonthStrain(){
+        this.progressBar.setVisibility(View.VISIBLE);
+        this.spinner.setEnabled(false);
+        this.flipImage.setEnabled(false);
+        this.initializeStrain();
+
+        workoutCollection
+                .whereEqualTo("month",Calendar.getInstance().get(Calendar.MONTH)+1 )
+                .whereEqualTo("year",Calendar.getInstance().get(Calendar.YEAR) )
+                .get().addOnCompleteListener(task -> {
+                    if (task.isSuccessful()){
+                        for (DocumentSnapshot d: task.getResult().getDocuments()){
+                            List<String> exerciseNames = (List<String>) d.get("exercises");
+                            List<Exercise> exercises = exerciseNames
+                                    .stream()
+                                    .map(Exercise::valueOf).collect(Collectors.toList());
+                            for (Exercise ex: exercises){
+                                this.updateStrain(ex,1.628);
+                            }
+                        }
+                        this.progressBar.setVisibility(View.INVISIBLE);
+                        this.spinner.setEnabled(true);
+                        this.flipImage.setEnabled(true);
+                        this.colorMusclesByStrain();
+
+                    }
+                });
+    }
+
+    private void getCurrentYearStrain(){
+        this.progressBar.setVisibility(View.VISIBLE);
+        this.spinner.setEnabled(false);
+        this.flipImage.setEnabled(false);
+        this.initializeStrain();
+
+        workoutCollection
+                .whereEqualTo("year",Calendar.getInstance().get(Calendar.YEAR) )
+                .get().addOnCompleteListener(task -> {
+                    if (task.isSuccessful()){
+                        for (DocumentSnapshot d: task.getResult().getDocuments()){
+                            List<String> exerciseNames = (List<String>) d.get("exercises");
+                            List<Exercise> exercises = exerciseNames
+                                    .stream()
+                                    .map(Exercise::valueOf).collect(Collectors.toList());
+                            for (Exercise ex: exercises){
+                                this.updateStrain(ex,0.1338);
+                            }
+                        }
+                        this.progressBar.setVisibility(View.INVISIBLE);
+                        this.spinner.setEnabled(true);
+                        this.flipImage.setEnabled(true);
+                        this.colorMusclesByStrain();
+
+                    }
+                });
+    }
+
 }

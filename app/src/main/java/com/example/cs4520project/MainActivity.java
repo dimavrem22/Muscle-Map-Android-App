@@ -3,6 +3,7 @@ package com.example.cs4520project;
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.constraintlayout.widget.ConstraintLayout;
+import androidx.fragment.app.Fragment;
 
 import android.annotation.SuppressLint;
 import android.os.Bundle;
@@ -36,7 +37,7 @@ public class MainActivity extends AppCompatActivity implements CalendarView.OnDa
         View.OnClickListener, LogInFragment.LoginToMain, NewWorkoutFragment.INewWorkoutToMain,
         ExerciseLogFragment.ExerciseLogToMain, EditWorkoutFragment.IEditWorkoutToMain,
         ExerciseLogFragment.ISendDocFromExerciseLogToMain, DietEnterMealFragment.ISaveMeal,
-        NewSleepLogFragment.IAddNewSleepLogToDB {
+        NewSleepLogFragment.IAddNewSleepLogToDB, ProfileFragment.FromProfileFragmentToMain{
     private final FirebaseFirestore db = FirebaseFirestore.getInstance();
     private final CollectionReference usersCollection = db.collection("users");
 
@@ -471,5 +472,14 @@ public class MainActivity extends AppCompatActivity implements CalendarView.OnDa
                         sleepCollection.add(addSleep);
                     }
                 });
+    }
+
+    @Override
+    public void logoutRequest() {
+        for (Fragment f: this.getSupportFragmentManager().getFragments()){
+            this.getSupportFragmentManager().beginTransaction().remove(f).commit();
+        }
+        this.mAuth.signOut();
+        this.launchLoginFragment();
     }
 }

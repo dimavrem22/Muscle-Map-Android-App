@@ -59,10 +59,16 @@ public class ProfileFragment extends Fragment {
         profileEmail.setText(profile.getEmail());
 
         logoutButton.setOnClickListener(v -> {
-            FirebaseAuth.getInstance().signOut();
-            getActivity().getSupportFragmentManager().popBackStack();
+            FromProfileFragmentToMain context = (FromProfileFragmentToMain) this.getContext();
+            context.logoutRequest();
         });
 
         return rootView;
     }
+
+    public interface FromProfileFragmentToMain{
+        void logoutRequest();
+    }
+
+
 }
