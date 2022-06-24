@@ -65,4 +65,9 @@
     <string name="meal_sodium">Sodium</string>
     <string name="meal_total_fat">Total Fat</string>
     <string name="meal_notes">Notes</string>
+
+    <string name="avg_calories_breakfast">Average breakfast calories</string>
+    <string name="avg_calories_lunch">Average lunch calories</string>
+    <string name="avg_calories_dinner">Average dinner calories</string>
+    <string name="avg_calories_snack">Average snack calories</string>
 </resources>
