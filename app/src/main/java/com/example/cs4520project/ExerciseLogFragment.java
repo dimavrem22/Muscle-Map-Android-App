@@ -139,6 +139,7 @@ public class ExerciseLogFragment extends Fragment implements View.OnClickListene
         usersCollection.whereEqualTo("email", email)
                 .get().addOnCompleteListener(task -> {
                     if (task.isSuccessful()) {
+                        Log.d("AYY", email);
                         workoutCollection = task.getResult().getDocuments().get(0)
                                 .getReference().collection("workouts");
                         workoutCollection.addSnapshotListener((value, error) -> populateWorkouts());

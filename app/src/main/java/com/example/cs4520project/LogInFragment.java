@@ -13,6 +13,8 @@ import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.Toast;
 
+import java.util.Locale;
+
 public class LogInFragment extends Fragment implements View.OnClickListener {
     public final static String FRAGMENT_TAG = "LogInFragment";
 
@@ -140,6 +142,8 @@ public class LogInFragment extends Fragment implements View.OnClickListener {
         String email = String.valueOf(edit_email.getText());
         String pass = String.valueOf(edit_pass.getText());
 
+        email = email.toLowerCase();
+
         if (email.equals("")) {
             Toast.makeText(getContext(), R.string.no_email, Toast.LENGTH_SHORT).show();
             return;
@@ -157,6 +161,8 @@ public class LogInFragment extends Fragment implements View.OnClickListener {
         String email = String.valueOf(edit_email.getText());
         String pass = String.valueOf(edit_pass.getText());
         String pass2 = String.valueOf(edit_pass2.getText());
+
+        email = email.toLowerCase();
 
         if (name.equals("")) {
             Toast.makeText(getContext(), R.string.no_name, Toast.LENGTH_SHORT).show();
