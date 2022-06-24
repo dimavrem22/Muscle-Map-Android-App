@@ -1,5 +1,7 @@
 package com.example.cs4520project;
 
+import java.security.spec.ECField;
+
 public enum Exercise {
     BICEP_CURLS("Bicep Curls", ExerciseDifficulty.EASY, MuscleGroup.BICEPS),
     BENCH_PRESS("Bench Press", ExerciseDifficulty.MEDIUM, MuscleGroup.PECS),
@@ -63,7 +65,11 @@ public enum Exercise {
     TRICEPT_EXTENSIONS("Tricept Extensions", ExerciseDifficulty.MEDIUM, MuscleGroup.TRICEPS),
     BARBELL_REVERSE_BICEPS_CURLS("Reverse Biceps Curls", ExerciseDifficulty.EASY, MuscleGroup.FOREARMS),
     WRIST_ROLLERS("Wrist Rollers", ExerciseDifficulty.MEDIUM, MuscleGroup.FOREARMS),
-    PINCH_CARRIES("Pinch Carries", ExerciseDifficulty.MEDIUM, MuscleGroup.FOREARMS);
+    PINCH_CARRIES("Pinch Carries", ExerciseDifficulty.MEDIUM, MuscleGroup.FOREARMS),
+    LEG_EXTENSIONS("Leg Extensions",ExerciseDifficulty.MEDIUM, MuscleGroup.QUADS),
+    LEG_PRESS("Leg Press", ExerciseDifficulty.MEDIUM, MuscleGroup.QUADS),
+    STAIR_CLIMBERS("Stair Climbers", ExerciseDifficulty.EASY, MuscleGroup.QUADS);
+
 
 
 
