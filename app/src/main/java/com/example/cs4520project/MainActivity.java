@@ -52,6 +52,7 @@ public class MainActivity extends AppCompatActivity implements CalendarView.OnDa
     private CalendarView calender;
 
     private Button exerciseButton, dietButton, sleepButton;
+    private ImageButton profileButton;
 
     private boolean exerciseFragment, sleepFragment, dietFragment;
 
@@ -112,7 +113,7 @@ public class MainActivity extends AppCompatActivity implements CalendarView.OnDa
                     .commit();
         });
 
-        ImageButton profileButton = findViewById(R.id.imageButtonProfile);
+        profileButton = findViewById(R.id.imageButtonProfile);
         profileButton.setOnClickListener(v -> usersCollection
                 .whereEqualTo("email", mAuth.getCurrentUser().getEmail())
                 .get()
@@ -224,6 +225,8 @@ public class MainActivity extends AppCompatActivity implements CalendarView.OnDa
         this.prevArrow.setVisibility(View.INVISIBLE);
         this.dateText.setVisibility(View.INVISIBLE);
         this.monthText.setVisibility(View.INVISIBLE);
+        this.profileButton.setVisibility(View.INVISIBLE);
+        this.profileButton.setEnabled(false);
 
         this.getSupportFragmentManager().beginTransaction().replace(R.id.fragment_container,
                         LogInFragment.newInstance(), LogInFragment.FRAGMENT_TAG)
@@ -270,12 +273,7 @@ public class MainActivity extends AppCompatActivity implements CalendarView.OnDa
 
     private void registerNewUser(String name, String email, String pass) {
         mAuth.createUserWithEmailAndPassword(email, pass)
-                .addOnCompleteListener(new OnCompleteListener<AuthResult>() {
-                    @Override
-                    public void onComplete(@NonNull Task<AuthResult> task) {
-                        addUserToDB(name, email);
-                    }
-                });
+                .addOnCompleteListener(task -> addUserToDB(name, email));
     }
 
     private void addUserToDB(String name, String email) {
@@ -310,6 +308,9 @@ public class MainActivity extends AppCompatActivity implements CalendarView.OnDa
         prevArrow.setVisibility(View.VISIBLE);
         dateText.setVisibility(View.VISIBLE);
         monthText.setVisibility(View.VISIBLE);
+
+        profileButton.setVisibility(View.VISIBLE);
+        profileButton.setEnabled(true);
 
         // removing login fragment
         getSupportFragmentManager().beginTransaction()
