@@ -3,8 +3,7 @@ package com.example.cs4520project;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.Button;
-import android.widget.ImageButton;
+import android.widget.ImageView;
 import android.widget.TextView;
 
 import androidx.annotation.NonNull;
@@ -70,7 +69,7 @@ public class MealAdapter extends RecyclerView.Adapter<MealAdapter.ViewHolder> {
         private final TextView mealSodium;
         private final TextView mealTotalFat;
         private final TextView mealNotes;
-        private final ImageButton deleteButton;
+        private final ImageView deleteButton;
 
         public ViewHolder(@NonNull View itemView) {
             super(itemView);
@@ -117,7 +116,7 @@ public class MealAdapter extends RecyclerView.Adapter<MealAdapter.ViewHolder> {
             return mealNotes;
         }
 
-        public ImageButton getDeleteButton() {
+        public ImageView getDeleteButton() {
             return deleteButton;
         }
     }
