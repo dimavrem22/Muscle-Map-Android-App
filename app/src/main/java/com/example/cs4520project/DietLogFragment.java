@@ -16,6 +16,7 @@ import com.google.firebase.firestore.DocumentSnapshot;
 import com.google.firebase.firestore.FirebaseFirestore;
 
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
 import java.util.stream.Collectors;
 
@@ -28,7 +29,7 @@ public class DietLogFragment extends Fragment {
     private CollectionReference mealsCollection;
 
     private String email;
-    private List<Meal> meals = new ArrayList<>();
+    private final List<Meal> meals = new ArrayList<>();
     private MealAdapter mealAdapter;
 
     public DietLogFragment() {
@@ -73,14 +74,21 @@ public class DietLogFragment extends Fragment {
         mealAdapter.notifyDataSetChanged();
 
         Button enterMeal = rootView.findViewById(R.id.buttonEnterMeal);
+        Button dietAnalysis = rootView.findViewById(R.id.buttonDietAnalysis);
 
-        enterMeal.setOnClickListener(v -> {
-            getActivity().getSupportFragmentManager().beginTransaction()
-                    .add(R.id.fragment_container, DietEnterMealFragment.newInstance(),
-                            DietEnterMealFragment.FRAGMENT_TAG)
-                    .addToBackStack(null)
-                    .commit();
-        });
+        enterMeal.setOnClickListener(v -> getActivity()
+                .getSupportFragmentManager().beginTransaction()
+                .add(R.id.fragment_container, DietEnterMealFragment.newInstance(),
+                        DietEnterMealFragment.FRAGMENT_TAG)
+                .addToBackStack(null)
+                .commit());
+
+        dietAnalysis.setOnClickListener(v -> getActivity().getSupportFragmentManager()
+                .beginTransaction()
+                .add(R.id.fragment_container, DietAnalysisFragment.newInstance(meals),
+                        DietAnalysisFragment.FRAGMENT_TAG)
+                .addToBackStack(null)
+                .commit());
 
         populateMeals();
 
@@ -109,6 +117,7 @@ public class DietLogFragment extends Fragment {
                             MealType mealType = MealType.valueOf(d.getString("type"));
                             int day = Math.toIntExact(d.getLong("day"));
                             int month = Math.toIntExact(d.getLong("month"));
+                            int year = Math.toIntExact(d.getLong("year"));
                             int calories = Math.toIntExact(d.getLong("calories"));
                             int protein = Math.toIntExact(d.getLong("protein"));
                             int carbs = Math.toIntExact(d.getLong("carbs"));
@@ -117,8 +126,7 @@ public class DietLogFragment extends Fragment {
                             String additionalNotes = d.getString("additionalNotes");
                             Meal meal = new Meal(name, mealType, calories,
                                     protein, carbs, sodium, totalFat, additionalNotes);
-                            meal.setDay(day);
-                            meal.setMonth(month);
+                            meal.setDate(new Date(year, month, day));
                             meals.add(meal);
                         }
                         mealAdapter.notifyDataSetChanged();

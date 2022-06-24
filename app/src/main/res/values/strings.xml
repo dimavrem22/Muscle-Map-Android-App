@@ -55,6 +55,10 @@
     <string name="EditWorkout">Edit Workout</string>
 
     <!-- Meal fields -->
+    <string name="enter_meal_title">Enter a meal</string>
+    <string name="new_meal_button">New meal</string>
+    <string name="diet_analysis_button">Statistics</string>
+
     <string name="meal_calories">Calories</string>
     <string name="meal_carbs">Carbs</string>
     <string name="meal_protein">Protein</string>

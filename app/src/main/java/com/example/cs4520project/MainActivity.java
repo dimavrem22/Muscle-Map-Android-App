@@ -374,9 +374,9 @@ public class MainActivity extends AppCompatActivity implements CalendarView.OnDa
         calendar.setTimeInMillis(calender.getDate());
 
         Map<String, Object> dbMeal = new HashMap<>();
-        // TODO: year?
         dbMeal.put("day", calendar.get(Calendar.DAY_OF_MONTH));
         dbMeal.put("month", calendar.get(Calendar.MONTH) + 1);
+        dbMeal.put("year", calendar.get(Calendar.YEAR));
         dbMeal.put("type", meal.getMealType().name());
         dbMeal.put("name", meal.getName());
         dbMeal.put("calories", meal.getCalories());

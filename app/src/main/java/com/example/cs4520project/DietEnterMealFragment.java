@@ -43,8 +43,6 @@ public class DietEnterMealFragment extends Fragment {
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        if (getArguments() != null) {
-        }
     }
 
     @Override
@@ -52,7 +50,7 @@ public class DietEnterMealFragment extends Fragment {
                              Bundle savedInstanceState) {
         // Inflate the layout for this fragment
         View rootView = inflater.inflate(R.layout.fragment_diet_enter_meal, container, false);
-        getActivity().setTitle("Enter a new meal");
+        getActivity().setTitle(R.string.enter_meal_title);
 
         EditText editName = rootView.findViewById(R.id.editTextMealName);
         EditText editCalories = rootView.findViewById(R.id.editTextMealCalories);
@@ -126,7 +124,6 @@ public class DietEnterMealFragment extends Fragment {
     @Override
     public void onAttach(@NonNull Context context) {
         super.onAttach(context);
-
         if (context instanceof ISaveMeal) {
             saveMeal = (ISaveMeal) context;
         } else {

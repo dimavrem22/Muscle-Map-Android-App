@@ -8,51 +8,28 @@
     tools:context=".DietAnalysisFragment">
 
     <Spinner
-        android:id="@+id/spinnerSelectDietGraph"
-        android:layout_width="331dp"
-        android:layout_height="31dp"
-        android:layout_marginEnd="32dp"
-        app:layout_constraintBottom_toTopOf="@+id/imageViewDietGraph"
-        app:layout_constraintEnd_toEndOf="parent" />
-
-    <ImageView
-        android:id="@+id/imageViewDietGraph"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:src="@drawable/line_graph"
-        tools:layout_editor_absoluteX="56dp"
-        tools:layout_editor_absoluteY="685dp" />
-
-    <TextView
-        android:id="@+id/textViewSelectDietChart"
-        android:layout_width="wrap_content"
+        android:id="@+id/dietChartSelect"
+        android:layout_width="0dp"
         android:layout_height="wrap_content"
         android:layout_marginStart="32dp"
-        android:layout_marginEnd="508dp"
-        android:text="Select chart:"
-        app:layout_constraintBottom_toTopOf="@+id/imageViewDietGraph"
-        app:layout_constraintEnd_toStartOf="@+id/spinnerSelectDietGraph"
-        app:layout_constraintHorizontal_bias="0.0"
-        app:layout_constraintStart_toStartOf="parent" />
-
-    <CalendarView
-        android:id="@+id/calendarViewDietSelectDay"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginEnd="12dp"
-        app:layout_constraintBottom_toTopOf="@+id/spinnerSelectDietGraph"
+        android:layout_marginTop="32dp"
+        android:layout_marginEnd="32dp"
+        app:layout_constraintBottom_toTopOf="@+id/dietAnalysisChart"
         app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.0"
+        app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
 
-    <androidx.recyclerview.widget.RecyclerView
-        android:id="@+id/recyclerViewMealsForDay"
+    <com.github.mikephil.charting.charts.LineChart
+        android:id="@+id/dietAnalysisChart"
         android:layout_width="0dp"
         android:layout_height="0dp"
         android:layout_marginStart="32dp"
         android:layout_marginTop="32dp"
+        android:layout_marginEnd="32dp"
         android:layout_marginBottom="32dp"
-        app:layout_constraintBottom_toTopOf="@+id/textViewSelectDietChart"
-        app:layout_constraintEnd_toStartOf="@+id/calendarViewDietSelectDay"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent" />
+        app:layout_constraintTop_toBottomOf="@+id/dietChartSelect" />
 </androidx.constraintlayout.widget.ConstraintLayout>
