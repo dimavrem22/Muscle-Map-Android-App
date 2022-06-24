@@ -97,6 +97,9 @@ public class DietAnalysisFragment extends Fragment {
         TextView averageSnackCalories = rootView.findViewById(R.id.textViewAvgSnackCalories);
         averageSnackCalories.setText(Double.toString(averageCalories(MealType.SNACK)));
 
+        TextView averageCalories = rootView.findViewById(R.id.textViewAvgCalories);
+        averageCalories.setText(Double.toString(averageCalories()));
+
         return rootView;
     }
 
@@ -123,6 +126,10 @@ public class DietAnalysisFragment extends Fragment {
                 .mapToInt(Meal::getCalories)
                 .average()
                 .orElse(0.0);
+    }
+
+    private double averageCalories() {
+        return meals.stream().mapToInt(Meal::getCalories).average().orElse(0.0);
     }
 
     enum ChartType {

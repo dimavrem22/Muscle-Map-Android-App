@@ -74,6 +74,12 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:text="@string/avg_calories_snack" />
+
+            <TextView
+                android:id="@+id/textViewAvgCaloriesLabel"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="@string/avg_calories" />
         </LinearLayout>
 
         <LinearLayout
@@ -98,6 +104,11 @@
 
             <TextView
                 android:id="@+id/textViewAvgSnackCalories"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content" />
+
+            <TextView
+                android:id="@+id/textViewAvgCalories"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content" />
         </LinearLayout>
