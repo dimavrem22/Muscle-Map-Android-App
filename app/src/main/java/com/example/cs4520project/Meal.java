@@ -1,6 +1,8 @@
 package com.example.cs4520project;
 
-public class Meal {
+import java.io.Serializable;
+
+public class Meal implements Serializable {
     private String name;
     private MealType mealType;
 
@@ -10,6 +12,8 @@ public class Meal {
     private int sodium;
     private int totalFat;
     private String additionalNotes;
+    private int day;
+    private int month;
 
     public Meal(String name, MealType mealType, int calories, int protein, int carbs, int sodium, int totalFat, String additionalNotes) {
         this.name = name;
@@ -56,5 +60,13 @@ public class Meal {
 
     public String getAdditionalNotes() {
         return additionalNotes;
+    }
+
+    public void setDay(int day) {
+        this.day = day;
+    }
+
+    public void setMonth(int month) {
+        this.month = month;
     }
 }

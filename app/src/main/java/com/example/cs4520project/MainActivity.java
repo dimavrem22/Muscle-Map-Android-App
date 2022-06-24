@@ -32,8 +32,8 @@ import com.google.firebase.auth.FirebaseUser;
 public class MainActivity extends AppCompatActivity implements CalendarView.OnDateChangeListener,
 
         View.OnClickListener, LogInFragment.LoginToMain, NewWorkoutFragment.INewWorkoutToMain,
-        ExerciseLoggingFragment.ExerciseLogToMain, EditWorkoutFragment.IEditWorkoutToMain,
-        ExerciseLoggingFragment.ISendDocFromExerciseLogToMain, DietEnterMealFragment.ISaveMeal,
+        ExerciseLogFragment.ExerciseLogToMain, EditWorkoutFragment.IEditWorkoutToMain,
+        ExerciseLogFragment.ISendDocFromExerciseLogToMain, DietEnterMealFragment.ISaveMeal,
         NewSleepLogFragment.IAddNewSleepLogToDB {
 
 
@@ -87,34 +87,29 @@ public class MainActivity extends AppCompatActivity implements CalendarView.OnDa
             cal.setTimeInMillis(calender.getDate());
 
             getSupportFragmentManager().beginTransaction().replace(R.id.fragment_container,
-                    ExerciseLoggingFragment.newInstance(mAuth.getCurrentUser().getEmail(),
+                    ExerciseLogFragment.newInstance(mAuth.getCurrentUser().getEmail(),
                             cal.get(Calendar.DAY_OF_MONTH), cal.get(Calendar.MONTH) + 1,
                             cal.get(Calendar.YEAR)),
-                    ExerciseLoggingFragment.FRAGMENT_KEY).commit();
+                    ExerciseLogFragment.FRAGMENT_KEY).commit();
         });
 
         dietButton = findViewById(R.id.diet_button);
-        dietButton.setOnClickListener(v -> {
-            getSupportFragmentManager().beginTransaction()
-                    .add(R.id.fragment_container, DietLogFragment.newInstance(),
-                            DietLogFragment.FRAGMENT_TAG)
-                    .addToBackStack(null)
-                    .commit();
-        });
+        dietButton.setOnClickListener(v -> getSupportFragmentManager().beginTransaction()
+                .add(R.id.fragment_container, DietLogFragment.newInstance(mAuth.getCurrentUser().getEmail()),
+                        DietLogFragment.FRAGMENT_TAG)
+                .addToBackStack(null)
+                .commit());
 
         this.sleepButton = this.findViewById(R.id.sleep_button);
-        this.sleepButton.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                sleepFragment = true;
-                getSupportFragmentManager().beginTransaction()
-                        .add(R.id.fragment_container, SleepLogFragment.newInstance(mAuth.getCurrentUser().getEmail(),
-                                        cal.get(Calendar.DAY_OF_MONTH), cal.get(Calendar.MONTH) + 1,
-                                        cal.get(Calendar.YEAR)),
-                                SleepLogFragment.FRAGMENT_TAG)
-                        .addToBackStack(null)
-                        .commit();
-            }
+        this.sleepButton.setOnClickListener(v -> {
+            sleepFragment = true;
+            getSupportFragmentManager().beginTransaction()
+                    .add(R.id.fragment_container, SleepLogFragment.newInstance(mAuth.getCurrentUser().getEmail(),
+                                    cal.get(Calendar.DAY_OF_MONTH), cal.get(Calendar.MONTH) + 1,
+                                    cal.get(Calendar.YEAR)),
+                            SleepLogFragment.FRAGMENT_TAG)
+                    .addToBackStack(null)
+                    .commit();
         });
 
         this.nextArrow = this.findViewById(R.id.next_button);
@@ -130,7 +125,7 @@ public class MainActivity extends AppCompatActivity implements CalendarView.OnDa
         this.dietFragment = false;
 
         // authentication
-        this.mAuth = FirebaseAuth.getInstance();
+        mAuth = FirebaseAuth.getInstance();
 
         // Check if user is signed in (non-null) and update UI accordingly.
         FirebaseUser currentUser = mAuth.getCurrentUser();
@@ -229,12 +224,10 @@ public class MainActivity extends AppCompatActivity implements CalendarView.OnDa
         });
     }
 
-
     @Override
     public void registerRequest(String name, String email, String pass) {
         this.checkDuplicateEmail(name, email, pass);
     }
-
 
     private void checkDuplicateEmail(String name, String email, String pass) {
         usersCollection.whereEqualTo("email", email).get().addOnCompleteListener(task -> {
@@ -252,7 +245,6 @@ public class MainActivity extends AppCompatActivity implements CalendarView.OnDa
         });
     }
 
-
     private void registerNewUser(String name, String email, String pass) {
         mAuth.createUserWithEmailAndPassword(email, pass)
                 .addOnCompleteListener(new OnCompleteListener<AuthResult>() {
@@ -263,9 +255,7 @@ public class MainActivity extends AppCompatActivity implements CalendarView.OnDa
                 });
     }
 
-
     private void addUserToDB(String name, String email) {
-
         Map<String, Object> user = new HashMap<>();
         user.put("name", name);
         user.put("email", email);
@@ -278,7 +268,6 @@ public class MainActivity extends AppCompatActivity implements CalendarView.OnDa
             }
         });
     }
-
 
     private void removeLoginFragment() {
         getSupportActionBar().hide();
@@ -315,10 +304,10 @@ public class MainActivity extends AppCompatActivity implements CalendarView.OnDa
         cal.setTimeInMillis(calender.getDate());
 
         getSupportFragmentManager().beginTransaction().replace(R.id.fragment_container,
-                ExerciseLoggingFragment.newInstance(mAuth.getCurrentUser().getEmail(),
+                ExerciseLogFragment.newInstance(mAuth.getCurrentUser().getEmail(),
                         cal.get(Calendar.DAY_OF_MONTH), cal.get(Calendar.MONTH) + 1,
                         cal.get(Calendar.YEAR)),
-                ExerciseLoggingFragment.FRAGMENT_KEY).commit();
+                ExerciseLogFragment.FRAGMENT_KEY).commit();
     }
 
     private void sendChangedDateToFragment() {
@@ -330,8 +319,8 @@ public class MainActivity extends AppCompatActivity implements CalendarView.OnDa
         int year = cal.get(Calendar.YEAR);
 
         if (this.exerciseFragment) {
-            ExerciseLoggingFragment f = (ExerciseLoggingFragment)
-                    this.getSupportFragmentManager().findFragmentByTag(ExerciseLoggingFragment.FRAGMENT_KEY);
+            ExerciseLogFragment f = (ExerciseLogFragment)
+                    this.getSupportFragmentManager().findFragmentByTag(ExerciseLogFragment.FRAGMENT_KEY);
             f.changeDate(day, month, year);
         }
         if (this.sleepFragment) {

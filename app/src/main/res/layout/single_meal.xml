@@ -7,68 +7,70 @@
 
     <androidx.constraintlayout.widget.ConstraintLayout
         android:layout_width="match_parent"
-        android:layout_height="wrap_content">
+        android:layout_height="match_parent">
 
         <TextView
-            android:id="@+id/textView7"
+            android:id="@+id/textViewMealName"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginStart="20dp"
             android:layout_marginTop="20dp"
-            android:text="Name of meal: "
+            android:textSize="20dp"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent" />
 
         <TextView
-            android:id="@+id/textView8"
+            android:id="@+id/textViewMealType"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="Calories:"
-            app:layout_constraintStart_toStartOf="@+id/textView7"
-            app:layout_constraintTop_toBottomOf="@+id/textView7" />
+            android:layout_marginStart="20dp"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/textViewMealName" />
 
         <TextView
-            android:id="@+id/textView9"
+            android:id="@+id/textViewMealCalories"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="Total Carbs:"
-            app:layout_constraintStart_toStartOf="@+id/textView8"
-            app:layout_constraintTop_toBottomOf="@+id/textView8" />
+            app:layout_constraintStart_toStartOf="@+id/textViewMealName"
+            app:layout_constraintTop_toBottomOf="@+id/textViewMealType" />
 
         <TextView
-            android:id="@+id/textView10"
+            android:id="@+id/textViewMealCarbs"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="Total Protein:"
-            app:layout_constraintStart_toStartOf="@+id/textView9"
-            app:layout_constraintTop_toBottomOf="@+id/textView9" />
+            app:layout_constraintStart_toStartOf="@+id/textViewMealCalories"
+            app:layout_constraintTop_toBottomOf="@+id/textViewMealCalories" />
 
         <TextView
-            android:id="@+id/textView11"
+            android:id="@+id/textViewMealProtein"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="Total Fats:"
-            app:layout_constraintStart_toStartOf="@+id/textView10"
-            app:layout_constraintTop_toBottomOf="@+id/textView10" />
+            app:layout_constraintStart_toStartOf="@+id/textViewMealCarbs"
+            app:layout_constraintTop_toBottomOf="@+id/textViewMealCarbs" />
 
         <TextView
-            android:id="@+id/textView12"
+            android:id="@+id/textViewMealTotalFat"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="Sodium:"
-            app:layout_constraintStart_toStartOf="@+id/textView11"
-            app:layout_constraintTop_toBottomOf="@+id/textView11" />
+            app:layout_constraintStart_toStartOf="@+id/textViewMealProtein"
+            app:layout_constraintTop_toBottomOf="@+id/textViewMealProtein" />
 
         <TextView
-            android:id="@+id/textView13"
+            android:id="@+id/textViewMealSodium"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="Notes:"
-            app:layout_constraintStart_toStartOf="@+id/textView12"
-            app:layout_constraintTop_toBottomOf="@+id/textView12" />
+            app:layout_constraintStart_toStartOf="@+id/textViewMealTotalFat"
+            app:layout_constraintTop_toBottomOf="@+id/textViewMealTotalFat" />
+
+        <TextView
+            android:id="@+id/textViewMealNotes"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            app:layout_constraintStart_toStartOf="@+id/textViewMealSodium"
+            app:layout_constraintTop_toBottomOf="@+id/textViewMealSodium" />
 
         <ImageView
-            android:id="@+id/imageView7"
+            android:id="@+id/deleteMeal"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginEnd="20dp"

@@ -23,7 +23,7 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.stream.Collectors;
 
-public class ExerciseLoggingFragment extends Fragment implements View.OnClickListener {
+public class ExerciseLogFragment extends Fragment implements View.OnClickListener {
     private final FirebaseFirestore db = FirebaseFirestore.getInstance();
     private final CollectionReference usersCollection = db.collection("users");
 
@@ -51,12 +51,12 @@ public class ExerciseLoggingFragment extends Fragment implements View.OnClickLis
         void sendDocFromExerciseLogToMain(DocumentReference doc);
     }
 
-    public ExerciseLoggingFragment() {
+    public ExerciseLogFragment() {
         // Required empty public constructor
     }
 
-    public static ExerciseLoggingFragment newInstance(String email, int day, int month, int year) {
-        ExerciseLoggingFragment fragment = new ExerciseLoggingFragment();
+    public static ExerciseLogFragment newInstance(String email, int day, int month, int year) {
+        ExerciseLogFragment fragment = new ExerciseLogFragment();
         Bundle args = new Bundle();
         args.putString(ARG_EMAIL, email);
         args.putInt(ARG_DAY, day);

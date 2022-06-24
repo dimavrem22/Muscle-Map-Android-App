@@ -9,14 +9,13 @@ import android.widget.TextView;
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
-import java.util.ArrayList;
 import java.util.List;
 
 public class WorkoutListAdapter extends RecyclerView.Adapter<WorkoutListAdapter.ViewHolder> {
     private final List<Workout> workouts;
-    private final ExerciseLoggingFragment fragment;
+    private final ExerciseLogFragment fragment;
 
-    public WorkoutListAdapter(List<Workout> workouts, ExerciseLoggingFragment fragment) {
+    public WorkoutListAdapter(List<Workout> workouts, ExerciseLogFragment fragment) {
         this.workouts = workouts;
         this.fragment = fragment;
     }
@@ -59,7 +58,7 @@ public class WorkoutListAdapter extends RecyclerView.Adapter<WorkoutListAdapter.
     }
 
     public static class ViewHolder extends RecyclerView.ViewHolder implements View.OnClickListener {
-        private final ExerciseLoggingFragment fragment;
+        private final ExerciseLogFragment fragment;
         private final TextView nameText;
         private final TextView exercisesText;
         private final TextView timeText;
@@ -67,7 +66,7 @@ public class WorkoutListAdapter extends RecyclerView.Adapter<WorkoutListAdapter.
         private final ImageView editImage;
         private final List<Workout> workouts;
 
-        public ViewHolder(@NonNull View itemView, ExerciseLoggingFragment fragment, List<Workout> workouts) {
+        public ViewHolder(@NonNull View itemView, ExerciseLogFragment fragment, List<Workout> workouts) {
             super(itemView);
             this.fragment = fragment;
             this.nameText = itemView.findViewById(R.id.workoutNameText);
@@ -102,5 +101,4 @@ public class WorkoutListAdapter extends RecyclerView.Adapter<WorkoutListAdapter.
             }
         }
     }
-
 }

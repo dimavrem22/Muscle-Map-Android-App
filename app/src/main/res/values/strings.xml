@@ -6,7 +6,6 @@
     <string name="exercise">Exercise</string>
     <string name="diet">Diet</string>
 
-
     <!-- Login Fragment Values -->
     <string name="login">Log In</string>
     <string name="register">Register</string>
@@ -55,4 +54,11 @@
     <!-- Edit Workout Fragment -->
     <string name="EditWorkout">Edit Workout</string>
 
+    <!-- Meal fields -->
+    <string name="meal_calories">Calories</string>
+    <string name="meal_carbs">Carbs</string>
+    <string name="meal_protein">Protein</string>
+    <string name="meal_sodium">Sodium</string>
+    <string name="meal_total_fat">Total Fat</string>
+    <string name="meal_notes">Notes</string>
 </resources>
