@@ -53,7 +53,7 @@ public class MainActivity extends AppCompatActivity implements CalendarView.OnDa
     private CalendarView calender;
 
     private Button exerciseButton, dietButton, sleepButton;
-    private ImageButton profileButton;
+    private ImageView profileButton;
 
     private boolean exerciseFragment, sleepFragment, dietFragment;
 
