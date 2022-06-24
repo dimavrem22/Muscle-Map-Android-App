@@ -16,7 +16,11 @@ public enum MuscleGroup {
     BACK,
     QUADS,
     HAMSTRINGS,
-    CALVES;
+    CALVES,
+    LATS,
+    UPPER_TRAPS,
+    LOWER_BACK,
+    GLUTS;
 
     @NonNull
     @Override

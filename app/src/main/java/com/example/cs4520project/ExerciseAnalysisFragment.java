@@ -4,10 +4,12 @@ import android.os.Bundle;
 
 import androidx.fragment.app.Fragment;
 
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
+import android.widget.ProgressBar;
 
 import com.google.firebase.firestore.CollectionReference;
 import com.google.firebase.firestore.DocumentSnapshot;
@@ -16,6 +18,7 @@ import com.google.firebase.firestore.FirebaseFirestore;
 import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.List;
+import java.util.concurrent.atomic.AtomicInteger;
 import java.util.stream.Collectors;
 
 /**
@@ -48,6 +51,8 @@ public class ExerciseAnalysisFragment extends Fragment implements View.OnClickLi
 
     private ImageView backView, upperTrapsBack, trapsBack, shouldersBack, trisBack, forearmsBack,
             latsBack, lowerBackBack, glutsBack, hamsBack, calvesBack;
+
+    private ProgressBar progressBar;
 
     private ArrayList<ImageView> backMuscleImages;
 
@@ -95,6 +100,7 @@ public class ExerciseAnalysisFragment extends Fragment implements View.OnClickLi
 
         this.flipImage = rootView.findViewById(R.id.flipViewButton);
         this.flipImage.setOnClickListener(this);
+        this.progressBar = rootView.findViewById(R.id.workoutAnalysisProgressBar);
 
         this.frontMuscleImages = new ArrayList<ImageView>();
 
@@ -117,9 +123,9 @@ public class ExerciseAnalysisFragment extends Fragment implements View.OnClickLi
         this.trapsFront = rootView.findViewById(R.id.trapsFrontImage);
         this.frontMuscleImages.add(trapsFront);
 
-        for (ImageView i : this.frontMuscleImages) {
-            i.setVisibility(View.INVISIBLE);
-        }
+//        for (ImageView i : this.frontMuscleImages) {
+//            i.setVisibility(View.INVISIBLE);
+//        }
 
 
         this.backMuscleImages = new ArrayList<ImageView>();
@@ -150,6 +156,7 @@ public class ExerciseAnalysisFragment extends Fragment implements View.OnClickLi
         }
         this.backView.setVisibility(View.INVISIBLE);
 
+        this.getWorkoutCollection();
         this.colorMusclesByStrain();
 
         return rootView;
@@ -184,7 +191,12 @@ public class ExerciseAnalysisFragment extends Fragment implements View.OnClickLi
 
 
 
-    private void getWorkoutList() {
+    private void getMuscleStrain() {
+        this.flipImage.setEnabled(false);
+        this.progressBar.setVisibility(View.VISIBLE);
+
+
+        this.initializeStrain();
         this.counter = 0;
         Calendar cal = Calendar.getInstance();
 
@@ -192,7 +204,19 @@ public class ExerciseAnalysisFragment extends Fragment implements View.OnClickLi
         int queryMonth =  cal.get(Calendar.MONTH) + 1;
         int queryYear = cal.get(Calendar.YEAR);
 
+        AtomicInteger resultCounter = new AtomicInteger();
+
         while (this.counter < 4 ){
+
+            int factor;
+
+            if (this.counter == 0 || this.counter == 1 ){
+                factor = 8;
+            } else if (this.counter == 2){
+                factor = 4;
+            } else {
+                factor = 2;
+            }
 
             this.workoutCollection
                     .whereEqualTo("day", queryDay)
@@ -200,21 +224,79 @@ public class ExerciseAnalysisFragment extends Fragment implements View.OnClickLi
                     .whereEqualTo("year", queryYear).get().addOnCompleteListener(task -> {
                         if(task.isSuccessful()){
                             for (DocumentSnapshot d : task.getResult().getDocuments()) {
-                                Workout wo = new Workout();
-                                wo.setName(d.getString("name"));
                                 List<String> exerciseNames = (List<String>) d.get("exercises");
                                 List<Exercise> exercises = exerciseNames
                                         .stream()
                                         .map(Exercise::valueOf).collect(Collectors.toList());
-                                wo.setExercises(exercises);
-                                wo.setStartHour((int) Math.round(d.getDouble("startHour")));
-                                wo.setStartMinute((int) Math.round(d.getDouble("startMinute")));
-                                wo.setEndHour((int) Math.round(d.getDouble("endHour")));
-                                wo.setEndMinute((int) Math.round(d.getDouble("endMinute")));
-                                listOfAnalyzedWorkouts.add(wo);
+                                for (Exercise ex: exercises){
+                                    this.updateStrain(ex, factor);
+                                }
                             }
+                            resultCounter.addAndGet(1);
+
+                            // done getting the workout for the last day;
+                            if (resultCounter.get() >= 4){
+                                Log.d("assf", "getting last");
+                                this.colorMusclesByStrain();
+                                this.flipImage.setEnabled(true);
+                                this.progressBar.setVisibility(View.INVISIBLE);
+                            }
+
                         }
                     });
+
+            cal.setTimeInMillis(cal.getTimeInMillis() - 24*60*60*1000 );
+
+             queryDay = cal.get(Calendar.DAY_OF_MONTH);
+             queryMonth =  cal.get(Calendar.MONTH) + 1;
+             queryYear = cal.get(Calendar.YEAR);
+
+             this.counter ++;
+        }
+    }
+
+    private void updateStrain(Exercise exercise, int factor){
+        if (exercise.getMuscleGroup() == MuscleGroup.ABS){
+            this.absStrain += factor;
+        }
+        else if (exercise.getMuscleGroup() == MuscleGroup.TRAPS){
+            this.trapStrain += factor;
+        }
+        else if (exercise.getMuscleGroup() == MuscleGroup.SHOULDERS){
+            this.shoulderStrain += factor;
+        }
+        else if (exercise.getMuscleGroup() == MuscleGroup.PECS){
+            this.pecStrain += factor;
+        }
+        else if (exercise.getMuscleGroup() == MuscleGroup.BICEPS){
+            this.bicepsStrain += factor;
+        }
+        else if (exercise.getMuscleGroup() == MuscleGroup.FOREARMS){
+            this.forearmStrain += factor;
+        }
+        else if (exercise.getMuscleGroup() == MuscleGroup.QUADS){
+            this.quadStrain += factor;
+        }
+        else if (exercise.getMuscleGroup() == MuscleGroup.CALVES){
+            this.calveStrain += factor;
+        }
+        else if (exercise.getMuscleGroup() == MuscleGroup.TRICEPS){
+            this.triStrain += factor;
+        }
+        else if (exercise.getMuscleGroup() == MuscleGroup.LATS){
+            this.latsStrain += factor;
+        }
+        else if (exercise.getMuscleGroup() == MuscleGroup.UPPER_TRAPS){
+            this.upperTrapStrain += factor;
+        }
+        else if (exercise.getMuscleGroup() == MuscleGroup.LOWER_BACK){
+            this.lowerBackStrain += factor;
+        }
+        else if (exercise.getMuscleGroup() == MuscleGroup.GLUTS){
+            this.glutStrain += factor;
+        }
+        else if (exercise.getMuscleGroup() == MuscleGroup.HAMSTRINGS){
+            this.hamsStrain += factor;
         }
     }
 
@@ -224,9 +306,11 @@ public class ExerciseAnalysisFragment extends Fragment implements View.OnClickLi
                 this.workoutCollection =
                         task.getResult().getDocuments().get(0)
                                 .getReference().collection("workouts");
+                this.getMuscleStrain();
             }
         });
     }
+
 
 
     private void initializeStrain() {
