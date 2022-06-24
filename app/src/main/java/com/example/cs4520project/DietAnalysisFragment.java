@@ -9,21 +9,27 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
+import android.widget.RelativeLayout;
 import android.widget.Spinner;
 import android.widget.TextView;
 
+import com.github.mikephil.charting.charts.BarChart;
 import com.github.mikephil.charting.charts.LineChart;
+import com.github.mikephil.charting.components.Description;
+import com.github.mikephil.charting.components.XAxis;
+import com.github.mikephil.charting.data.BarData;
+import com.github.mikephil.charting.data.BarDataSet;
+import com.github.mikephil.charting.data.BarEntry;
 import com.github.mikephil.charting.data.Entry;
 import com.github.mikephil.charting.data.LineData;
 import com.github.mikephil.charting.data.LineDataSet;
-import com.google.firebase.firestore.CollectionReference;
+import com.github.mikephil.charting.formatter.IndexAxisValueFormatter;
 
 import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Collections;
 import java.util.Comparator;
-import java.util.Date;
 import java.util.List;
 
 public class DietAnalysisFragment extends Fragment {
@@ -67,7 +73,11 @@ public class DietAnalysisFragment extends Fragment {
         View rootView = inflater.inflate(R.layout.fragment_diet_analysis, container, false);
 
         Spinner chartSelect = rootView.findViewById(R.id.dietChartSelect);
-        LineChart chart = rootView.findViewById(R.id.dietAnalysisChart);
+        RelativeLayout chartLayout = rootView.findViewById(R.id.dietAnalysisChart);
+        RelativeLayout.LayoutParams params = new RelativeLayout.LayoutParams(
+                RelativeLayout.LayoutParams.MATCH_PARENT, RelativeLayout.LayoutParams.MATCH_PARENT);
+        params.addRule(RelativeLayout.ALIGN_PARENT_LEFT, RelativeLayout.TRUE);
+        params.addRule(RelativeLayout.ALIGN_PARENT_TOP, RelativeLayout.TRUE);
 
         chartSelect.setAdapter(new ArrayAdapter<>(rootView.getContext(),
                 androidx.appcompat.R.layout.support_simple_spinner_dropdown_item,
@@ -77,16 +87,64 @@ public class DietAnalysisFragment extends Fragment {
             public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
                 ChartType chartType = (ChartType) parent.getItemAtPosition(position);
                 switch (chartType) {
-                    case CALORIES_PAST_WEEK:
-                        List<Integer> calories = caloriesPastWeek(LocalDate.now());
+                    case CALORIES_PAST_WEEK: {
+                        LocalDate date = LocalDate.now();
+                        LineChart lineChart = new LineChart(getContext());
+
                         List<Entry> entries = new ArrayList<>();
-                        for (int i = 0; i < calories.size(); i++) {
-                            entries.add(new Entry(i, calories.get(i)));
+                        List<String> labels = new ArrayList<>();
+                        for (int i = 0; i < 7; i++) {
+                            entries.add(new Entry(i, caloriesOnDate(date)));
+                            labels.add(weekAbbr(date.getDayOfWeek().getValue()));
+                            date = date.minusDays(1);
                         }
+
+                        lineChart.getXAxis().setValueFormatter(new IndexAxisValueFormatter(labels));
+
                         LineDataSet dataSet = new LineDataSet(entries, "Total calories per day");
                         LineData data = new LineData(dataSet);
-                        chart.setData(data);
-                        break;
+                        lineChart.setData(data);
+                        Description description = new Description();
+                        description.setText("Calories over the past 7 days");
+                        lineChart.setDescription(description);
+                        chartLayout.removeAllViews();
+                        chartLayout.addView(lineChart, params);
+                    }
+                    break;
+                    case OVERALL_AMOUNTS: {
+                        BarChart barChart = new BarChart(getContext());
+                        int calories = meals.stream().mapToInt(Meal::getCalories).sum();
+                        int carbs = meals.stream().mapToInt(Meal::getCarbs).sum();
+                        int protein = meals.stream().mapToInt(Meal::getProtein).sum();
+                        int sodium = meals.stream().mapToInt(Meal::getSodium).sum();
+                        int totalFat = meals.stream().mapToInt(Meal::getTotalFat).sum();
+
+                        List<BarEntry> entries = new ArrayList<>();
+                        entries.add(new BarEntry(0, calories));
+                        entries.add(new BarEntry(1, carbs));
+                        entries.add(new BarEntry(2, protein));
+                        entries.add(new BarEntry(3, sodium));
+                        entries.add(new BarEntry(4, totalFat));
+
+                        List<String> labels = new ArrayList<>();
+                        labels.add("Calories");
+                        labels.add("Carbs");
+                        labels.add("Protein");
+                        labels.add("Sodium");
+                        labels.add("Total Fat");
+
+                        barChart.getXAxis().setValueFormatter(new IndexAxisValueFormatter(labels));
+
+                        BarDataSet dataSet = new BarDataSet(entries, "Summed amount");
+                        BarData data = new BarData(dataSet);
+                        barChart.setData(data);
+                        Description description = new Description();
+                        description.setText("Overall amounts");
+                        barChart.setDescription(description);
+                        chartLayout.removeAllViews();
+                        chartLayout.addView(barChart, params);
+                    }
+                    break;
                     default:
                         break;
                 }
@@ -116,16 +174,6 @@ public class DietAnalysisFragment extends Fragment {
         return rootView;
     }
 
-    private List<Integer> caloriesPastWeek(LocalDate date) {
-        List<Integer> week = new ArrayList<>();
-        for (int i = 0; i < 7; i++) {
-            week.add(caloriesOnDate(date));
-            date = date.minusDays(1);
-        }
-        Collections.reverse(week);
-        return week;
-    }
-
     private int caloriesOnDate(LocalDate date) {
         return meals.stream()
                 .filter(meal -> date.equals(meal.getDate()))
@@ -145,7 +193,29 @@ public class DietAnalysisFragment extends Fragment {
         return meals.stream().mapToInt(Meal::getCalories).average().orElse(0.0);
     }
 
+    private String weekAbbr(int day) {
+        switch (day) {
+            case 1:
+                return "MON";
+            case 2:
+                return "TUES";
+            case 3:
+                return "WED";
+            case 4:
+                return "THUR";
+            case 5:
+                return "FRI";
+            case 6:
+                return "SAT";
+            case 7:
+                return "SUN";
+            default:
+                return "";
+        }
+    }
+
     enum ChartType {
         CALORIES_PAST_WEEK,
+        OVERALL_AMOUNTS,
     }
 }
