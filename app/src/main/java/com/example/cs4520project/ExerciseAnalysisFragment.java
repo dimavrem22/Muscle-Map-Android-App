@@ -298,7 +298,6 @@ public class ExerciseAnalysisFragment extends Fragment implements View.OnClickLi
                 this.workoutCollection =
                         task.getResult().getDocuments().get(0)
                                 .getReference().collection("workouts");
-                this.getMuscleStrain();
                 this.spinner = getActivity().findViewById(R.id.exerciseAnalysisSpinner);
                 this.spinner.setOnItemSelectedListener(this);
                 this.spinner.setAdapter(new ArrayAdapter<>(this.getContext(),
