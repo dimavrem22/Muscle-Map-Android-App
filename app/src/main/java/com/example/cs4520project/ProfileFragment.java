@@ -78,12 +78,26 @@ public class ProfileFragment extends Fragment implements View.OnClickListener {
             this.getActivity().getSupportFragmentManager()
                     .beginTransaction().remove(this)
                     .commit();
+            this.onDetach();
         }
     }
 
     public interface FromProfileFragmentToMain{
         void logoutRequest();
     }
+
+    @Override
+    public void onDetach() {
+        super.onDetach();
+        ((MainActivity)this.getActivity()).EnableUI(true);
+    }
+
+    @Override
+    public void onResume() {
+        super.onResume();
+        ((MainActivity)this.getActivity()).EnableUI(false);
+    }
+
 
 
 }

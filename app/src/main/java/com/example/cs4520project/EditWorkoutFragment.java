@@ -236,6 +236,7 @@ public class EditWorkoutFragment extends Fragment implements ExerciseListAdapter
             @Override
             public void onClick(View v) {
                 getActivity().getSupportFragmentManager().popBackStack();
+                onDetach();
             }
         });
 
@@ -288,5 +289,17 @@ public class EditWorkoutFragment extends Fragment implements ExerciseListAdapter
         } else {
             throw new RuntimeException(context + " must implement IEditWorkoutToMain");
         }
+    }
+
+    @Override
+    public void onDetach() {
+        super.onDetach();
+        ((MainActivity)this.getActivity()).EnableUI(true);
+    }
+
+    @Override
+    public void onResume() {
+        super.onResume();
+        ((MainActivity)this.getActivity()).EnableUI(false);
     }
 }

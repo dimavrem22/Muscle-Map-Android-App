@@ -98,7 +98,7 @@ public class DietLogFragment extends Fragment {
 
         dietAnalysis.setOnClickListener(v -> getActivity().getSupportFragmentManager()
                 .beginTransaction()
-                .add(R.id.fragment_container, DietAnalysisFragment.newInstance(meals),
+                .add(R.id.outerFragmentContainer, DietAnalysisFragment.newInstance(meals),
                         DietAnalysisFragment.FRAGMENT_TAG)
                 .addToBackStack(null)
                 .commit());

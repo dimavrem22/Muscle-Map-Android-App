@@ -476,7 +476,8 @@ public class MainActivity extends AppCompatActivity implements CalendarView.OnDa
             this.getSupportFragmentManager().beginTransaction().remove(
                     this.getSupportFragmentManager()
                             .findFragmentByTag(EditWorkoutFragment.FRAGMENT_KEY))
-                    .commit(); }
+                    .commit();
+            this.EnableUI(true);}
             );
     }
 
@@ -516,5 +517,21 @@ public class MainActivity extends AppCompatActivity implements CalendarView.OnDa
         }
         this.mAuth.signOut();
         this.launchLoginFragment();
+    }
+
+    public void EnableUI(boolean enable){
+        if (!enable){
+            this.calendarButton.setEnabled(false);
+            this.profileButton.setEnabled(false);
+            this.infoButton.setEnabled(false);
+            this.prevArrow.setEnabled(false);
+            this.nextArrow.setEnabled(false);
+        } else {
+            this.calendarButton.setEnabled(true);
+            this.profileButton.setEnabled(true);
+            this.infoButton.setEnabled(true);
+            this.prevArrow.setEnabled(true);
+            this.nextArrow.setEnabled(true);
+        }
     }
 }

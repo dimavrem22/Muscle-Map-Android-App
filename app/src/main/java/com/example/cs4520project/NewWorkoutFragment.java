@@ -207,6 +207,7 @@ public class NewWorkoutFragment extends Fragment implements ExerciseListAdapter.
             @Override
             public void onClick(View v) {
                 getActivity().getSupportFragmentManager().popBackStack();
+                onDetach();
             }
         });
 
@@ -262,4 +263,18 @@ public class NewWorkoutFragment extends Fragment implements ExerciseListAdapter.
             throw new RuntimeException(context.toString()+ " must implement INewWorkoutToMain");
         }
     }
+
+
+    @Override
+    public void onDetach() {
+        super.onDetach();
+        ((MainActivity)this.getActivity()).EnableUI(true);
+    }
+
+    @Override
+    public void onResume() {
+        super.onResume();
+        ((MainActivity)this.getActivity()).EnableUI(false);
+    }
+
 }

@@ -9,6 +9,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
+import android.widget.ImageView;
 import android.widget.RelativeLayout;
 import android.widget.Spinner;
 import android.widget.TextView;
@@ -32,12 +33,14 @@ import java.util.Collections;
 import java.util.Comparator;
 import java.util.List;
 
-public class DietAnalysisFragment extends Fragment {
+public class DietAnalysisFragment extends Fragment implements View.OnClickListener {
     public static final String FRAGMENT_TAG = "DIET_ANALYSIS_FRAGMENT";
     private static final String ARG_MEALS = "MEALS";
     private static final Calendar calendar = Calendar.getInstance();
 
     private List<Meal> meals;
+
+    private ImageView backButton;
 
     public DietAnalysisFragment() {
         // Required empty public constructor
@@ -71,6 +74,9 @@ public class DietAnalysisFragment extends Fragment {
                              Bundle savedInstanceState) {
         // Inflate the layout for this fragment
         View rootView = inflater.inflate(R.layout.fragment_diet_analysis, container, false);
+
+        this.backButton = rootView.findViewById(R.id.diet_analysis_back_button);
+        this.backButton.setOnClickListener(this);
 
         Spinner chartSelect = rootView.findViewById(R.id.dietChartSelect);
         RelativeLayout chartLayout = rootView.findViewById(R.id.dietAnalysisChart);
@@ -214,8 +220,30 @@ public class DietAnalysisFragment extends Fragment {
         }
     }
 
+    @Override
+    public void onClick(View v) {
+        if (v.getId() == this.backButton.getId()){
+            this.getActivity().getSupportFragmentManager().beginTransaction().remove(this).commit();
+            this.onDetach();
+        }
+    }
+
     enum ChartType {
         CALORIES_PAST_WEEK,
         OVERALL_AMOUNTS,
     }
+
+
+    @Override
+    public void onDetach() {
+        super.onDetach();
+        ((MainActivity)this.getActivity()).EnableUI(true);
+    }
+
+    @Override
+    public void onResume() {
+        super.onResume();
+        ((MainActivity)this.getActivity()).EnableUI(false);
+    }
+
 }
