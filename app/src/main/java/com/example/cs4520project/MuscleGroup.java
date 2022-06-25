@@ -26,4 +26,5 @@ public enum MuscleGroup {
     public String toString() {
         return super.toString();
     }
+
 }
