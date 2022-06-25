@@ -51,7 +51,13 @@ public class MealAdapter extends RecyclerView.Adapter<MealAdapter.ViewHolder> {
         holder.getMealNotes().append(": " + meal.getAdditionalNotes());
 
         holder.getDeleteButton().setOnClickListener(v -> {
+            int pos = holder.getAdapterPosition();
+            try {
+                meals.remove(pos);
+                notifyItemRemoved(pos);
+            } catch (ArrayIndexOutOfBoundsException e) {
 
+            }
         });
     }
 
