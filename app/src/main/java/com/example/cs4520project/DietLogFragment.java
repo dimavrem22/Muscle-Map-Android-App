@@ -92,12 +92,20 @@ public class DietLogFragment extends Fragment {
                 .addToBackStack(null)
                 .commit());
 
-        dietAnalysis.setOnClickListener(v -> getActivity().getSupportFragmentManager()
-                .beginTransaction()
-                .add(R.id.outerFragmentContainer, DietAnalysisFragment.newInstance(meals),
-                        DietAnalysisFragment.FRAGMENT_TAG)
-                .addToBackStack(null)
-                .commit());
+        dietAnalysis.setOnClickListener(v -> mealsCollection
+                .get().addOnCompleteListener(task -> {
+                    List<Meal> allMeals = new ArrayList<>();
+                    for (DocumentSnapshot d : task.getResult().getDocuments()) {
+                        Meal meal = fromDocument(d);
+                        allMeals.add(meal);
+                    }
+                    getActivity().getSupportFragmentManager()
+                            .beginTransaction()
+                            .add(R.id.outerFragmentContainer, DietAnalysisFragment.newInstance(allMeals),
+                                    DietAnalysisFragment.FRAGMENT_TAG)
+                            .addToBackStack(null)
+                            .commit();
+                }));
 
         populateMeals();
 
@@ -125,21 +133,7 @@ public class DietLogFragment extends Fragment {
                     .get().addOnCompleteListener(task -> {
                         meals.clear();
                         for (DocumentSnapshot d : task.getResult().getDocuments()) {
-                            String name = d.getString("name");
-                            MealType mealType = MealType.valueOf(d.getString("type"));
-                            int day = Math.toIntExact(d.getLong("day"));
-                            int month = Math.toIntExact(d.getLong("month"));
-                            int year = Math.toIntExact(d.getLong("year"));
-                            int calories = Math.toIntExact(d.getLong("calories"));
-                            int protein = Math.toIntExact(d.getLong("protein"));
-                            int carbs = Math.toIntExact(d.getLong("carbs"));
-                            int sodium = Math.toIntExact(d.getLong("sodium"));
-                            int totalFat = Math.toIntExact(d.getLong("totalFat"));
-                            String additionalNotes = d.getString("additionalNotes");
-                            Meal meal = new Meal(name, mealType, calories,
-                                    protein, carbs, sodium, totalFat, additionalNotes);
-                            meal.setDate(LocalDate.of(year, month, day));
-                            meal.setId(d.getId());
+                            Meal meal = fromDocument(d);
                             meals.add(meal);
                         }
                         mealAdapter.notifyDataSetChanged();
@@ -153,5 +147,24 @@ public class DietLogFragment extends Fragment {
         this.year = year;
 
         populateMeals();
+    }
+
+    public Meal fromDocument(DocumentSnapshot d) {
+        String name = d.getString("name");
+        MealType mealType = MealType.valueOf(d.getString("type"));
+        int day = Math.toIntExact(d.getLong("day"));
+        int month = Math.toIntExact(d.getLong("month"));
+        int year = Math.toIntExact(d.getLong("year"));
+        int calories = Math.toIntExact(d.getLong("calories"));
+        int protein = Math.toIntExact(d.getLong("protein"));
+        int carbs = Math.toIntExact(d.getLong("carbs"));
+        int sodium = Math.toIntExact(d.getLong("sodium"));
+        int totalFat = Math.toIntExact(d.getLong("totalFat"));
+        String additionalNotes = d.getString("additionalNotes");
+        Meal meal = new Meal(name, mealType, calories,
+                protein, carbs, sodium, totalFat, additionalNotes);
+        meal.setDate(LocalDate.of(year, month, day));
+        meal.setId(d.getId());
+        return meal;
     }
 }
