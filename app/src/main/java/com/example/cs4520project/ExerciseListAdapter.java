@@ -13,6 +13,7 @@ import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
 import java.util.ArrayList;
+import java.util.Comparator;
 import java.util.List;
 
 public class ExerciseListAdapter extends RecyclerView.Adapter<ExerciseListAdapter.ViewHolder>
@@ -25,6 +26,12 @@ public class ExerciseListAdapter extends RecyclerView.Adapter<ExerciseListAdapte
 
     public ExerciseListAdapter(List<Exercise> exercises, ICheckExercises checkExercises, List<Exercise> checkedExercises) {
         this.exercises = exercises;
+        this.exercises.sort(new Comparator<Exercise>() {
+            @Override
+            public int compare(Exercise o1, Exercise o2) {
+                 return o1.getDisplayName().compareTo(o2.getDisplayName());
+            }
+        });
         this.filteredExercises = exercises;
         this.checkExercises = checkExercises;
         this.checkedExercises = checkedExercises;
