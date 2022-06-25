@@ -3,18 +3,24 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
-    android:layout_height="wrap_content">
+    android:layout_height="wrap_content"
+    android:layout_margin="5dp"
+    android:padding="5dp"
+    app:cardCornerRadius="5dp"
+    app:cardElevation="5dp">
 
     <androidx.constraintlayout.widget.ConstraintLayout
         android:layout_width="match_parent"
-        android:layout_height="match_parent">
+        android:layout_height="match_parent"
+        android:background="#4AF3E9E9">
 
         <TextView
             android:id="@+id/textViewMealName"
-            android:layout_width="wrap_content"
+            android:layout_width="250dp"
             android:layout_height="wrap_content"
             android:layout_marginStart="20dp"
-            android:layout_marginTop="20dp"
+            android:layout_marginTop="5dp"
+            android:textColor="#352B2B"
             android:textSize="20dp"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent" />
@@ -23,16 +29,19 @@
             android:id="@+id/textViewMealType"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginStart="20dp"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/textViewMealName" />
+            android:layout_marginEnd="20dp"
+            android:text="test"
+            app:layout_constraintBottom_toBottomOf="@+id/textViewMealName"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintTop_toTopOf="@+id/textViewMealName" />
 
         <TextView
             android:id="@+id/textViewMealCalories"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
+            android:layout_marginTop="5dp"
             app:layout_constraintStart_toStartOf="@+id/textViewMealName"
-            app:layout_constraintTop_toBottomOf="@+id/textViewMealType" />
+            app:layout_constraintTop_toBottomOf="@+id/textViewMealName" />
 
         <TextView
             android:id="@+id/textViewMealCarbs"
@@ -64,8 +73,10 @@
 
         <TextView
             android:id="@+id/textViewMealNotes"
-            android:layout_width="wrap_content"
+            android:layout_width="200dp"
             android:layout_height="wrap_content"
+            android:layout_marginBottom="5dp"
+            app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintStart_toStartOf="@+id/textViewMealSodium"
             app:layout_constraintTop_toBottomOf="@+id/textViewMealSodium" />
 
