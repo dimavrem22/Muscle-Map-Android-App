@@ -10,6 +10,7 @@ import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
 import java.util.List;
+import java.util.Locale;
 
 public class WorkoutListAdapter extends RecyclerView.Adapter<WorkoutListAdapter.ViewHolder> {
     private final List<Workout> workouts;
@@ -31,10 +32,10 @@ public class WorkoutListAdapter extends RecyclerView.Adapter<WorkoutListAdapter.
     @Override
     public void onBindViewHolder(@NonNull ViewHolder holder, int position) {
         holder.getNameText().setText(workouts.get(position).getName());
-        String startTime = workouts.get(position).getStartHour() + ":" +
-                workouts.get(position).getStartMinute();
-        String endTime = workouts.get(position).getEndHour() + ":" +
-                workouts.get(position).getEndMinute();
+        String startTime = String.format(Locale.getDefault(), "%02d:%02d",
+                workouts.get(position).getStartHour(), workouts.get(position).getStartMinute());
+        String endTime = String.format(Locale.getDefault(), "%02d:%02d",
+                workouts.get(position).getEndHour(), workouts.get(position).getEndMinute());
         String time = startTime + " — " + endTime;
 
         holder.getTimeText().setText(time);

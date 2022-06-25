@@ -13,6 +13,7 @@ import android.widget.ArrayAdapter;
 import android.widget.ImageView;
 import android.widget.ProgressBar;
 import android.widget.Spinner;
+import android.widget.TextView;
 
 import com.google.firebase.firestore.CollectionReference;
 import com.google.firebase.firestore.DocumentSnapshot;
@@ -21,6 +22,7 @@ import com.google.firebase.firestore.FirebaseFirestore;
 import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.List;
+import java.util.Locale;
 import java.util.concurrent.atomic.AtomicInteger;
 import java.util.stream.Collectors;
 
@@ -59,6 +61,9 @@ public class ExerciseAnalysisFragment extends Fragment implements View.OnClickLi
 
     private ProgressBar progressBar;
     private Spinner spinner;
+
+    private TextView totalWO, totalEx, totalTime, avgTime;
+    private int totalWorkouts, totalExercises, totalTimeWorkingOut;
 
     private ArrayList<ImageView> backMuscleImages;
 
@@ -168,6 +173,11 @@ public class ExerciseAnalysisFragment extends Fragment implements View.OnClickLi
         this.getWorkoutCollection();
         this.colorMusclesByStrain();
 
+        this.totalTime = rootView.findViewById(R.id.woa_total_time_text);
+        this.totalEx = rootView.findViewById(R.id.woa_total_exercises_text);
+        this.totalWO = rootView.findViewById(R.id.woa_total_workouts_text);
+        this.avgTime = rootView.findViewById(R.id.woa_avg_wo_time_text);
+
         return rootView;
     }
 
@@ -198,6 +208,7 @@ public class ExerciseAnalysisFragment extends Fragment implements View.OnClickLi
     }
 
     private void getMuscleStrain() {
+
         this.flipImage.setEnabled(false);
         this.progressBar.setVisibility(View.VISIBLE);
 
@@ -228,13 +239,18 @@ public class ExerciseAnalysisFragment extends Fragment implements View.OnClickLi
                     .whereEqualTo("year", queryYear).get().addOnCompleteListener(task -> {
                         if (task.isSuccessful()) {
                             for (DocumentSnapshot d : task.getResult().getDocuments()) {
+                                this.totalWorkouts += 1;
                                 List<String> exerciseNames = (List<String>) d.get("exercises");
                                 List<Exercise> exercises = exerciseNames
                                         .stream()
                                         .map(Exercise::valueOf).collect(Collectors.toList());
                                 for (Exercise ex: exercises){
                                     this.updateStrain(ex, factor*1.0);
+                                    this.totalExercises += 1;
                                 }
+                                this.totalTimeWorkingOut +=
+                                        (d.getDouble("endHour")-d.getDouble("startHour")) * 60
+                                                + d.getDouble("endMinute") - d.getDouble("startMinute");
                             }
                             resultCounter.addAndGet(1);
 
@@ -244,6 +260,7 @@ public class ExerciseAnalysisFragment extends Fragment implements View.OnClickLi
                                 this.colorMusclesByStrain();
                                 this.flipImage.setEnabled(true);
                                 this.progressBar.setVisibility(View.INVISIBLE);
+                                this.setAnalysisText();
                             }
 
                         }
@@ -308,6 +325,10 @@ public class ExerciseAnalysisFragment extends Fragment implements View.OnClickLi
     }
 
     private void initializeStrain() {
+        this.totalWorkouts = 0;
+        this.totalExercises = 0;
+        this.totalTimeWorkingOut = 0;
+
         this.upperTrapStrain = 0.0;
         this.shoulderStrain = 0.0;
         this.pecStrain = 0.0;
@@ -396,18 +417,24 @@ public class ExerciseAnalysisFragment extends Fragment implements View.OnClickLi
                 .get().addOnCompleteListener(task -> {
                     if (task.isSuccessful()){
                         for (DocumentSnapshot d: task.getResult().getDocuments()){
+                            this.totalWorkouts += 1;
                             List<String> exerciseNames = (List<String>) d.get("exercises");
                             List<Exercise> exercises = exerciseNames
                                     .stream()
                                     .map(Exercise::valueOf).collect(Collectors.toList());
                             for (Exercise ex: exercises){
                                 this.updateStrain(ex,1.628);
+                                this.totalExercises += 1;
                             }
+                            this.totalTimeWorkingOut +=
+                                    (d.getDouble("endHour")-d.getDouble("startHour")) * 60
+                                            + d.getDouble("endMinute") - d.getDouble("startMinute");
                         }
                         this.progressBar.setVisibility(View.INVISIBLE);
                         this.spinner.setEnabled(true);
                         this.flipImage.setEnabled(true);
                         this.colorMusclesByStrain();
+                        this.setAnalysisText();
 
                     }
                 });
@@ -424,18 +451,24 @@ public class ExerciseAnalysisFragment extends Fragment implements View.OnClickLi
                 .get().addOnCompleteListener(task -> {
                     if (task.isSuccessful()){
                         for (DocumentSnapshot d: task.getResult().getDocuments()){
+                            this.totalWorkouts += 1;
                             List<String> exerciseNames = (List<String>) d.get("exercises");
                             List<Exercise> exercises = exerciseNames
                                     .stream()
                                     .map(Exercise::valueOf).collect(Collectors.toList());
                             for (Exercise ex: exercises){
                                 this.updateStrain(ex,0.1338);
+                                this.totalExercises += 1;
                             }
+                            this.totalTimeWorkingOut +=
+                                    (d.getDouble("endHour")-d.getDouble("startHour")) * 60
+                                            + d.getDouble("endMinute") - d.getDouble("startMinute");
                         }
                         this.progressBar.setVisibility(View.INVISIBLE);
                         this.spinner.setEnabled(true);
                         this.flipImage.setEnabled(true);
                         this.colorMusclesByStrain();
+                        this.setAnalysisText();
 
                     }
                 });
@@ -453,21 +486,38 @@ public class ExerciseAnalysisFragment extends Fragment implements View.OnClickLi
                 .get().addOnCompleteListener(task -> {
                     if (task.isSuccessful()){
                         for (DocumentSnapshot d: task.getResult().getDocuments()){
+                            this.totalWorkouts += 1;
                             List<String> exerciseNames = (List<String>) d.get("exercises");
                             List<Exercise> exercises = exerciseNames
                                     .stream()
                                     .map(Exercise::valueOf).collect(Collectors.toList());
                             for (Exercise ex: exercises){
                                 this.updateStrain(ex,6.9);
+                                this.totalExercises += 1;
                             }
+                            this.totalTimeWorkingOut +=
+                                    (d.getDouble("endHour")-d.getDouble("startHour")) * 60
+                                            + d.getDouble("endMinute") - d.getDouble("startMinute");
                         }
                         this.progressBar.setVisibility(View.INVISIBLE);
                         this.spinner.setEnabled(true);
                         this.flipImage.setEnabled(true);
                         this.colorMusclesByStrain();
+                        this.setAnalysisText();
 
                     }
                 });
+    }
+
+    private void setAnalysisText(){
+        int hour = this.totalTimeWorkingOut / 60;
+        int minutes = this.totalTimeWorkingOut % 60;
+
+        this.totalWO.setText(String.valueOf(this.totalWorkouts));
+        this.totalEx.setText(String.valueOf(this.totalExercises));
+        this.totalTime.setText(String.format(Locale.getDefault(), "%d:%02d",hour , minutes));
+        this.avgTime.setText((int)Math.round(
+                this.totalTimeWorkingOut * 1.0 / this.totalWorkouts) + " min");
     }
 
 }
