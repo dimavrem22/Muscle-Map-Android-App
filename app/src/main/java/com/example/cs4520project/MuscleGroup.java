@@ -13,7 +13,6 @@ public enum MuscleGroup {
     TRICEPS,
     FOREARMS,
     ABS,
-    BACK,
     QUADS,
     HAMSTRINGS,
     CALVES,
@@ -27,4 +26,5 @@ public enum MuscleGroup {
     public String toString() {
         return super.toString();
     }
+
 }
