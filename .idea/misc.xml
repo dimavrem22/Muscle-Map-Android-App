@@ -22,11 +22,11 @@
         <entry key="app/src/main/res/drawable/ic_launcher_background.xml" value="0.1" />
         <entry key="app/src/main/res/layout/activity_main.xml" value="0.1" />
         <entry key="app/src/main/res/layout/exercise_row.xml" value="0.434552001953125" />
-        <entry key="app/src/main/res/layout/fragment_diet_analysis.xml" value="0.13125" />
+        <entry key="app/src/main/res/layout/fragment_diet_analysis.xml" value="0.29632720947265623" />
         <entry key="app/src/main/res/layout/fragment_diet_enter_meal.xml" value="0.30666961669921866" />
         <entry key="app/src/main/res/layout/fragment_diet_log.xml" value="0.2647247314453125" />
-        <entry key="app/src/main/res/layout/fragment_edit_workout.xml" value="0.2931411743164062" />
-        <entry key="app/src/main/res/layout/fragment_exercise_analysis.xml" value="0.210107421875" />
+        <entry key="app/src/main/res/layout/fragment_edit_workout.xml" value="0.18359375" />
+        <entry key="app/src/main/res/layout/fragment_exercise_analysis.xml" value="0.10035247802734375" />
         <entry key="app/src/main/res/layout/fragment_exercise_logging.xml" value="0.3026041666666667" />
         <entry key="app/src/main/res/layout/fragment_log_in.xml" value="0.3182291666666667" />
         <entry key="app/src/main/res/layout/fragment_new_sleep_log.xml" value="0.1" />

@@ -160,9 +160,10 @@
         android:id="@+id/del_workout"
         android:layout_width="50dp"
         android:layout_height="50dp"
+        android:layout_marginEnd="20dp"
         android:src="@android:drawable/ic_delete"
         app:layout_constraintBottom_toBottomOf="@+id/buttonEndTimeEF"
-        app:layout_constraintEnd_toEndOf="@+id/editTextWorkoutNameEF"
+        app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintTop_toTopOf="@+id/buttonStartTimeEF" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>
