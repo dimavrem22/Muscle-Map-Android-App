@@ -505,7 +505,18 @@ public class MainActivity extends AppCompatActivity implements CalendarView.OnDa
                     if (task.isSuccessful()) {
                         CollectionReference sleepCollection = task.getResult().getDocuments().get(0)
                                 .getReference().collection("sleep");
-                        sleepCollection.add(addSleep);
+
+
+                        sleepCollection.whereEqualTo("year",cal.get(Calendar.YEAR))
+                                .whereEqualTo("month", cal.get(Calendar.MONTH)+1)
+                                .whereEqualTo("day", cal.get(Calendar.DAY_OF_MONTH))
+                                        .get().addOnCompleteListener(task2 -> {
+                                            for  (DocumentSnapshot d: task2.getResult().getDocuments()){
+                                                d.getReference().delete();
+                                            }
+                                    sleepCollection.add(addSleep);
+                                });
+
                     }
                 });
     }

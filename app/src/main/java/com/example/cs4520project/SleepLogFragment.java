@@ -91,6 +91,13 @@ public class SleepLogFragment extends Fragment {
         textViewBedTime = view.findViewById(R.id.textViewBedTime);
         textViewSleepTime = view.findViewById(R.id.textViewSleepTime);
 
+
+        textViewBedTimeShow.setVisibility(View.INVISIBLE);
+        textViewWakeTimeShow.setVisibility(View.INVISIBLE);
+        textViewHoursOfSleep.setVisibility(View.INVISIBLE);
+        textViewBedTime.setVisibility(View.INVISIBLE);
+        textViewSleepTime.setVisibility(View.INVISIBLE);
+
         buttonSetSleepTime = view.findViewById(R.id.buttonSetSleepTime);
         buttonSetSleepTime.setOnClickListener(new View.OnClickListener() {
             @Override
