@@ -97,8 +97,13 @@ public class MainActivity extends AppCompatActivity implements CalendarView.OnDa
             dietFragment = true;
             sleepFragment = false;
 
+            int day = cal.get(Calendar.DAY_OF_MONTH);
+            int month = cal.get(Calendar.MONTH) + 1;
+            int year = cal.get(Calendar.YEAR);
+
                 getSupportFragmentManager().beginTransaction()
-                .replace(R.id.fragment_container, DietLogFragment.newInstance(mAuth.getCurrentUser().getEmail()),
+                .replace(R.id.fragment_container, DietLogFragment.newInstance(mAuth.getCurrentUser().getEmail(),
+                                day, month, year),
                         DietLogFragment.FRAGMENT_TAG)
                 .commit();
         });
@@ -372,7 +377,8 @@ public class MainActivity extends AppCompatActivity implements CalendarView.OnDa
             f.changeDate(day, month, year);
         }
         if (this.dietFragment) {
-            // change diet frag date
+            DietLogFragment f = (DietLogFragment) this.getSupportFragmentManager().findFragmentByTag(DietLogFragment.FRAGMENT_TAG);
+            f.changeDate(day, month, year);
         }
     }
 

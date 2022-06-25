@@ -15,9 +15,19 @@ import android.widget.EditText;
 import android.widget.Spinner;
 import android.widget.Toast;
 
-public class DietEnterMealFragment extends Fragment {
+public class DietEnterMealFragment extends Fragment implements View.OnClickListener {
     public static final String FRAGMENT_TAG = "DIET_ENTER_MEAL_FRAGMENT";
     private ISaveMeal saveMeal;
+
+    private Button calcelButton;
+
+    @Override
+    public void onClick(View v) {
+        if (v.getId() == this.calcelButton.getId()){
+            this.getActivity().getSupportFragmentManager()
+                    .beginTransaction().remove(this).commit();
+        }
+    }
 
     public interface ISaveMeal {
         void addMealToDB(Meal meal);
@@ -59,6 +69,8 @@ public class DietEnterMealFragment extends Fragment {
         EditText editSodium = rootView.findViewById(R.id.editTextMealSodium);
         EditText editTotalFat = rootView.findViewById(R.id.editTextMealTotalFat);
         EditText editAdditionalNotes = rootView.findViewById(R.id.editTextMealAdditionalNotes);
+        this.calcelButton = rootView.findViewById(R.id.new_meal_cancel_button);
+        this.calcelButton.setOnClickListener(this);
 
         Spinner spinnerMealType = rootView.findViewById(R.id.spinnerMealType);
         spinnerMealType.setAdapter(new ArrayAdapter<>(rootView.getContext(),

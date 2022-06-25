@@ -5,7 +5,7 @@
     android:id="@+id/dietEnterMealLayout"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="#FFFFFF"
+    android:background="#FDF8F8"
     tools:context=".DietEnterMealFragment">
 
     <EditText
@@ -39,15 +39,16 @@
         android:layout_marginBottom="8dp"
         android:text="Finish"
         app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/spinnerMealType" />
+        app:layout_constraintEnd_toEndOf="@+id/spinnerMealType"
+        app:layout_constraintStart_toEndOf="@+id/spinnerMealType"
+        app:layout_constraintTop_toBottomOf="@+id/spinnerMealType"
+        app:layout_constraintVertical_bias="0.454" />
 
     <EditText
         android:id="@+id/editTextMealName"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginTop="32dp"
+        android:layout_marginTop="120dp"
         android:ems="10"
         android:hint="Enter meal name..."
         android:inputType="textPersonName"
@@ -107,5 +108,15 @@
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/editTextMealAdditionalNotes" />
+
+    <Button
+        android:id="@+id/new_meal_cancel_button"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Cancel"
+        app:layout_constraintBottom_toBottomOf="@+id/buttonFinishEnterMeal"
+        app:layout_constraintEnd_toStartOf="@+id/spinnerMealType"
+        app:layout_constraintStart_toStartOf="@+id/spinnerMealType"
+        app:layout_constraintTop_toTopOf="@+id/buttonFinishEnterMeal" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>

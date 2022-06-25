@@ -16,6 +16,7 @@ import com.google.firebase.firestore.DocumentSnapshot;
 import com.google.firebase.firestore.FirebaseFirestore;
 
 import java.time.LocalDate;
+import java.time.Year;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
@@ -24,12 +25,17 @@ import java.util.stream.Collectors;
 public class DietLogFragment extends Fragment {
     public static final String FRAGMENT_TAG = "DIET_LOG_FRAGMENT";
     private static final String ARG_EMAIL = "ARG_EMAIL";
+    private static final String ARG_DAY = "ARG_DAY";
+    private static final String ARG_MONTH = "ARG_MONTH";
+    private static final String ARG_YEAR = "ARG_YEAR";
+
 
     private final FirebaseFirestore db = FirebaseFirestore.getInstance();
     private final CollectionReference usersCollection = db.collection("users");
     private CollectionReference mealsCollection;
 
     private String email;
+    private int day, month, year;
     private final List<Meal> meals = new ArrayList<>();
     private MealAdapter mealAdapter;
 
@@ -43,10 +49,13 @@ public class DietLogFragment extends Fragment {
      *
      * @return A new instance of fragment DietLogFragment.
      */
-    public static DietLogFragment newInstance(String email) {
+    public static DietLogFragment newInstance(String email, int day, int month, int year) {
         DietLogFragment fragment = new DietLogFragment();
         Bundle args = new Bundle();
         args.putString(ARG_EMAIL, email);
+        args.putInt(ARG_DAY, day);
+        args.putInt(ARG_MONTH, month);
+        args.putInt(ARG_YEAR, year);
         fragment.setArguments(args);
         return fragment;
     }
@@ -56,6 +65,9 @@ public class DietLogFragment extends Fragment {
         super.onCreate(savedInstanceState);
         if (getArguments() != null) {
             email = getArguments().getString(ARG_EMAIL);
+            this.day = getArguments().getInt(ARG_DAY);
+            this.month = getArguments().getInt(ARG_MONTH);
+            this.year = getArguments().getInt(ARG_YEAR);
         }
     }
 
@@ -79,7 +91,7 @@ public class DietLogFragment extends Fragment {
 
         enterMeal.setOnClickListener(v -> getActivity()
                 .getSupportFragmentManager().beginTransaction()
-                .add(R.id.fragment_container, DietEnterMealFragment.newInstance(),
+                .add(R.id.outerFragmentContainer, DietEnterMealFragment.newInstance(),
                         DietEnterMealFragment.FRAGMENT_TAG)
                 .addToBackStack(null)
                 .commit());
@@ -111,6 +123,9 @@ public class DietLogFragment extends Fragment {
     private void populateMeals() {
         if (mealsCollection != null) {
             mealsCollection
+                    .whereEqualTo("year", this.year)
+                    .whereEqualTo("month", this.month)
+                    .whereEqualTo("day", this.day)
                     .get().addOnCompleteListener(task -> {
                         meals.clear();
                         for (DocumentSnapshot d : task.getResult().getDocuments()) {
@@ -134,5 +149,13 @@ public class DietLogFragment extends Fragment {
                         mealAdapter.notifyDataSetChanged();
                     });
         }
+    }
+
+    public void changeDate(int day, int month, int year){
+        this.day = day;
+        this.month = month;
+        this.year = year;
+
+        this.populateMeals();
     }
 }

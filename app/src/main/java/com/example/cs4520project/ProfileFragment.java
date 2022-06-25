@@ -1,5 +1,6 @@
 package com.example.cs4520project;
 
+import android.media.Image;
 import android.os.Bundle;
 
 import androidx.fragment.app.Fragment;
@@ -8,15 +9,17 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
+import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.google.firebase.auth.FirebaseAuth;
 
-public class ProfileFragment extends Fragment {
+public class ProfileFragment extends Fragment implements View.OnClickListener {
     public static final String FRAGMENT_TAG = "PROFILE_FRAGMENT";
     private static final String ARG_PROFILE = "PROFILE";
 
     private Profile profile;
+    private ImageView backButton;
 
     public ProfileFragment() {
         // Required empty public constructor
@@ -58,12 +61,24 @@ public class ProfileFragment extends Fragment {
         profileName.setText(profile.getName());
         profileEmail.setText(profile.getEmail());
 
+        this.backButton = rootView.findViewById(R.id.profile_backImage);
+        this.backButton.setOnClickListener(this);
+
         logoutButton.setOnClickListener(v -> {
             FromProfileFragmentToMain context = (FromProfileFragmentToMain) this.getContext();
             context.logoutRequest();
         });
 
         return rootView;
+    }
+
+    @Override
+    public void onClick(View v) {
+        if (v.getId() == this.backButton.getId()){
+            this.getActivity().getSupportFragmentManager()
+                    .beginTransaction().remove(this)
+                    .commit();
+        }
     }
 
     public interface FromProfileFragmentToMain{
