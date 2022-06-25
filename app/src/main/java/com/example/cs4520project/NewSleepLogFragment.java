@@ -11,23 +11,35 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
+import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.TimePicker;
 import android.widget.Toast;
 
 import java.util.Locale;
 
-public class NewSleepLogFragment extends Fragment {
+public class NewSleepLogFragment extends Fragment implements View.OnClickListener {
     public static final String FRAGMENT_TAG = "New Sleep Log Fragment";
 
     private Button buttonSelectSleepTime, buttonSelectWakeTime, buttonSetTime, buttonSaveSleepTime;
     private TextView textViewGetToSleep, textViewWakeUp;
+
+    private ImageView backButton;
 
     private TimePicker timePicker;
 
     private int sleepHr, sleepMin, wakeHr, wakeMin;
 
     private IAddNewSleepLogToDB addNewSleepLog;
+
+    @Override
+    public void onClick(View v) {
+        if(v.getId() == this.backButton.getId()){
+            this.getActivity().getSupportFragmentManager().beginTransaction()
+                    .remove(this).commit();
+            this.onDetach();
+        }
+    }
 
     public interface IAddNewSleepLogToDB {
         void addNewSleepLogToDB(Sleep sleep);
@@ -63,6 +75,9 @@ public class NewSleepLogFragment extends Fragment {
                              Bundle savedInstanceState) {
         // Inflate the layout for this fragment
         View rootView = inflater.inflate(R.layout.fragment_new_sleep_log, container, false);
+
+        this.backButton = rootView.findViewById(R.id.new_sleep_back);
+        this.backButton.setOnClickListener(this);
 
         buttonSelectSleepTime = rootView.findViewById(R.id.buttonSelectSleepTime);
         buttonSelectWakeTime = rootView.findViewById(R.id.buttonSelectWakeTime);
@@ -183,4 +198,17 @@ public class NewSleepLogFragment extends Fragment {
             throw new RuntimeException(context.toString()+ " must implement IAddNewSleepLogToDB");
         }
     }
+
+    @Override
+    public void onDetach() {
+        super.onDetach();
+        ((MainActivity)this.getActivity()).EnableUI(true);
+    }
+
+    @Override
+    public void onResume() {
+        super.onResume();
+        ((MainActivity)this.getActivity()).EnableUI(false);
+    }
+
 }
