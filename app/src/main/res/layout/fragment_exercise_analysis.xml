@@ -23,7 +23,7 @@
         android:layout_width="wrap_content"
         android:layout_height="25dp"
         android:layout_marginStart="20dp"
-        android:layout_marginTop="20dp"
+        android:layout_marginTop="15dp"
         android:text="Your Muscle Map"
         android:textColor="#000000"
         android:textSize="18dp"
@@ -255,9 +255,11 @@
 
     <Spinner
         android:id="@+id/exerciseAnalysisSpinner"
+        style="@style/Widget.AppCompat.Spinner.DropDown"
         android:layout_width="wrap_content"
         android:layout_height="27dp"
         android:layout_marginEnd="5dp"
+        app:layout_constraintBottom_toBottomOf="@+id/textView4"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintTop_toTopOf="@+id/textView4" />
 

@@ -105,7 +105,7 @@ public class ExerciseAnalysisFragment extends Fragment implements View.OnClickLi
         this.counter = 0;
         this.initializeStrain();
         this.timeFrames = new ArrayList<>();
-        this.timeFrames.add("Today's Status");
+        this.timeFrames.add("Now (4 days)");
         this.timeFrames.add("Current Week");
         this.timeFrames.add("Current Month");
         this.timeFrames.add("Current Year");
