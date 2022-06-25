@@ -125,6 +125,8 @@ public class NewSleepLogFragment extends Fragment {
             @Override
             public void onClick(View v) {
                 if (sleepHr != 0 && sleepMin != 0 && wakeHr != 0 && wakeMin != 0) {
+                    Log.d("sleepmin", sleepMin + "");
+                    Log.d("sleepmin", wakeMin + "");
                     Sleep sleep = new Sleep(sleepHr, sleepMin, wakeHr, wakeMin);
                     Log.d("FP", sleep.toString());
                     addNewSleepLog.addNewSleepLogToDB(sleep);
@@ -141,6 +143,7 @@ public class NewSleepLogFragment extends Fragment {
     private final TimePicker.OnTimeChangedListener timeChangedListenerSleep = new TimePicker.OnTimeChangedListener() {
         @Override
         public void onTimeChanged(TimePicker tp, int hour, int min) {
+
             sleepHr = hour;
             sleepMin = min;
             buttonSelectSleepTime.setText(String.format(Locale.getDefault(), "%02d:%02d", hour, min));
@@ -157,16 +160,18 @@ public class NewSleepLogFragment extends Fragment {
     };
 
     private boolean checkValidTime() {
-        boolean valid = false;
-        if (sleepHr < wakeHr) {
-            valid = true;
-        }
-        else if (sleepHr == wakeHr) {
-            if (sleepMin < wakeMin) {
-                valid = true;
-            }
-        }
-        return valid;
+//        boolean valid = false;
+//        if (sleepHr < wakeHr) {
+//            valid = true;
+//        }
+//        else if (sleepHr == wakeHr) {
+//            if (sleepMin < wakeMin) {
+//                valid = true;
+//            }
+//        }
+//        return valid;
+
+        return true;
     }
 
     @Override

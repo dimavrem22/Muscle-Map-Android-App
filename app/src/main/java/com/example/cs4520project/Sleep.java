@@ -102,9 +102,23 @@ public class Sleep {
 
     public String getAmountOfSleep() {
         String hr, min;
+        int hours, minutes;
 
-        hr = Integer.toString(Math.abs(sleepHr-wakeHr));
-        min = Integer.toString(Math.abs(sleepMin-wakeMin));
+        if (sleepHr >= 12) {
+            hours = wakeHr + 24 - sleepHr - 1;
+        } else {
+            hours = wakeHr - sleepHr;
+        }
+
+        if (wakeMin > sleepMin){
+            minutes = wakeMin - sleepMin;
+        } else {
+            minutes = wakeMin + 60 - sleepMin;
+            hours += -1;
+        }
+
+        hr = Integer.toString(hours);
+        min = Integer.toString(minutes);
 
         return hr + " hours and " + min + " minutes";
     }
