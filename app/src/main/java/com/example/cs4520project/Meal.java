@@ -4,6 +4,7 @@ import java.io.Serializable;
 import java.time.LocalDate;
 
 public class Meal implements Serializable {
+    String id;
     private String name;
     private MealType mealType;
 

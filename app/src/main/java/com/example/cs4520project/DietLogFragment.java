@@ -128,6 +128,7 @@ public class DietLogFragment extends Fragment {
                             Meal meal = new Meal(name, mealType, calories,
                                     protein, carbs, sodium, totalFat, additionalNotes);
                             meal.setDate(LocalDate.of(year, month, day));
+                            meal.id = d.getId();
                             meals.add(meal);
                         }
                         mealAdapter.notifyDataSetChanged();

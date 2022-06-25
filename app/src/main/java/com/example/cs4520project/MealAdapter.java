@@ -5,14 +5,22 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
+
+import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.auth.FirebaseUser;
+import com.google.firebase.firestore.CollectionReference;
+import com.google.firebase.firestore.FirebaseFirestore;
 
 import java.util.List;
 
 public class MealAdapter extends RecyclerView.Adapter<MealAdapter.ViewHolder> {
     private final List<Meal> meals;
+    private final FirebaseFirestore db = FirebaseFirestore.getInstance();
+    private final CollectionReference usersCollection = db.collection("users");
 
     public MealAdapter(List<Meal> meals) {
         this.meals = meals;
@@ -52,12 +60,31 @@ public class MealAdapter extends RecyclerView.Adapter<MealAdapter.ViewHolder> {
 
         holder.getDeleteButton().setOnClickListener(v -> {
             int pos = holder.getAdapterPosition();
-            try {
-                meals.remove(pos);
-                notifyItemRemoved(pos);
-            } catch (ArrayIndexOutOfBoundsException e) {
+            FirebaseUser user = FirebaseAuth.getInstance().getCurrentUser();
+            usersCollection.whereEqualTo("email", user.getEmail())
+                    .get()
+                    .addOnCompleteListener(task -> {
+                        if (task.isSuccessful()) {
+                            CollectionReference mealCollection = task.getResult()
+                                    .getDocuments()
+                                    .get(0)
+                                    .getReference()
+                                    .collection("meals");
+                            mealCollection.document(meal.id)
+                                    .delete()
+                                    .addOnSuccessListener(aVoid -> {
+                                        try {
+                                            meals.remove(pos);
+                                            notifyItemRemoved(pos);
+                                        } catch (IndexOutOfBoundsException e) {
 
-            }
+                                        }
+                                    })
+                                    .addOnFailureListener(e -> Toast.makeText(v.getContext(), "Failed to delete meal", Toast.LENGTH_SHORT).show());
+                        } else {
+                            Toast.makeText(v.getContext(), "Failed to delete meal", Toast.LENGTH_SHORT).show();
+                        }
+                    });
         });
     }
 
