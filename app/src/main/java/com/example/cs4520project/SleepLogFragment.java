@@ -12,20 +12,9 @@ import android.widget.Button;
 import android.widget.TextView;
 
 import com.google.firebase.firestore.CollectionReference;
-import com.google.firebase.firestore.DocumentReference;
 import com.google.firebase.firestore.DocumentSnapshot;
 import com.google.firebase.firestore.FirebaseFirestore;
 
-import org.w3c.dom.Text;
-
-import java.util.List;
-import java.util.stream.Collectors;
-
-/**
- * A simple {@link Fragment} subclass.
- * Use the {@link SleepLogFragment#newInstance} factory method to
- * create an instance of this fragment.
- */
 public class SleepLogFragment extends Fragment {
     public static final String FRAGMENT_TAG = "Sleep Log Fragment";
 
@@ -44,8 +33,6 @@ public class SleepLogFragment extends Fragment {
 
     private TextView textViewBedTimeShow, textViewWakeTimeShow, textViewHoursOfSleep,
             textViewBedTime, textViewSleepTime;
-
-    private Button buttonSetSleepTime;
 
     public SleepLogFragment() {
         // Required empty public constructor
@@ -80,8 +67,7 @@ public class SleepLogFragment extends Fragment {
     }
 
     @Override
-    public View onCreateView(LayoutInflater inflater, ViewGroup container,
-                             Bundle savedInstanceState) {
+    public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         // Inflate the layout for this fragment
         View view = inflater.inflate(R.layout.fragment_sleep_log, container, false);
 
@@ -91,24 +77,19 @@ public class SleepLogFragment extends Fragment {
         textViewBedTime = view.findViewById(R.id.textViewBedTime);
         textViewSleepTime = view.findViewById(R.id.textViewSleepTime);
 
-
         textViewBedTimeShow.setVisibility(View.INVISIBLE);
         textViewWakeTimeShow.setVisibility(View.INVISIBLE);
         textViewHoursOfSleep.setVisibility(View.INVISIBLE);
         textViewBedTime.setVisibility(View.INVISIBLE);
         textViewSleepTime.setVisibility(View.INVISIBLE);
 
-        buttonSetSleepTime = view.findViewById(R.id.buttonSetSleepTime);
-        buttonSetSleepTime.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                getActivity().getSupportFragmentManager().beginTransaction()
-                        .add(R.id.main_layout, NewSleepLogFragment.newInstance(),
-                                NewSleepLogFragment.FRAGMENT_TAG)
-                        .addToBackStack(null)
-                        .commit();
-            }
-        });
+        Button buttonSetSleepTime = view.findViewById(R.id.buttonSetSleepTime);
+        buttonSetSleepTime.setOnClickListener(v -> getActivity()
+                .getSupportFragmentManager().beginTransaction()
+                .add(R.id.main_layout, NewSleepLogFragment.newInstance(),
+                        NewSleepLogFragment.FRAGMENT_TAG)
+                .addToBackStack(null)
+                .commit());
 
         getSleepCollection();
 
@@ -136,10 +117,10 @@ public class SleepLogFragment extends Fragment {
                         if (task.getResult().getDocuments().size() > 0) {
                             DocumentSnapshot doc = task.getResult().getDocuments().get(0);
                             Sleep sleep = new Sleep();
-                            sleep.setSleepHr((int)Math.round(doc.getDouble("sleepHour")));
-                            sleep.setSleepMin((int)Math.round(doc.getDouble("sleepMinute")));
-                            sleep.setWakeHr((int)Math.round(doc.getDouble("wakeHour")));
-                            sleep.setWakeMin((int)Math.round(doc.getDouble("wakeMinute")));
+                            sleep.setSleepHr(Math.toIntExact(doc.getLong("sleepHour")));
+                            sleep.setSleepMin(Math.toIntExact(doc.getLong("sleepMinute")));
+                            sleep.setWakeHr(Math.toIntExact(doc.getLong("wakeHour")));
+                            sleep.setWakeMin(Math.toIntExact(doc.getLong("wakeMinute")));
                             this.sleep = sleep;
                             textViewBedTimeShow.setText(sleep.getSleepTimeInTwelveHrFormat());
                             textViewWakeTimeShow.setText(sleep.getWakeTimeInTwelveHrFormat());
@@ -150,8 +131,7 @@ public class SleepLogFragment extends Fragment {
                             textViewBedTime.setVisibility(View.VISIBLE);
                             textViewSleepTime.setVisibility(View.VISIBLE);
                             Log.d("FP", this.sleep.toString());
-                        }
-                        else {
+                        } else {
                             textViewBedTimeShow.setVisibility(View.INVISIBLE);
                             textViewWakeTimeShow.setVisibility(View.INVISIBLE);
                             textViewHoursOfSleep.setVisibility(View.INVISIBLE);

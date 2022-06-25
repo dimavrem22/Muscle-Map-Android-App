@@ -16,7 +16,7 @@ public enum Exercise {
     DUMBBELL_FLYES("Dumbbell Flyes", ExerciseDifficulty.HARD, MuscleGroup.PECS),
     CABLE_CROSSOVERS("Cable Crossovers", ExerciseDifficulty.MEDIUM, MuscleGroup.PECS),
     CHEST_PRESS("Chest Press", ExerciseDifficulty.EASY, MuscleGroup.PECS),
-    LAT_PULLDOWNS("Lat Pull-Downs",ExerciseDifficulty.EASY, MuscleGroup.LATS),
+    LAT_PULLDOWNS("Lat Pull-Downs", ExerciseDifficulty.EASY, MuscleGroup.LATS),
     SEATED_CABLE_ROWS("Cable Rows", ExerciseDifficulty.EASY, MuscleGroup.TRAPS),
     TBAR_ROWS("T-Bar Rows", ExerciseDifficulty.MEDIUM, MuscleGroup.LATS),
     STRAIGHT_ARM_PULLDOWNS("Straight-arm Pull-downs", ExerciseDifficulty.MEDIUM, MuscleGroup.LATS),
@@ -66,12 +66,9 @@ public enum Exercise {
     BARBELL_REVERSE_BICEPS_CURLS("Reverse Biceps Curls", ExerciseDifficulty.EASY, MuscleGroup.FOREARMS),
     WRIST_ROLLERS("Wrist Rollers", ExerciseDifficulty.MEDIUM, MuscleGroup.FOREARMS),
     PINCH_CARRIES("Pinch Carries", ExerciseDifficulty.MEDIUM, MuscleGroup.FOREARMS),
-    LEG_EXTENSIONS("Leg Extensions",ExerciseDifficulty.MEDIUM, MuscleGroup.QUADS),
+    LEG_EXTENSIONS("Leg Extensions", ExerciseDifficulty.MEDIUM, MuscleGroup.QUADS),
     LEG_PRESS("Leg Press", ExerciseDifficulty.MEDIUM, MuscleGroup.QUADS),
     STAIR_CLIMBERS("Stair Climbers", ExerciseDifficulty.EASY, MuscleGroup.QUADS);
-
-
-
 
     private final String displayName;
     private final ExerciseDifficulty difficulty;
@@ -96,7 +93,7 @@ public enum Exercise {
     }
 
     public static Exercise getExercise(String name) {
-        for (Exercise e: Exercise.values()) {
+        for (Exercise e : Exercise.values()) {
             if (Objects.equals(e.getDisplayName(), name)) {
                 return e;
             }

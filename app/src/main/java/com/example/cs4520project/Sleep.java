@@ -60,44 +60,40 @@ public class Sleep {
         String hr, min, meridiem;
 
         if (sleepMin < 10) {
-            min = "0" + Integer.toString(sleepMin);
-        }
-        else {
+            min = "0" + sleepMin;
+        } else {
             min = Integer.toString(sleepMin);
         }
 
         if (this.sleepHr < 12) {
             hr = Integer.toString(sleepHr);
             meridiem = "AM";
-        }
-        else {
-            hr = Integer.toString(sleepHr-12);
+        } else {
+            hr = Integer.toString(sleepHr - 12);
             meridiem = "PM";
         }
 
-        return hr + ":" + min +meridiem;
+        return hr + ":" + min + meridiem;
     }
 
     public String getWakeTimeInTwelveHrFormat() {
         String hr, min, meridiem;
 
         if (wakeMin < 10) {
-            min = "0" + Integer.toString(wakeMin);
-        }
-        else {
+            min = "0" + wakeMin;
+        } else {
             min = Integer.toString(wakeMin);
         }
 
         if (this.wakeHr < 12) {
             hr = Integer.toString(wakeHr);
             meridiem = "AM";
-        }
-        else {
-            hr = Integer.toString(wakeHr-12);
+        } else {
+            hr = Integer.toString(wakeHr - 12);
             meridiem = "PM";
         }
 
-        return hr + ":" + min +meridiem;
+        return hr + ":" + min + meridiem;
     }
 
     public String getAmountOfSleep() {
@@ -110,7 +106,7 @@ public class Sleep {
             hours = wakeHr - sleepHr;
         }
 
-        if (wakeMin > sleepMin){
+        if (wakeMin > sleepMin) {
             minutes = wakeMin - sleepMin;
         } else {
             minutes = wakeMin + 60 - sleepMin;

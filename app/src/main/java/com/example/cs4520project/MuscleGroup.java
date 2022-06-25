@@ -13,7 +13,6 @@ public enum MuscleGroup {
     TRICEPS,
     FOREARMS,
     ABS,
-    BACK,
     QUADS,
     HAMSTRINGS,
     CALVES,

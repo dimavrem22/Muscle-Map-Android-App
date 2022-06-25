@@ -16,11 +16,8 @@ import com.google.firebase.firestore.DocumentSnapshot;
 import com.google.firebase.firestore.FirebaseFirestore;
 
 import java.time.LocalDate;
-import java.time.Year;
 import java.util.ArrayList;
-import java.util.Date;
 import java.util.List;
-import java.util.stream.Collectors;
 
 public class DietLogFragment extends Fragment {
     public static final String FRAGMENT_TAG = "DIET_LOG_FRAGMENT";
@@ -28,7 +25,6 @@ public class DietLogFragment extends Fragment {
     private static final String ARG_DAY = "ARG_DAY";
     private static final String ARG_MONTH = "ARG_MONTH";
     private static final String ARG_YEAR = "ARG_YEAR";
-
 
     private final FirebaseFirestore db = FirebaseFirestore.getInstance();
     private final CollectionReference usersCollection = db.collection("users");
@@ -151,11 +147,11 @@ public class DietLogFragment extends Fragment {
         }
     }
 
-    public void changeDate(int day, int month, int year){
+    public void changeDate(int day, int month, int year) {
         this.day = day;
         this.month = month;
         this.year = year;
 
-        this.populateMeals();
+        populateMeals();
     }
 }

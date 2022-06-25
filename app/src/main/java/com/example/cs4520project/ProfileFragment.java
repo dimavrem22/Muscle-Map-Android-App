@@ -12,8 +12,6 @@ import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.TextView;
 
-import com.google.firebase.auth.FirebaseAuth;
-
 public class ProfileFragment extends Fragment implements View.OnClickListener {
     public static final String FRAGMENT_TAG = "PROFILE_FRAGMENT";
     private static final String ARG_PROFILE = "PROFILE";
@@ -74,30 +72,27 @@ public class ProfileFragment extends Fragment implements View.OnClickListener {
 
     @Override
     public void onClick(View v) {
-        if (v.getId() == this.backButton.getId()){
-            this.getActivity().getSupportFragmentManager()
+        if (v.getId() == backButton.getId()) {
+            getActivity().getSupportFragmentManager()
                     .beginTransaction().remove(this)
                     .commit();
-            this.onDetach();
+            onDetach();
         }
     }
 
-    public interface FromProfileFragmentToMain{
+    public interface FromProfileFragmentToMain {
         void logoutRequest();
     }
 
     @Override
     public void onDetach() {
         super.onDetach();
-        ((MainActivity)this.getActivity()).EnableUI(true);
+        ((MainActivity) getActivity()).EnableUI(true);
     }
 
     @Override
     public void onResume() {
         super.onResume();
-        ((MainActivity)this.getActivity()).EnableUI(false);
+        ((MainActivity) getActivity()).EnableUI(false);
     }
-
-
-
 }

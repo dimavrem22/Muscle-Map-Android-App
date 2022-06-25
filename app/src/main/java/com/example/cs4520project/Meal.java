@@ -5,6 +5,8 @@ import java.time.LocalDate;
 
 public class Meal implements Serializable {
     private String id;
+    private LocalDate date;
+
     private String name;
     private MealType mealType;
 
@@ -14,8 +16,6 @@ public class Meal implements Serializable {
     private int sodium;
     private int totalFat;
     private String additionalNotes;
-
-    private LocalDate date;
 
     public Meal(String name, MealType mealType, int calories, int protein, int carbs, int sodium, int totalFat, String additionalNotes) {
         this.name = name;

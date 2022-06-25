@@ -109,7 +109,7 @@ public class ExerciseLogFragment extends Fragment implements View.OnClickListene
             // code for making new fragment
             getActivity().getSupportFragmentManager().beginTransaction()
                     .add(R.id.main_layout, NewWorkoutFragment.newInstance(),
-                            NewWorkoutFragment.FRAGMENT_KEY)
+                            NewWorkoutFragment.FRAGMENT_TAG)
                     .addToBackStack(null)
                     .commit();
         } else if (v.getId() == this.muscleMapButton.getId()) {
@@ -128,7 +128,7 @@ public class ExerciseLogFragment extends Fragment implements View.OnClickListene
                         Log.d("FP", doc.toString());
                         sendDocFromExerciseLogToMain.sendDocFromExerciseLogToMain(doc);
                         getActivity().getSupportFragmentManager().beginTransaction()
-                                .add(R.id.outerFragmentContainer, EditWorkoutFragment.newInstance(workout), EditWorkoutFragment.FRAGMENT_KEY)
+                                .add(R.id.outerFragmentContainer, EditWorkoutFragment.newInstance(workout), EditWorkoutFragment.FRAGMENT_TAG)
                                 .addToBackStack(null)
                                 .commit();
                     }

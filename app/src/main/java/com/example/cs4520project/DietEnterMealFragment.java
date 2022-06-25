@@ -23,10 +23,10 @@ public class DietEnterMealFragment extends Fragment implements View.OnClickListe
 
     @Override
     public void onClick(View v) {
-        if (v.getId() == this.cancelButton.getId()){
-            this.getActivity().getSupportFragmentManager()
+        if (v.getId() == this.cancelButton.getId()) {
+            getActivity().getSupportFragmentManager()
                     .beginTransaction().remove(this).commit();
-            this.onDetach();
+            onDetach();
         }
     }
 
@@ -70,8 +70,8 @@ public class DietEnterMealFragment extends Fragment implements View.OnClickListe
         EditText editSodium = rootView.findViewById(R.id.editTextMealSodium);
         EditText editTotalFat = rootView.findViewById(R.id.editTextMealTotalFat);
         EditText editAdditionalNotes = rootView.findViewById(R.id.editTextMealAdditionalNotes);
-        this.cancelButton = rootView.findViewById(R.id.new_meal_cancel_button);
-        this.cancelButton.setOnClickListener(this);
+        cancelButton = rootView.findViewById(R.id.new_meal_cancel_button);
+        cancelButton.setOnClickListener(this);
 
         Spinner spinnerMealType = rootView.findViewById(R.id.spinnerMealType);
         spinnerMealType.setAdapter(new ArrayAdapter<>(rootView.getContext(),
@@ -158,17 +158,15 @@ public class DietEnterMealFragment extends Fragment implements View.OnClickListe
         }
     }
 
-
-
     @Override
     public void onDetach() {
         super.onDetach();
-        ((MainActivity)this.getActivity()).EnableUI(true);
+        ((MainActivity) getActivity()).EnableUI(true);
     }
 
     @Override
     public void onResume() {
         super.onResume();
-        ((MainActivity)this.getActivity()).EnableUI(false);
+        ((MainActivity) getActivity()).EnableUI(false);
     }
 }

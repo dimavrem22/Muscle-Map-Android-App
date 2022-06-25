@@ -25,7 +25,7 @@ import java.util.List;
 import java.util.Locale;
 
 public class NewWorkoutFragment extends Fragment implements ExerciseListAdapter.ICheckExercises {
-    public static final String FRAGMENT_KEY = "NewWorkoutFragment";
+    public static final String FRAGMENT_TAG = "NEW_WORKOUT_FRAGMENT";
 
     private Button buttonStartTime, buttonEndTime, buttonNewWorkoutSave, buttonNewWorkoutCancel, buttonSetWorkoutTime;
     private TextView textViewWorkout, textViewName, textViewStartTime, textViewEndTime;
@@ -47,7 +47,7 @@ public class NewWorkoutFragment extends Fragment implements ExerciseListAdapter.
     }
 
     public interface INewWorkoutToMain {
-        public void addWorkoutToDB(Workout workout);
+        void addWorkoutToDB(Workout workout);
     }
 
     /**
@@ -57,17 +57,12 @@ public class NewWorkoutFragment extends Fragment implements ExerciseListAdapter.
      * @return A new instance of fragment SleepLogFragment.
      */
     public static NewWorkoutFragment newInstance() {
-        NewWorkoutFragment fragment = new NewWorkoutFragment();
-        Bundle args = new Bundle();
-        fragment.setArguments(args);
-        return fragment;
+        return new NewWorkoutFragment();
     }
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        if (getArguments() != null) {
-        }
     }
 
     @Override
@@ -93,7 +88,7 @@ public class NewWorkoutFragment extends Fragment implements ExerciseListAdapter.
 
         RecyclerView.LayoutManager exerciseManager = new LinearLayoutManager(getContext());
         exercisesRecycler.setLayoutManager(exerciseManager);
-        exerciseListAdapter = new ExerciseListAdapter(new ArrayList<Exercise>(Arrays.asList(Exercise.values())), this, clickedExercises);
+        exerciseListAdapter = new ExerciseListAdapter(new ArrayList<>(Arrays.asList(Exercise.values())), this, clickedExercises);
         exercisesRecycler.setAdapter(exerciseListAdapter);
 
         searchViewExercise = rootView.findViewById(R.id.searchViewExercise);
@@ -172,7 +167,6 @@ public class NewWorkoutFragment extends Fragment implements ExerciseListAdapter.
             exercisesRecycler.setVisibility(View.VISIBLE);
             searchViewExercise.setVisibility(View.VISIBLE);
 
-
             timePickerWorkout.setVisibility(View.INVISIBLE);
             timePickerWorkout.setEnabled(false);
 
@@ -181,34 +175,26 @@ public class NewWorkoutFragment extends Fragment implements ExerciseListAdapter.
             buttonNewWorkoutCancel.setVisibility(View.VISIBLE);
         });
 
-        buttonNewWorkoutSave.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                if (clickedExercises.size() > 0 && editTextWorkoutName.getText().toString().length() > 0
-                && startHr != 0 && startMin != 0 && endHr != 0 && endMin != 0) {
-                    if (checkValidTime()) {
-                        Workout workout = new Workout(editTextWorkoutName.getText().toString(),
-                                startHr, startMin, endHr, endMin, clickedExercises);
-                        Log.d("FP", workout.toString());
-                        newWorkoutToMain.addWorkoutToDB(workout);
-                        getActivity().getSupportFragmentManager().popBackStack();
-                    }
-                    else {
-                        Toast.makeText(getContext(), "Enter A Valid Time!", Toast.LENGTH_SHORT).show();
-                    }
+        buttonNewWorkoutSave.setOnClickListener(v -> {
+            if (clickedExercises.size() > 0 && editTextWorkoutName.getText().toString().length() > 0
+                    && startHr != 0 && startMin != 0 && endHr != 0 && endMin != 0) {
+                if (checkValidTime()) {
+                    Workout workout = new Workout(editTextWorkoutName.getText().toString(),
+                            startHr, startMin, endHr, endMin, clickedExercises);
+                    Log.d("FP", workout.toString());
+                    newWorkoutToMain.addWorkoutToDB(workout);
+                    getActivity().getSupportFragmentManager().popBackStack();
+                } else {
+                    Toast.makeText(getContext(), "Enter A Valid Time!", Toast.LENGTH_SHORT).show();
                 }
-                else {
-                    Toast.makeText(getContext(), "Empty Fields!", Toast.LENGTH_SHORT).show();
-                }
+            } else {
+                Toast.makeText(getContext(), "Empty Fields!", Toast.LENGTH_SHORT).show();
             }
         });
 
-        buttonNewWorkoutCancel.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                getActivity().getSupportFragmentManager().popBackStack();
-                onDetach();
-            }
+        buttonNewWorkoutCancel.setOnClickListener(v -> {
+            getActivity().getSupportFragmentManager().popBackStack();
+            onDetach();
         });
 
         return rootView;
@@ -235,8 +221,7 @@ public class NewWorkoutFragment extends Fragment implements ExerciseListAdapter.
     public void checkExercise(Exercise exercise) {
         if (clickedExercises.contains(exercise)) {
             clickedExercises.remove(exercise);
-        }
-        else {
+        } else {
             clickedExercises.add(exercise);
         }
     }
@@ -245,8 +230,7 @@ public class NewWorkoutFragment extends Fragment implements ExerciseListAdapter.
         boolean valid = false;
         if (startHr < endHr) {
             valid = true;
-        }
-        else if (startHr == endHr) {
+        } else if (startHr == endHr) {
             if (startMin < endMin) {
                 valid = true;
             }
@@ -260,21 +244,19 @@ public class NewWorkoutFragment extends Fragment implements ExerciseListAdapter.
         if (context instanceof INewWorkoutToMain) {
             newWorkoutToMain = (INewWorkoutToMain) context;
         } else {
-            throw new RuntimeException(context.toString()+ " must implement INewWorkoutToMain");
+            throw new RuntimeException(context + " must implement INewWorkoutToMain");
         }
     }
-
 
     @Override
     public void onDetach() {
         super.onDetach();
-        ((MainActivity)this.getActivity()).EnableUI(true);
+        ((MainActivity) getActivity()).EnableUI(true);
     }
 
     @Override
     public void onResume() {
         super.onResume();
-        ((MainActivity)this.getActivity()).EnableUI(false);
+        ((MainActivity) getActivity()).EnableUI(false);
     }
-
 }

@@ -19,13 +19,12 @@ import android.widget.Toast;
 import java.util.Locale;
 
 public class NewSleepLogFragment extends Fragment implements View.OnClickListener {
-    public static final String FRAGMENT_TAG = "New Sleep Log Fragment";
+    public static final String FRAGMENT_TAG = "NEW_SLEEP_LOG_FRAGMENT";
 
     private Button buttonSelectSleepTime, buttonSelectWakeTime, buttonSetTime, buttonSaveSleepTime;
     private TextView textViewGetToSleep, textViewWakeUp;
 
     private ImageView backButton;
-
     private TimePicker timePicker;
 
     private int sleepHr, sleepMin, wakeHr, wakeMin;
@@ -34,10 +33,10 @@ public class NewSleepLogFragment extends Fragment implements View.OnClickListene
 
     @Override
     public void onClick(View v) {
-        if(v.getId() == this.backButton.getId()){
-            this.getActivity().getSupportFragmentManager().beginTransaction()
+        if (v.getId() == backButton.getId()) {
+            getActivity().getSupportFragmentManager().beginTransaction()
                     .remove(this).commit();
-            this.onDetach();
+            onDetach();
         }
     }
 
@@ -55,19 +54,13 @@ public class NewSleepLogFragment extends Fragment implements View.OnClickListene
      *
      * @return A new instance of fragment SleepLogFragment.
      */
-    // TODO: Rename and change types and number of parameters
     public static NewSleepLogFragment newInstance() {
-        NewSleepLogFragment fragment = new NewSleepLogFragment();
-        Bundle args = new Bundle();
-        fragment.setArguments(args);
-        return fragment;
+        return new NewSleepLogFragment();
     }
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        if (getArguments() != null) {
-        }
     }
 
     @Override
@@ -76,8 +69,8 @@ public class NewSleepLogFragment extends Fragment implements View.OnClickListene
         // Inflate the layout for this fragment
         View rootView = inflater.inflate(R.layout.fragment_new_sleep_log, container, false);
 
-        this.backButton = rootView.findViewById(R.id.new_sleep_back);
-        this.backButton.setOnClickListener(this);
+        backButton = rootView.findViewById(R.id.new_sleep_back);
+        backButton.setOnClickListener(this);
 
         buttonSelectSleepTime = rootView.findViewById(R.id.buttonSelectSleepTime);
         buttonSelectWakeTime = rootView.findViewById(R.id.buttonSelectWakeTime);
@@ -136,19 +129,16 @@ public class NewSleepLogFragment extends Fragment implements View.OnClickListene
             buttonSetTime.setVisibility(View.INVISIBLE);
         });
 
-        buttonSaveSleepTime.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                if (sleepHr != 0 && sleepMin != 0 && wakeHr != 0 && wakeMin != 0) {
-                    Log.d("sleepmin", sleepMin + "");
-                    Log.d("sleepmin", wakeMin + "");
-                    Sleep sleep = new Sleep(sleepHr, sleepMin, wakeHr, wakeMin);
-                    Log.d("FP", sleep.toString());
-                    addNewSleepLog.addNewSleepLogToDB(sleep);
-                    getActivity().getSupportFragmentManager().popBackStack();
-                } else {
-                    Toast.makeText(getContext(), "Empty Fields!", Toast.LENGTH_SHORT).show();
-                }
+        buttonSaveSleepTime.setOnClickListener(v -> {
+            if (sleepHr != 0 && sleepMin != 0 && wakeHr != 0 && wakeMin != 0) {
+                Log.d("sleepmin", sleepMin + "");
+                Log.d("sleepmin", wakeMin + "");
+                Sleep sleep = new Sleep(sleepHr, sleepMin, wakeHr, wakeMin);
+                Log.d("FP", sleep.toString());
+                addNewSleepLog.addNewSleepLogToDB(sleep);
+                getActivity().getSupportFragmentManager().popBackStack();
+            } else {
+                Toast.makeText(getContext(), "Empty Fields!", Toast.LENGTH_SHORT).show();
             }
         });
 
@@ -158,7 +148,6 @@ public class NewSleepLogFragment extends Fragment implements View.OnClickListene
     private final TimePicker.OnTimeChangedListener timeChangedListenerSleep = new TimePicker.OnTimeChangedListener() {
         @Override
         public void onTimeChanged(TimePicker tp, int hour, int min) {
-
             sleepHr = hour;
             sleepMin = min;
             buttonSelectSleepTime.setText(String.format(Locale.getDefault(), "%02d:%02d", hour, min));
@@ -174,41 +163,25 @@ public class NewSleepLogFragment extends Fragment implements View.OnClickListene
         }
     };
 
-    private boolean checkValidTime() {
-//        boolean valid = false;
-//        if (sleepHr < wakeHr) {
-//            valid = true;
-//        }
-//        else if (sleepHr == wakeHr) {
-//            if (sleepMin < wakeMin) {
-//                valid = true;
-//            }
-//        }
-//        return valid;
-
-        return true;
-    }
-
     @Override
     public void onAttach(@NonNull Context context) {
         super.onAttach(context);
         if (context instanceof IAddNewSleepLogToDB) {
             addNewSleepLog = (IAddNewSleepLogToDB) context;
         } else {
-            throw new RuntimeException(context.toString()+ " must implement IAddNewSleepLogToDB");
+            throw new RuntimeException(context + " must implement IAddNewSleepLogToDB");
         }
     }
 
     @Override
     public void onDetach() {
         super.onDetach();
-        ((MainActivity)this.getActivity()).EnableUI(true);
+        ((MainActivity) getActivity()).EnableUI(true);
     }
 
     @Override
     public void onResume() {
         super.onResume();
-        ((MainActivity)this.getActivity()).EnableUI(false);
+        ((MainActivity) getActivity()).EnableUI(false);
     }
-
 }

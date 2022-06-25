@@ -50,7 +50,7 @@ public class WorkoutListAdapter extends RecyclerView.Adapter<WorkoutListAdapter.
         int duration = (workouts.get(position).getEndHour() -
                 workouts.get(position).getStartHour()) * 60 + workouts.get(position).getEndMinute() -
                 workouts.get(position).getStartMinute();
-        holder.getDurationText().setText(duration + " minutes");
+        holder.getDurationText().setText(String.format(Locale.getDefault(), "%d minutes", duration));
     }
 
     @Override

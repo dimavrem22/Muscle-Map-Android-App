@@ -17,7 +17,6 @@ import android.widget.TextView;
 import com.github.mikephil.charting.charts.BarChart;
 import com.github.mikephil.charting.charts.LineChart;
 import com.github.mikephil.charting.components.Description;
-import com.github.mikephil.charting.components.XAxis;
 import com.github.mikephil.charting.data.BarData;
 import com.github.mikephil.charting.data.BarDataSet;
 import com.github.mikephil.charting.data.BarEntry;
@@ -28,15 +27,12 @@ import com.github.mikephil.charting.formatter.IndexAxisValueFormatter;
 
 import java.time.LocalDate;
 import java.util.ArrayList;
-import java.util.Calendar;
-import java.util.Collections;
 import java.util.Comparator;
 import java.util.List;
 
 public class DietAnalysisFragment extends Fragment implements View.OnClickListener {
     public static final String FRAGMENT_TAG = "DIET_ANALYSIS_FRAGMENT";
     private static final String ARG_MEALS = "MEALS";
-    private static final Calendar calendar = Calendar.getInstance();
 
     private List<Meal> meals;
 
@@ -222,7 +218,7 @@ public class DietAnalysisFragment extends Fragment implements View.OnClickListen
 
     @Override
     public void onClick(View v) {
-        if (v.getId() == this.backButton.getId()){
+        if (v.getId() == this.backButton.getId()) {
             this.getActivity().getSupportFragmentManager().beginTransaction().remove(this).commit();
             this.onDetach();
         }
@@ -237,13 +233,12 @@ public class DietAnalysisFragment extends Fragment implements View.OnClickListen
     @Override
     public void onDetach() {
         super.onDetach();
-        ((MainActivity)this.getActivity()).EnableUI(true);
+        ((MainActivity) getActivity()).EnableUI(true);
     }
 
     @Override
     public void onResume() {
         super.onResume();
-        ((MainActivity)this.getActivity()).EnableUI(false);
+        ((MainActivity) getActivity()).EnableUI(false);
     }
-
 }

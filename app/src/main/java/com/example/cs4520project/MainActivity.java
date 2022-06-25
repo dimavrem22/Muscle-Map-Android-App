@@ -28,10 +28,8 @@ import com.google.firebase.firestore.FirebaseFirestore;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
 
-import javax.crypto.Cipher;
-
 public class MainActivity extends AppCompatActivity implements CalendarView.OnDateChangeListener,
-        View.OnClickListener, LogInFragment.LoginToMain, NewWorkoutFragment.INewWorkoutToMain,
+        View.OnClickListener, LoginFragment.LoginToMain, NewWorkoutFragment.INewWorkoutToMain,
         ExerciseLogFragment.ExerciseLogToMain, EditWorkoutFragment.IEditWorkoutToMain,
         ExerciseLogFragment.ISendDocFromExerciseLogToMain, DietEnterMealFragment.ISaveMeal,
         NewSleepLogFragment.IAddNewSleepLogToDB, ProfileFragment.FromProfileFragmentToMain {
@@ -247,7 +245,7 @@ public class MainActivity extends AppCompatActivity implements CalendarView.OnDa
 
 
         this.getSupportFragmentManager().beginTransaction().replace(R.id.fragment_container,
-                        LogInFragment.newInstance(), LogInFragment.FRAGMENT_TAG)
+                        LoginFragment.newInstance(), LoginFragment.FRAGMENT_TAG)
                 .commit();
     }
 
@@ -335,7 +333,7 @@ public class MainActivity extends AppCompatActivity implements CalendarView.OnDa
         // removing login fragment
         getSupportFragmentManager().beginTransaction()
                 .remove(getSupportFragmentManager()
-                        .findFragmentByTag(LogInFragment.FRAGMENT_TAG))
+                        .findFragmentByTag(LoginFragment.FRAGMENT_TAG))
                 .commit();
     }
 
@@ -475,7 +473,7 @@ public class MainActivity extends AppCompatActivity implements CalendarView.OnDa
         this.docToUpdate.delete().addOnCompleteListener(task -> {
             this.getSupportFragmentManager().beginTransaction().remove(
                     this.getSupportFragmentManager()
-                            .findFragmentByTag(EditWorkoutFragment.FRAGMENT_KEY))
+                            .findFragmentByTag(EditWorkoutFragment.FRAGMENT_TAG))
                     .commit();
             this.EnableUI(true);}
             );

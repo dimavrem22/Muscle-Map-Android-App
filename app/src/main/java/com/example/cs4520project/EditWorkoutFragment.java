@@ -27,9 +27,8 @@ import java.util.Locale;
 
 public class EditWorkoutFragment extends Fragment implements ExerciseListAdapter.ICheckExercises,
         View.OnClickListener {
-    public static final String FRAGMENT_KEY = "EditWorkoutFragment";
-
-    private static final String ARG_PARAM1 = "param1";
+    public static final String FRAGMENT_TAG = "EDIT_WORKOUT_FRAGMENT";
+    private static final String ARG_WORKOUT = "WORKOUT";
 
     private Workout originalWorkout;
 
@@ -56,13 +55,14 @@ public class EditWorkoutFragment extends Fragment implements ExerciseListAdapter
 
     @Override
     public void onClick(View v) {
-        if(v.getId() == this.deleteImage.getId()){
-            ((IEditWorkoutToMain)this.getContext()).deleteWorkout();
+        if (v.getId() == this.deleteImage.getId()) {
+            ((IEditWorkoutToMain) this.getContext()).deleteWorkout();
         }
     }
 
     public interface IEditWorkoutToMain {
         void updateWorkoutInDB(Workout newWorkout);
+
         void deleteWorkout();
     }
 
@@ -72,10 +72,10 @@ public class EditWorkoutFragment extends Fragment implements ExerciseListAdapter
      *
      * @return A new instance of fragment SleepLogFragment.
      */
-    public static EditWorkoutFragment newInstance(Workout originalWorkout){
+    public static EditWorkoutFragment newInstance(Workout originalWorkout) {
         EditWorkoutFragment fragment = new EditWorkoutFragment();
         Bundle args = new Bundle();
-        args.putSerializable(ARG_PARAM1, originalWorkout);
+        args.putSerializable(ARG_WORKOUT, originalWorkout);
         fragment.setArguments(args);
         return fragment;
     }
@@ -84,7 +84,7 @@ public class EditWorkoutFragment extends Fragment implements ExerciseListAdapter
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         if (getArguments() != null) {
-            originalWorkout = (Workout) getArguments().getSerializable(ARG_PARAM1);
+            originalWorkout = (Workout) getArguments().getSerializable(ARG_WORKOUT);
         }
     }
 
@@ -119,15 +119,13 @@ public class EditWorkoutFragment extends Fragment implements ExerciseListAdapter
         endHr = originalWorkout.getEndHour();
         endMin = originalWorkout.getEndMinute();
 
-
         editTextWorkoutName.setText(originalWorkout.getName());
         buttonStartTime.setText(originalWorkout.getStartHour() + ":" + originalWorkout.getStartMinute());
         buttonEndTime.setText(originalWorkout.getEndHour() + ":" + originalWorkout.getEndMinute());
 
-
         RecyclerView.LayoutManager exerciseManager = new LinearLayoutManager(getContext());
         exercisesRecycler.setLayoutManager(exerciseManager);
-        exerciseListAdapter = new ExerciseListAdapter(new ArrayList<Exercise>(Arrays.asList(Exercise.values())), this, clickedExercises);
+        exerciseListAdapter = new ExerciseListAdapter(new ArrayList<>(Arrays.asList(Exercise.values())), this, clickedExercises);
         exercisesRecycler.setAdapter(exerciseListAdapter);
 
         searchViewExercise = rootView.findViewById(R.id.searchViewExerciseEF);
@@ -206,7 +204,6 @@ public class EditWorkoutFragment extends Fragment implements ExerciseListAdapter
             exercisesRecycler.setVisibility(View.VISIBLE);
             searchViewExercise.setVisibility(View.VISIBLE);
 
-
             timePickerWorkout.setVisibility(View.INVISIBLE);
             timePickerWorkout.setEnabled(false);
 
@@ -232,12 +229,9 @@ public class EditWorkoutFragment extends Fragment implements ExerciseListAdapter
             }
         });
 
-        buttonNewWorkoutCancel.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                getActivity().getSupportFragmentManager().popBackStack();
-                onDetach();
-            }
+        buttonNewWorkoutCancel.setOnClickListener(v -> {
+            getActivity().getSupportFragmentManager().popBackStack();
+            onDetach();
         });
 
         return rootView;
@@ -294,12 +288,12 @@ public class EditWorkoutFragment extends Fragment implements ExerciseListAdapter
     @Override
     public void onDetach() {
         super.onDetach();
-        ((MainActivity)this.getActivity()).EnableUI(true);
+        ((MainActivity) this.getActivity()).EnableUI(true);
     }
 
     @Override
     public void onResume() {
         super.onResume();
-        ((MainActivity)this.getActivity()).EnableUI(false);
+        ((MainActivity) this.getActivity()).EnableUI(false);
     }
 }

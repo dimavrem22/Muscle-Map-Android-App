@@ -13,32 +13,25 @@ import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.Toast;
 
-import java.util.Locale;
-
-public class LogInFragment extends Fragment implements View.OnClickListener {
-    public final static String FRAGMENT_TAG = "LogInFragment";
+public class LoginFragment extends Fragment implements View.OnClickListener {
+    public final static String FRAGMENT_TAG = "LOGIN_FRAGMENT";
 
     private EditText edit_pass, edit_name, edit_email, edit_pass2;
     private ImageView back_arrow;
     private Button button_login, button_register, button_submit;
     private boolean registering;
 
-    public LogInFragment() {
+    public LoginFragment() {
         // Required empty public constructor
     }
 
-    public static LogInFragment newInstance() {
-        LogInFragment fragment = new LogInFragment();
-        Bundle args = new Bundle();
-        fragment.setArguments(args);
-        return fragment;
+    public static LoginFragment newInstance() {
+        return new LoginFragment();
     }
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        if (getArguments() != null) {
-        }
     }
 
     @Override

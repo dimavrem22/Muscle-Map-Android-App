@@ -76,7 +76,7 @@ public class MealAdapter extends RecyclerView.Adapter<MealAdapter.ViewHolder> {
                                         try {
                                             meals.remove(pos);
                                             notifyItemRemoved(pos);
-                                        } catch (IndexOutOfBoundsException e) {
+                                        } catch (IndexOutOfBoundsException ignored) {
 
                                         }
                                     })
