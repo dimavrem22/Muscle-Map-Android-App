@@ -28,6 +28,8 @@ import com.google.firebase.firestore.FirebaseFirestore;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
 
+import javax.crypto.Cipher;
+
 public class MainActivity extends AppCompatActivity implements CalendarView.OnDateChangeListener,
         View.OnClickListener, LogInFragment.LoginToMain, NewWorkoutFragment.INewWorkoutToMain,
         ExerciseLogFragment.ExerciseLogToMain, EditWorkoutFragment.IEditWorkoutToMain,
@@ -44,7 +46,7 @@ public class MainActivity extends AppCompatActivity implements CalendarView.OnDa
     private TextView dateText, monthText;
 
     private ConstraintLayout fragmentContainer;
-    private ImageView calendarButton, nextArrow, prevArrow;
+    private ImageView calendarButton, nextArrow, prevArrow, infoButton;
     private CalendarView calender;
 
     private Button exerciseButton, dietButton, sleepButton;
@@ -83,29 +85,34 @@ public class MainActivity extends AppCompatActivity implements CalendarView.OnDa
         exerciseButton.setOnClickListener(v -> {
             cal.setTimeInMillis(calender.getDate());
 
-            getSupportFragmentManager().beginTransaction().replace(R.id.fragment_container,
-                    ExerciseLogFragment.newInstance(mAuth.getCurrentUser().getEmail(),
-                            cal.get(Calendar.DAY_OF_MONTH), cal.get(Calendar.MONTH) + 1,
-                            cal.get(Calendar.YEAR)),
-                    ExerciseLogFragment.FRAGMENT_KEY).commit();
+            this.launchExerciseLogFragment();
         });
 
         dietButton = findViewById(R.id.diet_button);
-        dietButton.setOnClickListener(v -> getSupportFragmentManager().beginTransaction()
-                .add(R.id.fragment_container, DietLogFragment.newInstance(mAuth.getCurrentUser().getEmail()),
+        dietButton.setOnClickListener(v -> {
+            sleepButton.setEnabled(true);
+            dietButton.setEnabled(false);
+            exerciseButton.setEnabled(true);
+
+                getSupportFragmentManager().beginTransaction()
+                .replace(R.id.fragment_container, DietLogFragment.newInstance(mAuth.getCurrentUser().getEmail()),
                         DietLogFragment.FRAGMENT_TAG)
-                .addToBackStack(null)
-                .commit());
+                .commit();
+        });
 
         this.sleepButton = this.findViewById(R.id.sleep_button);
         this.sleepButton.setOnClickListener(v -> {
+
+
+            sleepButton.setEnabled(false);
+            dietButton.setEnabled(true);
+            exerciseButton.setEnabled(true);
             sleepFragment = true;
             getSupportFragmentManager().beginTransaction()
-                    .add(R.id.fragment_container, SleepLogFragment.newInstance(mAuth.getCurrentUser().getEmail(),
+                    .replace(R.id.fragment_container, SleepLogFragment.newInstance(mAuth.getCurrentUser().getEmail(),
                                     cal.get(Calendar.DAY_OF_MONTH), cal.get(Calendar.MONTH) + 1,
                                     cal.get(Calendar.YEAR)),
                             SleepLogFragment.FRAGMENT_TAG)
-                    .addToBackStack(null)
                     .commit();
         });
 
@@ -123,10 +130,9 @@ public class MainActivity extends AppCompatActivity implements CalendarView.OnDa
                                 Profile profile = new Profile(email, name);
                                 getSupportFragmentManager()
                                         .beginTransaction()
-                                        .add(R.id.fragment_container, ProfileFragment.newInstance(
+                                        .replace(R.id.outerFragmentContainer, ProfileFragment.newInstance(
                                                         profile),
-                                                ProfileFragment.FRAGMENT_TAG)
-                                        .addToBackStack(null)
+                                                ProfileFragment.FRAGMENT_TAG).addToBackStack(null)
                                         .commit();
                             }
                         }
@@ -136,6 +142,8 @@ public class MainActivity extends AppCompatActivity implements CalendarView.OnDa
         this.nextArrow.setOnClickListener(this);
         this.prevArrow = this.findViewById(R.id.prev_button);
         this.prevArrow.setOnClickListener(this);
+        this.infoButton = this.findViewById(R.id.infoImageButton);
+        this.infoButton.setOnClickListener(this);
 
         this.calendarButton = this.findViewById(R.id.cal_button);
         this.calendarButton.setOnClickListener(this);
@@ -223,6 +231,9 @@ public class MainActivity extends AppCompatActivity implements CalendarView.OnDa
         this.monthText.setVisibility(View.INVISIBLE);
         this.profileButton.setVisibility(View.INVISIBLE);
         this.profileButton.setEnabled(false);
+        this.infoButton.setVisibility(View.INVISIBLE);
+        this.infoButton.setEnabled(false);
+
 
         this.getSupportFragmentManager().beginTransaction().replace(R.id.fragment_container,
                         LogInFragment.newInstance(), LogInFragment.FRAGMENT_TAG)
@@ -295,6 +306,8 @@ public class MainActivity extends AppCompatActivity implements CalendarView.OnDa
         sleepButton.setVisibility(View.VISIBLE);
         dietButton.setVisibility(View.VISIBLE);
         exerciseButton.setVisibility(View.VISIBLE);
+        this.infoButton.setVisibility(View.VISIBLE);
+        this.infoButton.setEnabled(true);
 
         calendarButton.setVisibility(View.VISIBLE);
         calendarButton.setEnabled(true);
@@ -304,6 +317,7 @@ public class MainActivity extends AppCompatActivity implements CalendarView.OnDa
         prevArrow.setVisibility(View.VISIBLE);
         dateText.setVisibility(View.VISIBLE);
         monthText.setVisibility(View.VISIBLE);
+
 
         profileButton.setVisibility(View.VISIBLE);
         profileButton.setEnabled(true);
@@ -319,6 +333,10 @@ public class MainActivity extends AppCompatActivity implements CalendarView.OnDa
         exerciseFragment = true;
         dietFragment = false;
         sleepFragment = false;
+
+        sleepButton.setEnabled(true);
+        dietButton.setEnabled(true);
+        exerciseButton.setEnabled(false);
 
         Calendar cal = Calendar.getInstance();
         cal.setTimeInMillis(calender.getDate());

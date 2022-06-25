@@ -342,5 +342,14 @@
         app:layout_constraintStart_toEndOf="@+id/textView10"
         app:layout_constraintTop_toTopOf="@+id/textView10" />
 
+    <ImageView
+        android:id="@+id/woa_prev_button"
+        android:layout_width="48dp"
+        android:layout_height="49dp"
+        android:src="@drawable/previous"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintStart_toStartOf="@+id/textView10"
+        app:layout_constraintTop_toBottomOf="@+id/textView10" />
+
 
 </androidx.constraintlayout.widget.ConstraintLayout>
