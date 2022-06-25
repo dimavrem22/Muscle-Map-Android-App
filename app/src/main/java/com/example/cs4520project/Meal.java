@@ -4,7 +4,7 @@ import java.io.Serializable;
 import java.time.LocalDate;
 
 public class Meal implements Serializable {
-    String id;
+    private String id;
     private String name;
     private MealType mealType;
 
@@ -70,5 +70,13 @@ public class Meal implements Serializable {
 
     public LocalDate getDate() {
         return date;
+    }
+
+    public void setId(String id) {
+        this.id = id;
+    }
+
+    public String getId() {
+        return id;
     }
 }

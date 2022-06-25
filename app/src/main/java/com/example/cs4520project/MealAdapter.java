@@ -70,7 +70,7 @@ public class MealAdapter extends RecyclerView.Adapter<MealAdapter.ViewHolder> {
                                     .get(0)
                                     .getReference()
                                     .collection("meals");
-                            mealCollection.document(meal.id)
+                            mealCollection.document(meal.getId())
                                     .delete()
                                     .addOnSuccessListener(aVoid -> {
                                         try {
