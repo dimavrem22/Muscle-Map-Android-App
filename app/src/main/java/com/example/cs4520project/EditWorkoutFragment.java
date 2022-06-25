@@ -14,6 +14,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.ImageView;
 import android.widget.SearchView;
 import android.widget.TextView;
 import android.widget.TimePicker;
@@ -24,12 +25,15 @@ import java.util.Arrays;
 import java.util.List;
 import java.util.Locale;
 
-public class EditWorkoutFragment extends Fragment implements ExerciseListAdapter.ICheckExercises {
+public class EditWorkoutFragment extends Fragment implements ExerciseListAdapter.ICheckExercises,
+        View.OnClickListener {
     public static final String FRAGMENT_KEY = "EditWorkoutFragment";
 
     private static final String ARG_PARAM1 = "param1";
 
     private Workout originalWorkout;
+
+    private ImageView deleteImage;
 
     private Button buttonStartTime, buttonEndTime, buttonNewWorkoutSave, buttonNewWorkoutCancel, buttonSetWorkoutTime;
     private TextView textViewWorkout, textViewName, textViewStartTime, textViewEndTime;
@@ -50,8 +54,16 @@ public class EditWorkoutFragment extends Fragment implements ExerciseListAdapter
         // Required empty public constructor
     }
 
+    @Override
+    public void onClick(View v) {
+        if(v.getId() == this.deleteImage.getId()){
+            ((IEditWorkoutToMain)this.getContext()).deleteWorkout();
+        }
+    }
+
     public interface IEditWorkoutToMain {
         void updateWorkoutInDB(Workout newWorkout);
+        void deleteWorkout();
     }
 
     /**
@@ -60,7 +72,7 @@ public class EditWorkoutFragment extends Fragment implements ExerciseListAdapter
      *
      * @return A new instance of fragment SleepLogFragment.
      */
-    public static EditWorkoutFragment newInstance(Workout originalWorkout) {
+    public static EditWorkoutFragment newInstance(Workout originalWorkout){
         EditWorkoutFragment fragment = new EditWorkoutFragment();
         Bundle args = new Bundle();
         args.putSerializable(ARG_PARAM1, originalWorkout);
@@ -83,6 +95,9 @@ public class EditWorkoutFragment extends Fragment implements ExerciseListAdapter
         View rootView = inflater.inflate(R.layout.fragment_edit_workout, container, false);
 
         clickedExercises = originalWorkout.getExercises();
+
+        this.deleteImage = rootView.findViewById(R.id.del_workout);
+        this.deleteImage.setOnClickListener(this);
 
         buttonStartTime = rootView.findViewById(R.id.buttonStartTimeEF);
         buttonEndTime = rootView.findViewById(R.id.buttonEndTimeEF);

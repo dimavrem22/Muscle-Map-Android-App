@@ -31,7 +31,6 @@
             android:id="@+id/workoutTimeText"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginTop="5dp"
             android:layout_marginEnd="15dp"
             android:text="time"
             android:textSize="16dp"
@@ -65,7 +64,6 @@
             android:id="@+id/workoutDurationtext"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginTop="5dp"
             android:text="duration"
             app:layout_constraintEnd_toEndOf="@+id/workoutTimeText"
             app:layout_constraintTop_toBottomOf="@+id/workoutTimeText" />
@@ -79,5 +77,6 @@
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintTop_toTopOf="@+id/workoutNameText"
             app:srcCompat="@drawable/edit" />
+
     </androidx.constraintlayout.widget.ConstraintLayout>
 </androidx.cardview.widget.CardView>

@@ -471,6 +471,16 @@ public class MainActivity extends AppCompatActivity implements CalendarView.OnDa
     }
 
     @Override
+    public void deleteWorkout() {
+        this.docToUpdate.delete().addOnCompleteListener(task -> {
+            this.getSupportFragmentManager().beginTransaction().remove(
+                    this.getSupportFragmentManager()
+                            .findFragmentByTag(EditWorkoutFragment.FRAGMENT_KEY))
+                    .commit(); }
+            );
+    }
+
+    @Override
     public void sendDocFromExerciseLogToMain(DocumentReference doc) {
         docToUpdate = doc;
     }
