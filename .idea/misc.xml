@@ -29,6 +29,7 @@
         <entry key="app/src/main/res/layout/fragment_exercise_logging.xml" value="0.3026041666666667" />
         <entry key="app/src/main/res/layout/fragment_log_in.xml" value="0.3182291666666667" />
         <entry key="app/src/main/res/layout/fragment_new_workout.xml" value="0.30079498291015627" />
+        <entry key="app/src/main/res/layout/fragment_profile.xml" value="0.1" />
         <entry key="app/src/main/res/layout/fragment_sleep_log.xml" value="0.3125" />
         <entry key="app/src/main/res/layout/fragment_sleep_main.xml" value="0.26629180908203126" />
         <entry key="app/src/main/res/layout/single_exercise.xml" value="0.28477884928385416" />

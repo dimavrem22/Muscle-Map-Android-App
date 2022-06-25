@@ -128,7 +128,7 @@ public class ExerciseLogFragment extends Fragment implements View.OnClickListene
                         Log.d("FP", doc.toString());
                         sendDocFromExerciseLogToMain.sendDocFromExerciseLogToMain(doc);
                         getActivity().getSupportFragmentManager().beginTransaction()
-                                .add(R.id.fragment_container, EditWorkoutFragment.newInstance(workout), EditWorkoutFragment.FRAGMENT_KEY)
+                                .add(R.id.outerFragmentContainer, EditWorkoutFragment.newInstance(workout), EditWorkoutFragment.FRAGMENT_KEY)
                                 .addToBackStack(null)
                                 .commit();
                     }

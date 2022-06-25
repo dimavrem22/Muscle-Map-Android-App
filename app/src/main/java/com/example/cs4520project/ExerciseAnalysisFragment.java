@@ -49,7 +49,7 @@ public class ExerciseAnalysisFragment extends Fragment implements View.OnClickLi
             quadStrain, calveStrain, trapStrain, triStrain, lowerBackStrain, glutStrain,
             hamsStrain, latsStrain, absStrain;
 
-    private ImageView flipImage;
+    private ImageView flipImage, backButton;
 
     private ImageView frontView, trapsFront, pecsFront, absFront, quadsFront, calvesFront,
             shouldersFront, bicepsFront, forearmsFront;
@@ -117,6 +117,8 @@ public class ExerciseAnalysisFragment extends Fragment implements View.OnClickLi
         this.flipImage = rootView.findViewById(R.id.flipViewButton);
         this.flipImage.setOnClickListener(this);
         this.progressBar = rootView.findViewById(R.id.workoutAnalysisProgressBar);
+        this.backButton = rootView.findViewById(R.id.woa_prev_button);
+        this.backButton.setOnClickListener(this);
 
         this.frontMuscleImages = new ArrayList<>();
 
@@ -137,10 +139,6 @@ public class ExerciseAnalysisFragment extends Fragment implements View.OnClickLi
         this.frontMuscleImages.add(shouldersFront);
         this.trapsFront = rootView.findViewById(R.id.trapsFrontImage);
         this.frontMuscleImages.add(trapsFront);
-
-//        for (ImageView i : this.frontMuscleImages) {
-//            i.setVisibility(View.INVISIBLE);
-//        }
 
         this.backMuscleImages = new ArrayList<>();
         this.backView = rootView.findViewById(R.id.backViewImage);
@@ -204,6 +202,12 @@ public class ExerciseAnalysisFragment extends Fragment implements View.OnClickLi
                 this.backView.setVisibility(View.INVISIBLE);
             }
             this.lookingFront = !this.lookingFront;
+        }
+        else if (v.getId() == this.backButton.getId()){
+            this.getActivity().getSupportFragmentManager()
+                    .beginTransaction()
+                    .remove(this)
+                    .commit();
         }
     }
 

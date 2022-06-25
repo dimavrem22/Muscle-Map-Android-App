@@ -93,6 +93,9 @@ public class MainActivity extends AppCompatActivity implements CalendarView.OnDa
             sleepButton.setEnabled(true);
             dietButton.setEnabled(false);
             exerciseButton.setEnabled(true);
+            exerciseFragment = false;
+            dietFragment = true;
+            sleepFragment = false;
 
                 getSupportFragmentManager().beginTransaction()
                 .replace(R.id.fragment_container, DietLogFragment.newInstance(mAuth.getCurrentUser().getEmail()),
@@ -103,6 +106,9 @@ public class MainActivity extends AppCompatActivity implements CalendarView.OnDa
         this.sleepButton = this.findViewById(R.id.sleep_button);
         this.sleepButton.setOnClickListener(v -> {
 
+            exerciseFragment = false;
+            dietFragment = false;
+            sleepFragment = true;
 
             sleepButton.setEnabled(false);
             dietButton.setEnabled(true);
@@ -244,7 +250,6 @@ public class MainActivity extends AppCompatActivity implements CalendarView.OnDa
     public void loginRequest(String email, String pass) {
         mAuth.signInWithEmailAndPassword(email, pass).addOnCompleteListener(this, task -> {
             if (task.isSuccessful()) {
-                // TODO: 6/20/22 Take to main app!
 
                 this.removeLoginFragment();
                 this.launchExerciseLogFragment();
