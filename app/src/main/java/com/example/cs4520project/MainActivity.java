@@ -95,9 +95,14 @@ public class MainActivity extends AppCompatActivity implements CalendarView.OnDa
             dietFragment = true;
             sleepFragment = false;
 
-            int day = cal.get(Calendar.DAY_OF_MONTH);
-            int month = cal.get(Calendar.MONTH) + 1;
-            int year = cal.get(Calendar.YEAR);
+            Calendar cal2 = Calendar.getInstance();
+            cal2.setTimeInMillis(calender.getDate());
+
+            int day = cal2.get(Calendar.DAY_OF_MONTH);
+            int month = cal2.get(Calendar.MONTH) + 1;
+            int year = cal2.get(Calendar.YEAR);
+
+
 
                 getSupportFragmentManager().beginTransaction()
                 .replace(R.id.fragment_container, DietLogFragment.newInstance(mAuth.getCurrentUser().getEmail(),
