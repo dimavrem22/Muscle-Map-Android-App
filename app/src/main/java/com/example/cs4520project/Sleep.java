@@ -101,7 +101,7 @@ public class Sleep {
         int hours, minutes;
 
         if (sleepHr >= 12) {
-            hours = wakeHr + 24 - sleepHr - 1;
+            hours = wakeHr + 24 - sleepHr;
         } else {
             hours = wakeHr - sleepHr;
         }

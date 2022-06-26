@@ -499,9 +499,9 @@ public class MainActivity extends AppCompatActivity implements CalendarView.OnDa
         addSleep.put("day", cal.get(Calendar.DAY_OF_MONTH));
         addSleep.put("month", cal.get(Calendar.MONTH) + 1);
         addSleep.put("sleepHour", sleep.getSleepHr());
-        addSleep.put("wakeHour", sleep.getSleepMin());
-        addSleep.put("sleepMinute", sleep.getWakeHr());
-        addSleep.put("wakeMinute", sleep.getSleepMin());
+        addSleep.put("sleepMinute", sleep.getSleepMin());
+        addSleep.put("wakeHour", sleep.getWakeHr());
+        addSleep.put("wakeMinute", sleep.getWakeMin());
         addSleep.put("year", cal.get(Calendar.YEAR));
 
         usersCollection.whereEqualTo("email", mAuth.getCurrentUser().getEmail())

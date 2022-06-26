@@ -27,6 +27,8 @@ public class NewSleepLogFragment extends Fragment implements View.OnClickListene
     private ImageView backButton;
     private TimePicker timePicker;
 
+    private boolean selectSleep, selectWake;
+
     private int sleepHr, sleepMin, wakeHr, wakeMin;
 
     private IAddNewSleepLogToDB addNewSleepLog;
@@ -130,7 +132,7 @@ public class NewSleepLogFragment extends Fragment implements View.OnClickListene
         });
 
         buttonSaveSleepTime.setOnClickListener(v -> {
-            if (sleepHr != 0 && sleepMin != 0 && wakeHr != 0 && wakeMin != 0) {
+            if (selectSleep && selectWake) {
                 Log.d("sleepmin", sleepMin + "");
                 Log.d("sleepmin", wakeMin + "");
                 Sleep sleep = new Sleep(sleepHr, sleepMin, wakeHr, wakeMin);
@@ -138,7 +140,7 @@ public class NewSleepLogFragment extends Fragment implements View.OnClickListene
                 addNewSleepLog.addNewSleepLogToDB(sleep);
                 getActivity().getSupportFragmentManager().popBackStack();
             } else {
-                Toast.makeText(getContext(), "Empty Fields!", Toast.LENGTH_SHORT).show();
+                Toast.makeText(getContext(), "Please select Times!", Toast.LENGTH_SHORT).show();
             }
         });
 
@@ -148,6 +150,7 @@ public class NewSleepLogFragment extends Fragment implements View.OnClickListene
     private final TimePicker.OnTimeChangedListener timeChangedListenerSleep = new TimePicker.OnTimeChangedListener() {
         @Override
         public void onTimeChanged(TimePicker tp, int hour, int min) {
+            selectSleep = true;
             sleepHr = hour;
             sleepMin = min;
             buttonSelectSleepTime.setText(String.format(Locale.getDefault(), "%02d:%02d", hour, min));
@@ -157,6 +160,7 @@ public class NewSleepLogFragment extends Fragment implements View.OnClickListene
     private final TimePicker.OnTimeChangedListener timeChangedListenerWake = new TimePicker.OnTimeChangedListener() {
         @Override
         public void onTimeChanged(TimePicker tp, int hour, int min) {
+            selectWake = true;
             wakeHr = hour;
             wakeMin = min;
             buttonSelectWakeTime.setText(String.format(Locale.getDefault(), "%02d:%02d", hour, min));
