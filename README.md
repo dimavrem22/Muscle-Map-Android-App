@@ -1,5 +1,5 @@
-# Muscle-Map-Android-App
-![Screen Shot 2022-09-02 at 5 10 19 PM](https://user-images.githubusercontent.com/90374336/188235673-8f7a852c-0883-4a6a-83db-58495e1d310d.png)
+# Muscle-Map-Android-App ![Screen Shot 2022-09-02 at 5 10 19 PM](https://user-images.githubusercontent.com/90374336/188235673-8f7a852c-0883-4a6a-83db-58495e1d310d.png)
+
 
 Android application which allows users to track their **workouts**, **diet**, and **sleep**.
 
