@@ -24,7 +24,7 @@ Users can enter the nutritional contents of their meals and snacks.
 
 ![Screen Shot 2022-09-02 at 5 21 16 PM](https://user-images.githubusercontent.com/90374336/188237312-ec578d59-1c4e-4d7f-99ea-18e601a4556f.png)![Screen Shot 2022-09-02 at 5 21 29 PM](https://user-images.githubusercontent.com/90374336/188237315-537e1761-348c-4457-a374-adc905e73560.png)
 
-## Sleep Logging
+## Sleep Tracking
 The application allows users to track their sleep habits. 
 
 ![Screen Shot 2022-09-02 at 5 21 46 PM](https://user-images.githubusercontent.com/90374336/188237383-a5066ed1-9261-4be4-bfc1-bde47d54dbdb.png)
