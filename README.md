@@ -7,10 +7,16 @@ Android application which allows users to track their **workouts**, **diet**, an
 Users are able to create an account with a name, email, and password. These credentials can later be used to sign back into the user's account. 
 Authentication is supported by Firebase Authentication. 
 
-![Screen Shot 2022-09-02 at 5 04 55 PM](https://user-images.githubusercontent.com/90374336/188235212-2966c479-3289-439e-8955-790dddd4e263.png)![Screen Shot 2022-09-02 at 5 05 07 PM](https://user-images.githubusercontent.com/90374336/188235226-0a942b04-2888-4ac2-8d01-6674c9ccec3a.png)![Screen Shot 2022-09-02 at 5 05 22 PM](https://user-images.githubusercontent.com/90374336/188235232-8036064b-0949-42b2-a554-13a850ff696f.png)
+![Screen Shot 2022-09-02 at 5 14 11 PM](https://user-images.githubusercontent.com/90374336/188236317-541dda1f-6c08-47fb-8a6c-f352cf62e75f.png)![Screen Shot 2022-09-02 at 5 14 23 PM](https://user-images.githubusercontent.com/90374336/188236323-93596a4b-05ee-4db5-a946-010137ffca38.png)![Screen Shot 2022-09-02 at 5 14 36 PM](https://user-images.githubusercontent.com/90374336/188236327-800923f5-1049-4c1a-90ab-0e22136bc95f.png)
+
+
+
 
 ## Logging Workouts
 Users are able to log their workouts by specifying the date, time, type of workout, and performed exercises. Users can retroactively edit or delete their workouts. 
+
+![Screen Shot 2022-09-02 at 5 12 56 PM](https://user-images.githubusercontent.com/90374336/188236355-b68f6e43-a2ca-4445-a6d3-c28837dbe05b.png)![Screen Shot 2022-09-02 at 5 12 13 PM](https://user-images.githubusercontent.com/90374336/188236378-2ef4cde4-577d-49b1-b7c2-19ee9837601a.png)![Screen Shot 2022-09-02 at 5 12 42 PM](https://user-images.githubusercontent.com/90374336/188236384-003970a8-c59b-4af4-9f20-4167ce2f19ae.png)
+
 
 
 
