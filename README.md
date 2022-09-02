@@ -19,6 +19,8 @@ Users are able to log their workouts by specifying the date, time, type of worko
 
 
 ## Workout Analysis
+The application provides an analysis of muscle group engagement. Red color indicates recent activity of a certain muscle group. This can help the user overworking a specific muscle group and maintaining balance. Users can see the current snapshot of the body, or muscle engagement over the last week/month/year. 
 
+![Screen Shot 2022-09-02 at 5 16 39 PM](https://user-images.githubusercontent.com/90374336/188236800-dfecaf8a-abdd-4f19-bece-d1a70dea5e13.png)
 
 
