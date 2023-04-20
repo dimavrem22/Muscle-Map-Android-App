@@ -1,6 +1,6 @@
 # Muscle-Map-Android-App 
 
-Android application which allows users to track their **workouts**, **diet**, and **sleep**.
+The Muscle-Map-Android-App is a fitness application designed to help users track their workouts, diet, and sleep. By providing a simple and intuitive interface, the app allows users to stay motivated and make progress towards their fitness goals.
 
 ## Login Page
 Users are able to create an account with a name, email, and password. These credentials can later be used to sign back into the user's account. 
